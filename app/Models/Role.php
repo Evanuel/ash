@@ -10,7 +10,7 @@ class Role extends Model
     use SoftDeletes;
 
     protected $table = 'roles';
-    
+
     protected $fillable = [
         'name',
         'description',
@@ -33,7 +33,7 @@ class Role extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'role_id');
     }
 
     public function scopeActive($query)
@@ -46,8 +46,24 @@ class Role extends Model
         if (!$this->permissions) {
             return false;
         }
-        
+
         return in_array($permission, $this->permissions);
+    }
+
+    /**
+     * Scope para roles por nível mínimo
+     */
+    public function scopeMinLevel($query, int $level)
+    {
+        return $query->where('level', '>=', $level);
+    }
+
+    /**
+     * Scope para roles por cliente
+     */
+    public function scopeByClient($query, int $clientId)
+    {
+        return $query->where('client_id', $clientId)->orWhereNull('client_id');
     }
 
     public function addPermission($permission)
@@ -67,5 +83,29 @@ class Role extends Model
             unset($permissions[$key]);
             $this->permissions = array_values($permissions);
         }
+    }
+
+    /**
+     * Contador de permissões
+     */
+    public function getPermissionCountAttribute(): int
+    {
+        return count($this->permissions ?? []);
+    }
+
+    /**
+     * Verifica se a role é de administrador
+     */
+    public function isAdmin(): bool
+    {
+        return $this->level >= 90;
+    }
+
+    /**
+     * Verifica se a role é de super admin
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->level >= 100;
     }
 }

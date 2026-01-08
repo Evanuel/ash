@@ -34,6 +34,11 @@ return [
 
     'stores' => [
 
+        'api' => [
+            'driver' => 'redis',
+            'connection' => 'cache',
+            'prefix' => 'api_cache',
+        ],
         'array' => [
             'driver' => 'array',
             'serialize' => false,
@@ -112,6 +117,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
+    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-cache-'),
 
 ];
