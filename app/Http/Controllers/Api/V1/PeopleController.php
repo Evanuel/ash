@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 
-class PeopleController extends Controller
+class PeopleController extends BaseController
 {
     //
 }

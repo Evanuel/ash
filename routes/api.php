@@ -15,88 +15,77 @@ use App\Http\Controllers\Api\V1\{
     FinancialTransactionController
 };
 
-
-Route::get('/health', function () {
-    return response()->json([
-        'status' => 'OK',
-        'service' => 'Ash API',
-        'version' => '1.0.0'
-
-    ], 200);
-});
-
-
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->name('api.v1.')->group(function () {
     
     // Rotas públicas (sem autenticação)
-    Route::prefix('auth')->group(function () {
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register', [AuthController::class, 'register']); // Se necessário
+    Route::prefix('auth')->name('auth.')->group(function () {
+        Route::post('/login', [AuthController::class, 'login'])->name('login');
+        Route::post('/register', [AuthController::class, 'register'])->name('register');
     });
     
     // Rotas protegidas com Sanctum
     Route::middleware('auth:sanctum')->group(function () {
         
         // Autenticação
-        Route::prefix('auth')->group(function () {
-            Route::post('/logout', [AuthController::class, 'logout']);
-            Route::post('/refresh', [AuthController::class, 'refresh']);
-            Route::get('/me', [AuthController::class, 'me']);
+        Route::prefix('auth')->name('auth.')->group(function () {
+            Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+            Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
+            Route::get('/me', [AuthController::class, 'me'])->name('me');
         });
         
         // Usuários
-        Route::prefix('users')->group(function () {
-            Route::get('/', [UserController::class, 'index']);
-            Route::post('/', [UserController::class, 'store']);
-            Route::get('/{id}', [UserController::class, 'show']);
-            Route::put('/{id}', [UserController::class, 'update']);
-            Route::patch('/{id}', [UserController::class, 'update']);
-            Route::delete('/{id}', [UserController::class, 'destroy']);
-            Route::post('/{id}/restore', [UserController::class, 'restore']);
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::get('/{id}', [UserController::class, 'show'])->name('show');
+            Route::put('/{id}', [UserController::class, 'update'])->name('update');
+            Route::patch('/{id}', [UserController::class, 'update'])->name('update');
+            Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/restore', [UserController::class, 'restore'])->name('restore');
         });
         
         // Roles
-        Route::prefix('roles')->group(function () {
-            Route::get('/', [RoleController::class, 'index']);
-            Route::post('/', [RoleController::class, 'store']);
-            Route::get('/{id}', [RoleController::class, 'show']);
-            Route::put('/{id}', [RoleController::class, 'update']);
-            Route::patch('/{id}', [RoleController::class, 'update']);
-            Route::delete('/{id}', [RoleController::class, 'destroy']);
+        Route::prefix('roles')->name('roles.')->group(function () {
+            Route::get('/', [RoleController::class, 'index'])->name('index');
+            Route::post('/', [RoleController::class, 'store'])->name('store');
+            Route::get('/{id}', [RoleController::class, 'show'])->name('show');
+            Route::put('/{id}', [RoleController::class, 'update'])->name('update');
+            Route::patch('/{id}', [RoleController::class, 'update'])->name('update');
+            Route::delete('/{id}', [RoleController::class, 'destroy'])->name('destroy');
         });
         
         // Empresas
-        Route::prefix('companies')->group(function () {
-            Route::get('/', [CompanyController::class, 'index']);
-            Route::post('/', [CompanyController::class, 'store']);
-            Route::get('/{id}', [CompanyController::class, 'show']);
-            Route::put('/{id}', [CompanyController::class, 'update']);
-            Route::patch('/{id}', [CompanyController::class, 'update']);
-            Route::delete('/{id}', [CompanyController::class, 'destroy']);
-            Route::post('/{id}/restore', [CompanyController::class, 'restore']);
+        Route::prefix('companies')->name('companies.')->group(function () {
+            Route::get('/', [CompanyController::class, 'index'])->name('index');
+            Route::post('/', [CompanyController::class, 'store'])->name('store');
+            Route::get('/{id}', [CompanyController::class, 'show'])->name('show');
+            Route::put('/{id}', [CompanyController::class, 'update'])->name('update');
+            Route::patch('/{id}', [CompanyController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CompanyController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/restore', [CompanyController::class, 'restore'])->name('restore');
         });
         
         // Pessoas
-        Route::prefix('people')->group(function () {
-            Route::get('/', [PeopleController::class, 'index']);
-            Route::post('/', [PeopleController::class, 'store']);
-            Route::get('/{id}', [PeopleController::class, 'show']);
-            Route::put('/{id}', [PeopleController::class, 'update']);
-            Route::patch('/{id}', [PeopleController::class, 'update']);
-            Route::delete('/{id}', [PeopleController::class, 'destroy']);
-            Route::post('/{id}/restore', [PeopleController::class, 'restore']);
+        Route::prefix('people')->name('people')->group(function () {
+            Route::get('/', [PeopleController::class, 'index'])->name('index');
+            Route::post('/', [PeopleController::class, 'store'])->name('store');
+            Route::get('/{id}', [PeopleController::class, 'show'])->name('show');
+            Route::put('/{id}', [PeopleController::class, 'update'])->name('update');
+            Route::patch('/{id}', [PeopleController::class, 'update'])->name('update');
+            Route::delete('/{id}', [PeopleController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/restore', [PeopleController::class, 'restore'])->name('restore');
         });
         
         // Transações Financeiras
-        Route::prefix('financial-transactions')->group(function () {
-            Route::get('/', [FinancialTransactionController::class, 'index']);
-            Route::post('/', [FinancialTransactionController::class, 'store']);
-            Route::get('/{id}', [FinancialTransactionController::class, 'show']);
-            Route::put('/{id}', [FinancialTransactionController::class, 'update']);
-            Route::patch('/{id}', [FinancialTransactionController::class, 'update']);
-            Route::delete('/{id}', [FinancialTransactionController::class, 'destroy']);
-            Route::post('/{id}/pay', [FinancialTransactionController::class, 'markAsPaid']);
-            Route::get('/summary', [FinancialTransactionController::class, 'summary']);
+        Route::prefix('financial-transactions')->name('financial-transactions.')->group(function () {
+            Route::get('/', [FinancialTransactionController::class, 'index'])->name('index');
+            Route::post('/', [FinancialTransactionController::class, 'store'])->name('store');
+            Route::get('/{id}', [FinancialTransactionController::class, 'show'])->name('show');
+            Route::put('/{id}', [FinancialTransactionController::class, 'update'])->name('update');
+            Route::patch('/{id}', [FinancialTransactionController::class, 'update'])->name('update');
+            Route::delete('/{id}', [FinancialTransactionController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/pay', [FinancialTransactionController::class, 'markAsPaid'])->name('mark-as-paid');
+            Route::get('/summary', [FinancialTransactionController::class, 'summary'])->name('summary');
         });
         
         // Outros recursos podem ser adicionados aqui
@@ -110,5 +99,5 @@ Route::prefix('v1')->group(function () {
             'service' => config('app.name'),
             'version' => '1.0.0',
         ]);
-    });
+    })->name('health');
 });

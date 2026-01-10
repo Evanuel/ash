@@ -8,25 +8,36 @@ trait ApiResponse
     /**
      * Retorno de sucesso padrão
      */
-    protected function success($data = null, string $message = null, int $code = 200)
+    protected function success($data = null, string $message = null, $meta = null, int $code = 200)
     {
-        return response()->json([
+        $response = [
             'success' => true,
             'message' => $message,
             'data' => $data,
-        ], $code);
+        ];
+
+        if ($meta !== null) {
+            $response['meta'] = $meta;
+        }
+
+        return response()->json($response, $code);
     }
 
     /**
      * Retorno de erro padrão
      */
-    protected function error(string $message = null, int $code = 400, $errors = null)
+    protected function error(string $message = "", int $code = 400, $errors = null)
     {
-        return response()->json([
+        $response = [
             'success' => false,
             'message' => $message,
-            'errors' => $errors,
-        ], $code);
+        ];
+
+        if ($errors !== null) {
+            $response['errors'] = $errors;
+        }
+
+        return response()->json($response, $code);
     }
 
     /**
@@ -34,7 +45,7 @@ trait ApiResponse
      */
     protected function created($data = null, string $message = 'Resource created successfully')
     {
-        return $this->success($data, $message, 201);
+        return $this->success($data, $message, null, 201);
     }
 
     /**
@@ -51,13 +62,5 @@ trait ApiResponse
     protected function unauthorized(string $message = 'Unauthorized access')
     {
         return $this->error($message, 401);
-    }
-
-    /**
-     * Retorno para validação de dados
-     */
-    protected function validationError($errors, string $message = 'Validation failed')
-    {
-        return $this->error($message, 422, $errors);
     }
 }
