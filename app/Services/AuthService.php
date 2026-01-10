@@ -55,4 +55,23 @@ class AuthService
     {
         return $user->createToken($tokenName, $abilities)->plainTextToken;
     }
+
+    /**
+     * Register a new user
+     */
+    public function register(array $data): User
+    {
+        $user = new User();
+        $user->username = $data['username'];
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->role_id = $data['role_id'];
+        $user->client_id = $data['client_id'] ?? null;
+        $user->active = true;
+        $user->archived = false;
+        $user->save();
+
+        return $user;
+    }
 }

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiResponse;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
+use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -131,6 +133,25 @@ class AuthController extends BaseController
             
         } catch (\Exception $e) {
             return $this->error('Erro ao atualizar token: ' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = $this->authService->register($request->validated());
+
+            DB::commit();
+
+            return $this->success(new UserResource($user), 'Registro realizado com sucesso');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->error('Erro ao registrar usuário: ' . $e->getMessage(), 500);
         }
     }
 }
