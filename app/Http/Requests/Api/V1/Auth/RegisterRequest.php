@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', Password::defaults()],
-            'password_confirmation' => ['string', 'same:password'],
+            'password_confirmation' => ['required', 'string', 'same:password'],
             'role_id' => ['required', 'exists:roles,id'],
             'client_id' => ['nullable'],
         ];
@@ -38,6 +38,8 @@ class RegisterRequest extends FormRequest
             'email.email' => 'Informe um email válido',
             'email.unique' => 'O email já está em uso',
             'password.required' => 'A senha é obrigatória',
+            'password_confirmation.required' => 'A confirmação da senha é obrigatória',
+            'password_confirmation.same' => 'A confirmação da senha não corresponde à senha',
             'role_id.required' => 'O papel é obrigatório',
             'role_id.exists' => 'O papel selecionado é inválido',
         ];
