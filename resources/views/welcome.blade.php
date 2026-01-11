@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>API Client - HTTP Request Tool</title>
     <style>
         :root {
@@ -13,54 +14,141 @@
             --warning-color: #ffc107;
             --light-color: #f8f9fa;
             --dark-color: #343a40;
-            --border-radius: 6px;
+            --border-radius: 0.5rem;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
         
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
         }
         
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        /* Header/Navigation */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #555;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: #f0f7ff;
+            color: var(--primary-color);
+        }
+        
+        .nav-link.active {
+            background-color: #f0f7ff;
+            color: var(--primary-color);
+        }
+        
+        .btn-logout {
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .btn-logout:hover {
+            background-color: #fee;
+            color: var(--danger-color);
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 1.5rem;
         }
         
         header {
-            margin-bottom: 30px;
             text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
         
         h1 {
             color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
         }
         
         .subtitle {
             color: #666;
             font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .app-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         
-        @media (max-width: 768px) {
+        @media (min-width: 992px) {
             .app-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
         }
         
@@ -68,37 +156,37 @@
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 1.5rem;
+            overflow: hidden;
         }
         
         .card-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 1.25rem;
             color: var(--secondary-color);
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f7ff;
+            padding-bottom: 0.75rem;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1.25rem;
         }
         
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
             font-weight: 500;
             color: #555;
         }
         
         input, select, textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 0.75rem 1rem;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: var(--transition);
         }
         
         input:focus, select:focus, textarea:focus {
@@ -109,47 +197,99 @@
         
         .method-selector {
             display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
         
         .method-btn {
-            padding: 8px 16px;
-            border: 1px solid #ddd;
+            padding: 0.625rem 1.25rem;
+            border: 2px solid #ddd;
             border-radius: var(--border-radius);
             background-color: white;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
+            font-weight: 600;
+            transition: var(--transition);
+            flex: 1;
+            min-width: 70px;
         }
         
         .method-btn:hover {
-            background-color: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .method-btn.active {
-            background-color: var(--primary-color);
+            border-color: transparent;
             color: white;
-            border-color: var(--primary-color);
         }
         
-        .method-btn.get { color: #28a745; }
-        .method-btn.post { color: #ffc107; }
-        .method-btn.put { color: #007bff; }
-        .method-btn.patch { color: #6f42c1; }
-        .method-btn.delete { color: #dc3545; }
+        .method-btn.get {
+            border-color: #28a745;
+            color: #28a745;
+        }
+        
+        .method-btn.get.active {
+            background-color: #28a745;
+        }
+        
+        .method-btn.post {
+            border-color: #ffc107;
+            color: #ffc107;
+        }
+        
+        .method-btn.post.active {
+            background-color: #ffc107;
+        }
+        
+        .method-btn.put {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        
+        .method-btn.put.active {
+            background-color: #007bff;
+        }
+        
+        .method-btn.patch {
+            border-color: #6f42c1;
+            color: #6f42c1;
+        }
+        
+        .method-btn.patch.active {
+            background-color: #6f42c1;
+        }
+        
+        .method-btn.delete {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        
+        .method-btn.delete.active {
+            background-color: #dc3545;
+        }
         
         .btn {
-            padding: 10px 20px;
+            padding: 0.75rem 1.5rem;
             border: none;
             border-radius: var(--border-radius);
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
         
         .btn-primary {
@@ -180,36 +320,46 @@
         }
         
         .btn-light {
-            background-color: #e9ecef;
+            background-color: #f8f9fa;
             color: #333;
+            border: 1px solid #dee2e6;
         }
         
         .btn-light:hover {
-            background-color: #dde0e3;
+            background-color: #e9ecef;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
         }
         
         .actions {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
         
         .response-section {
-            margin-top: 20px;
+            margin-top: 1.5rem;
         }
         
         .response-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         
         .status-2xx {
@@ -235,9 +385,9 @@
         .response-content {
             background-color: #f8f9fa;
             border-radius: var(--border-radius);
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
+            padding: 1.25rem;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.875rem;
             white-space: pre-wrap;
             max-height: 400px;
             overflow-y: auto;
@@ -248,56 +398,54 @@
             background-color: white;
             border-radius: var(--border-radius);
             border: 1px solid #e9ecef;
-            max-height: 400px;
+            height: 400px;
             overflow: hidden;
             position: relative;
         }
         
         .response-iframe-container iframe {
             width: 100%;
-            height: 400px;
+            height: 100%;
             border: none;
         }
         
         .iframe-placeholder {
-            padding: 40px;
+            padding: 3rem 1.5rem;
             text-align: center;
             color: #777;
             background-color: #f8f9fa;
-            height: 400px;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
         
-        .iframe-warning {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            border-left: 4px solid #ffc107;
-        }
-        
         .tabs {
             display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 1.25rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none;
         }
         
         .tab {
-            padding: 10px 20px;
+            padding: 0.875rem 1.5rem;
             cursor: pointer;
             border-bottom: 3px solid transparent;
-            transition: all 0.2s;
+            transition: var(--transition);
             white-space: nowrap;
+            font-weight: 500;
+            color: #6c757d;
         }
         
         .tab:hover {
-            background-color: #f5f5f5;
+            color: var(--primary-color);
+            background-color: #f8f9fa;
         }
         
         .tab.active {
@@ -308,6 +456,12 @@
         
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .tab-content.active {
@@ -315,47 +469,52 @@
         }
         
         .auth-info {
-            background-color: #e8f4fd;
-            padding: 15px;
+            background-color: #f0f7ff;
+            padding: 1.25rem;
             border-radius: var(--border-radius);
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
             border-left: 4px solid var(--primary-color);
         }
         
         .auth-info h3 {
-            margin-bottom: 10px;
+            margin-bottom: 0.75rem;
             color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .token-display {
             background-color: white;
-            padding: 10px;
+            padding: 1rem;
             border-radius: var(--border-radius);
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
+            font-family: monospace;
+            font-size: 0.8125rem;
             word-break: break-all;
-            margin: 10px 0;
+            margin: 0.75rem 0;
             border: 1px solid #d1e7ff;
         }
         
         .history-section {
-            margin-top: 30px;
+            margin-top: 2rem;
         }
         
         .history-list {
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
-            border: 1px solid #eee;
+            border: 1px solid #e9ecef;
             border-radius: var(--border-radius);
+            background: white;
         }
         
         .history-item {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #f1f3f4;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: var(--transition);
         }
         
         .history-item:hover {
@@ -367,11 +526,13 @@
         }
         
         .history-method {
-            font-weight: 600;
-            padding: 3px 8px;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: white;
+            min-width: 60px;
+            text-align: center;
         }
         
         .history-method.get { background-color: #28a745; }
@@ -381,28 +542,29 @@
         .history-method.patch { background-color: #6f42c1; }
         
         .clear-history {
-            margin-top: 10px;
+            margin-top: 1rem;
             text-align: right;
         }
         
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 3rem 1.5rem;
         }
         
         .loading.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
         
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
             border-top: 4px solid var(--primary-color);
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 1rem;
         }
         
         @keyframes spin {
@@ -412,11 +574,15 @@
         
         footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 3rem;
             color: #777;
-            font-size: 0.9rem;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            font-size: 0.875rem;
+            border-top: 1px solid #e9ecef;
+            padding-top: 2rem;
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
         
         .json-key {
@@ -443,34 +609,260 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
+            padding: 1rem;
             background-color: #f8f9fa;
             border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .preview-info {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             color: #666;
+        }
+        
+        .help-text {
+            font-size: 0.8125rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+        
+        .url-display {
+            background-color: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            font-size: 0.875rem;
+            word-break: break-all;
+            margin-top: 0.5rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+            
+            .method-btn {
+                min-width: 60px;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.875rem;
+            }
+            
+            .btn {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.875rem;
+                width: 100%;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .response-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+            
+            .tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .card-title {
+                font-size: 1.125rem;
+            }
+            
+            .logo-text {
+                font-size: 1.25rem;
+            }
+        }
+        
+        /* Animações */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Utilitários */
+        .d-none {
+            display: none !important;
+        }
+        
+        .d-flex {
+            display: flex !important;
+        }
+        
+        .w-100 {
+            width: 100%;
+        }
+        
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+        
+        .mt-3 {
+            margin-top: 1rem;
+        }
+        
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-muted {
+            color: #6c757d !important;
+        }
+        
+        /* Alertas */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid transparent;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
         }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url('/') }}" class="logo">
+                <span class="logo-icon">🌐</span>
+                <span class="logo-text">API Client</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="{{ url('/') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                    Dashboard
+                </a>
+                <a href="#" class="nav-link active">
+                    API Client
+                </a>
+                @if(auth()->check())
+                <form method="POST" action="{{ route('api.v1.auth.logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn-logout">
+                        Logout ({{ auth()->user()->name ?? 'User' }})
+                    </button>
+                </form>
+                @else
+                <a href="{{ route('api.v1.auth.login') }}" class="nav-link">
+                    Login
+                </a>
+                @endif
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
     <div class="container">
-        <header>
+        <header class="fade-in">
             <h1>🌐 API Client</h1>
-            <p class="subtitle">Ferramenta para fazer requisições HTTP similar ao Postman/CURL</p>
+            <p class="subtitle">Ferramenta para fazer requisições HTTP similar ao Postman/CURL - Tudo em um único arquivo</p>
         </header>
         
         <div class="app-container">
             <!-- Painel de configuração da requisição -->
-            <div class="card">
+            <div class="card slide-up">
                 <h2 class="card-title">Configurar Requisição</h2>
                 
                 <!-- Informações de autenticação -->
                 <div id="auth-info" class="auth-info">
                     <h3>🔐 Status de Autenticação</h3>
                     <p id="auth-status">Nenhum token de autenticação armazenado.</p>
-                    <div id="token-display" class="token-display" style="display: none;">
+                    <div id="token-display" class="token-display d-none">
                         <strong>Token:</strong> <span id="token-value"></span>
                     </div>
                     <div class="actions">
@@ -495,15 +887,17 @@
                 <div class="form-group">
                     <label for="url-input">URL / Endpoint</label>
                     <input type="text" id="url-input" placeholder="https://api.exemplo.com/endpoint" value="http://127.0.0.1:8000/api/v1/auth/login">
+                    <div class="url-display d-none" id="url-preview"></div>
                 </div>
                 
-                <!-- Headers -->
+                <!-- Tabs -->
                 <div class="tabs">
                     <div class="tab active" data-tab="headers">Headers</div>
                     <div class="tab" data-tab="body">Body</div>
                     <div class="tab" data-tab="params">Variáveis de Ambiente</div>
                 </div>
                 
+                <!-- Headers Tab -->
                 <div id="headers-tab" class="tab-content active">
                     <div class="form-group">
                         <label for="headers-input">Headers (JSON)</label>
@@ -516,15 +910,17 @@
                     </div>
                     <div class="actions">
                         <button id="add-auth-header-btn" class="btn btn-light">Adicionar Header Auth</button>
+                        <button id="prettify-headers-btn" class="btn btn-light">Formatar JSON</button>
                     </div>
                 </div>
                 
+                <!-- Body Tab -->
                 <div id="body-tab" class="tab-content">
                     <div class="form-group">
                         <label for="body-input">Body (JSON ou texto)</label>
                         <textarea id="body-input" rows="10" placeholder='{
-  "email": "admin@ash.elf.eng.br",
-  "password": "@dmin#2026",
+  "email": "admin@exemplo.com",
+  "password": "senha123",
   "device_name": "api-client"
 }'>{
   "email": "admin@ash.elf.eng.br",
@@ -532,8 +928,13 @@
   "device_name": "curl"
 }</textarea>
                     </div>
+                    <div class="actions">
+                        <button id="prettify-body-btn" class="btn btn-light">Formatar JSON</button>
+                        <button id="clear-body-btn" class="btn btn-light">Limpar Body</button>
+                    </div>
                 </div>
                 
+                <!-- Environment Variables Tab -->
                 <div id="params-tab" class="tab-content">
                     <div class="form-group">
                         <label for="env-vars-input">Variáveis de Ambiente (JSON)</label>
@@ -544,7 +945,10 @@
   "base_url": "http://127.0.0.1:8000",
   "api_version": "v1"
 }</textarea>
-                        <p class="help-text">Use no URL como {{base_url}}/api/{{api_version}}/endpoint</p>
+                        <p class="help-text">Use no URL como [[base_url]]/api/[[api_version]]/endpoint</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Nota:</strong> Usamos [[ ]] em vez de { { } } para evitar conflitos com Blade
                     </div>
                 </div>
                 
@@ -554,24 +958,29 @@
                         <span>➤</span> Enviar Requisição
                     </button>
                     <button id="clear-btn" class="btn btn-light">Limpar</button>
+                    <button id="example-users-btn" class="btn btn-light">Exemplo: API Usuários</button>
+                    <button id="example-html-btn" class="btn btn-light">Exemplo: Site HTML</button>
                 </div>
             </div>
             
             <!-- Painel de resposta -->
-            <div class="card">
+            <div class="card slide-up">
                 <h2 class="card-title">Resposta</h2>
                 
+                <!-- Loading -->
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
                     <p>Enviando requisição...</p>
                 </div>
                 
-                <div id="response-section" class="response-section" style="display: none;">
+                <!-- Response Section -->
+                <div id="response-section" class="response-section d-none">
                     <div class="response-header">
                         <h3>Resposta da API</h3>
                         <div id="status-badge" class="status-badge">200 OK</div>
                     </div>
                     
+                    <!-- Response Tabs -->
                     <div class="tabs">
                         <div class="tab active" data-response-tab="body">Body</div>
                         <div class="tab" data-response-tab="preview">Preview</div>
@@ -579,10 +988,12 @@
                         <div class="tab" data-response-tab="raw">Raw</div>
                     </div>
                     
+                    <!-- Body Tab -->
                     <div id="response-body-tab" class="tab-content active">
                         <div class="response-content" id="response-body"></div>
                     </div>
                     
+                    <!-- Preview Tab -->
                     <div id="response-preview-tab" class="tab-content">
                         <div id="preview-controls" class="preview-controls">
                             <div class="preview-info" id="preview-info">
@@ -597,34 +1008,39 @@
                                 <p>O preview será exibido aqui para respostas HTML ou texto</p>
                                 <p><small>Para respostas JSON, será exibido como texto formatado</small></p>
                             </div>
-                            <iframe id="preview-iframe" style="display: none;"></iframe>
-                            <div id="preview-text" style="display: none;"></div>
+                            <iframe id="preview-iframe" class="d-none"></iframe>
+                            <div id="preview-text" class="d-none"></div>
                         </div>
                     </div>
                     
+                    <!-- Headers Tab -->
                     <div id="response-headers-tab" class="tab-content">
                         <div class="response-content" id="response-headers"></div>
                     </div>
                     
+                    <!-- Raw Tab -->
                     <div id="response-raw-tab" class="tab-content">
                         <div class="response-content" id="response-raw"></div>
                     </div>
                     
+                    <!-- Action Buttons -->
                     <div class="actions">
                         <button id="copy-response-btn" class="btn btn-light">Copiar Resposta</button>
-                        <button id="extract-token-btn" class="btn btn-success">Extrair Token da Resposta</button>
+                        <button id="extract-token-btn" class="btn btn-success">Extrair Token</button>
+                        <button id="save-response-btn" class="btn btn-light">Salvar Resposta</button>
                     </div>
                 </div>
                 
-                <div id="no-response" style="text-align: center; padding: 40px 20px; color: #777;">
-                    <p>Nenhuma requisição enviada ainda.</p>
+                <!-- No Response Placeholder -->
+                <div id="no-response" class="text-center" style="padding: 3rem 1.5rem; color: #777;">
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nenhuma requisição enviada ainda.</p>
                     <p>Configure sua requisição e clique em "Enviar Requisição".</p>
                 </div>
             </div>
         </div>
         
         <!-- Histórico de requisições -->
-        <div class="card history-section">
+        <div class="card history-section slide-up">
             <h2 class="card-title">📜 Histórico de Requisições</h2>
             <div id="history-list" class="history-list"></div>
             <div class="clear-history">
@@ -632,23 +1048,34 @@
             </div>
         </div>
         
+        <!-- Footer -->
         <footer>
-            <p>API Client v1.1 - Ferramenta para desenvolvedores API</p>
-            <p>Desenvolvido com HTML, CSS e JavaScript puro</p>
+            <p><strong>API Client v2.0</strong> - Ferramenta para desenvolvedores API</p>
+            <p class="text-muted">Desenvolvido com Laravel, HTML, CSS e JavaScript puro</p>
+            <p class="text-muted mt-2">Todas as funcionalidades em um único arquivo Blade</p>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Elementos DOM
+            // ============================================
+            // ELEMENTOS DOM
+            // ============================================
             const methodButtons = document.querySelectorAll('.method-btn');
             const methodInput = document.getElementById('method-input');
             const urlInput = document.getElementById('url-input');
+            const urlPreview = document.getElementById('url-preview');
             const headersInput = document.getElementById('headers-input');
             const bodyInput = document.getElementById('body-input');
             const envVarsInput = document.getElementById('env-vars-input');
+            
+            // Botões principais
             const sendButton = document.getElementById('send-btn');
             const clearButton = document.getElementById('clear-btn');
+            const exampleUsersBtn = document.getElementById('example-users-btn');
+            const exampleHtmlBtn = document.getElementById('example-html-btn');
+            
+            // Elementos de resposta
             const loadingElement = document.getElementById('loading');
             const responseSection = document.getElementById('response-section');
             const noResponseElement = document.getElementById('no-response');
@@ -656,17 +1083,24 @@
             const responseBody = document.getElementById('response-body');
             const responseHeaders = document.getElementById('response-headers');
             const responseRaw = document.getElementById('response-raw');
+            
+            // Botões de resposta
             const copyResponseButton = document.getElementById('copy-response-btn');
             const extractTokenButton = document.getElementById('extract-token-btn');
+            const saveResponseButton = document.getElementById('save-response-btn');
+            
+            // Autenticação
             const addAuthHeaderButton = document.getElementById('add-auth-header-btn');
             const clearTokenButton = document.getElementById('clear-token-btn');
             const authStatusElement = document.getElementById('auth-status');
             const tokenValueElement = document.getElementById('token-value');
             const tokenDisplayElement = document.getElementById('token-display');
+            
+            // História
             const historyList = document.getElementById('history-list');
             const clearHistoryButton = document.getElementById('clear-history-btn');
             
-            // Elementos da nova aba Preview
+            // Preview
             const previewContainer = document.getElementById('preview-container');
             const previewIframe = document.getElementById('preview-iframe');
             const previewText = document.getElementById('preview-text');
@@ -674,21 +1108,48 @@
             const refreshPreviewButton = document.getElementById('refresh-preview-btn');
             const previewInfo = document.getElementById('preview-info');
             
+            // Botões de formatação
+            const prettifyHeadersBtn = document.getElementById('prettify-headers-btn');
+            const prettifyBodyBtn = document.getElementById('prettify-body-btn');
+            const clearBodyBtn = document.getElementById('clear-body-btn');
+            
             // Tabs
             const tabs = document.querySelectorAll('.tab');
             const responseTabs = document.querySelectorAll('[data-response-tab]');
             
-            // Estado da aplicação
+            // ============================================
+            // ESTADO DA APLICAÇÃO
+            // ============================================
             let authToken = localStorage.getItem('api_client_token');
             let tokenType = localStorage.getItem('api_client_token_type') || 'Bearer';
             let requestHistory = JSON.parse(localStorage.getItem('api_client_history') || '[]');
             let currentResponse = null;
             
-            // Inicialização
-            updateAuthDisplay();
-            renderHistory();
+            // ============================================
+            // INICIALIZAÇÃO
+            // ============================================
+            init();
             
-            // Event Listeners
+            function init() {
+                updateAuthDisplay();
+                renderHistory();
+                setMethod('GET');
+                
+                // Atualizar preview da URL quando variáveis mudam
+                urlInput.addEventListener('input', updateUrlPreview);
+                envVarsInput.addEventListener('input', updateUrlPreview);
+                
+                // Inicializar tabs
+                switchTab('headers');
+                switchResponseTab('body');
+                
+                // Atualizar preview inicial
+                updateUrlPreview();
+            }
+            
+            // ============================================
+            // EVENT LISTENERS
+            // ============================================
             methodButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const method = this.getAttribute('data-method');
@@ -712,17 +1173,59 @@
             
             sendButton.addEventListener('click', sendRequest);
             clearButton.addEventListener('click', clearForm);
+            exampleUsersBtn.addEventListener('click', loadUsersExample);
+            exampleHtmlBtn.addEventListener('click', loadHtmlExample);
+            
             copyResponseButton.addEventListener('click', copyResponse);
             extractTokenButton.addEventListener('click', extractTokenFromResponse);
+            saveResponseButton.addEventListener('click', saveResponse);
+            
             addAuthHeaderButton.addEventListener('click', addAuthHeader);
             clearTokenButton.addEventListener('click', clearToken);
+            
+            prettifyHeadersBtn.addEventListener('click', () => prettifyJson(headersInput));
+            prettifyBodyBtn.addEventListener('click', () => prettifyJson(bodyInput));
+            clearBodyBtn.addEventListener('click', () => bodyInput.value = '');
+            
             clearHistoryButton.addEventListener('click', clearHistory);
             refreshPreviewButton.addEventListener('click', refreshPreview);
             
-            // Configurar método GET como padrão ativo
-            setMethod('GET');
+            // Atalhos de teclado
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+Enter para enviar
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    sendRequest();
+                }
+                
+                // Ctrl+L para limpar
+                if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
+                    e.preventDefault();
+                    clearForm();
+                }
+                
+                // Ctrl+H para histórico
+                if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
+                    e.preventDefault();
+                    document.querySelector('.history-section').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                }
+                
+                // Ctrl+1,2,3 para tabs
+                if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '3') {
+                    e.preventDefault();
+                    const tabIndex = parseInt(e.key) - 1;
+                    const tabsArray = Array.from(tabs).filter(t => t.getAttribute('data-tab'));
+                    if (tabsArray[tabIndex]) {
+                        tabsArray[tabIndex].click();
+                    }
+                }
+            });
             
-            // Funções
+            // ============================================
+            // FUNÇÕES PRINCIPAIS
+            // ============================================
             function setMethod(method) {
                 methodButtons.forEach(btn => {
                     btn.classList.remove('active');
@@ -735,8 +1238,8 @@
                 
                 methodInput.value = method;
                 
-                // Se for GET, limpar o body
-                if (method === 'GET') {
+                // Limpar body para GET e HEAD
+                if (method === 'GET' || method === 'HEAD') {
                     bodyInput.value = '';
                 }
             }
@@ -753,7 +1256,10 @@
                     content.classList.remove('active');
                 });
                 
-                document.getElementById(`${tabId}-tab`).classList.add('active');
+                const tabElement = document.getElementById(`${tabId}-tab`);
+                if (tabElement) {
+                    tabElement.classList.add('active');
+                }
             }
             
             function switchResponseTab(tabId) {
@@ -768,11 +1274,25 @@
                     content.classList.remove('active');
                 });
                 
-                document.getElementById(`response-${tabId}-tab`).classList.add('active');
+                const tabElement = document.getElementById(`response-${tabId}-tab`);
+                if (tabElement) {
+                    tabElement.classList.add('active');
+                }
                 
-                // Se for a aba de preview, atualizar o preview se houver resposta
                 if (tabId === 'preview' && currentResponse) {
                     updatePreview(currentResponse);
+                }
+            }
+            
+            function updateUrlPreview() {
+                const url = urlInput.value;
+                const processedUrl = processEnvVars(url);
+                
+                if (processedUrl !== url) {
+                    urlPreview.textContent = `URL processada: ${processedUrl}`;
+                    urlPreview.classList.remove('d-none');
+                } else {
+                    urlPreview.classList.add('d-none');
                 }
             }
             
@@ -781,42 +1301,51 @@
                 let url = urlInput.value.trim();
                 
                 if (!url) {
-                    alert('Por favor, informe uma URL');
+                    showAlert('Por favor, informe uma URL', 'warning');
                     return;
                 }
                 
-                // Processar variáveis de ambiente
+                // Processar variáveis de ambiente (usa [[ ]])
                 url = processEnvVars(url);
+                
+                // Validar URL
+                try {
+                    new URL(url);
+                } catch (e) {
+                    showAlert('URL inválida. Certifique-se de incluir http:// ou https://', 'danger');
+                    return;
+                }
                 
                 // Preparar headers
                 let headers = {};
                 try {
                     headers = JSON.parse(headersInput.value || '{}');
                 } catch (e) {
-                    alert('Erro no formato dos headers. Certifique-se de que é um JSON válido.');
+                    showAlert('Erro no formato dos headers. Certifique-se de que é um JSON válido.', 'danger');
                     return;
                 }
                 
                 // Preparar body
                 let body = null;
-                if (method !== 'GET' && bodyInput.value.trim()) {
+                if (method !== 'GET' && method !== 'HEAD' && bodyInput.value.trim()) {
                     body = bodyInput.value.trim();
                     
-                    // Tentar parsear como JSON para validar
-                    try {
-                        if (body) {
+                    // Validar JSON se parece com JSON
+                    if (body.startsWith('{') || body.startsWith('[')) {
+                        try {
                             JSON.parse(body);
+                        } catch (e) {
+                            if (!confirm('O body parece ser JSON inválido. Deseja enviar como texto?')) {
+                                return;
+                            }
                         }
-                    } catch (e) {
-                        // Se não for JSON válido, enviar como texto
-                        console.log('Body não é JSON válido, enviando como texto');
                     }
                 }
                 
                 // Mostrar loading
                 loadingElement.classList.add('active');
                 noResponseElement.style.display = 'none';
-                responseSection.style.display = 'none';
+                responseSection.classList.add('d-none');
                 
                 try {
                     const startTime = Date.now();
@@ -825,7 +1354,8 @@
                     const response = await fetch(url, {
                         method: method,
                         headers: headers,
-                        body: body
+                        body: body,
+                        credentials: 'same-origin' // Incluir cookies se necessário
                     });
                     
                     const endTime = Date.now();
@@ -834,56 +1364,13 @@
                     // Obter resposta como texto
                     const responseText = await response.text();
                     
-                    // Tentar parsear como JSON para formatação
-                    let responseBodyText = responseText;
-                    try {
-                        const jsonResponse = JSON.parse(responseText);
-                        responseBodyText = syntaxHighlight(JSON.stringify(jsonResponse, null, 2));
-                    } catch (e) {
-                        // Não é JSON, manter como texto
-                    }
-                    
-                    // Formatar headers da resposta
-                    const headersArray = [];
-                    response.headers.forEach((value, key) => {
-                        headersArray.push(`${key}: ${value}`);
-                    });
-                    
                     // Atualizar UI com resposta
-                    statusBadge.textContent = `${response.status} ${response.statusText}`;
-                    statusBadge.className = 'status-badge';
-                    
-                    if (response.status >= 200 && response.status < 300) {
-                        statusBadge.classList.add('status-2xx');
-                    } else if (response.status >= 300 && response.status < 400) {
-                        statusBadge.classList.add('status-3xx');
-                    } else if (response.status >= 400 && response.status < 500) {
-                        statusBadge.classList.add('status-4xx');
-                    } else if (response.status >= 500) {
-                        statusBadge.classList.add('status-5xx');
-                    }
-                    
-                    responseBody.innerHTML = responseBodyText;
-                    responseHeaders.textContent = headersArray.join('\n');
-                    responseRaw.textContent = responseText;
-                    
-                    // Armazenar resposta atual para o preview
-                    currentResponse = {
-                        text: responseText,
-                        headers: response.headers,
-                        contentType: response.headers.get('content-type') || ''
-                    };
-                    
-                    // Atualizar preview se estiver na aba de preview
-                    const activePreviewTab = document.querySelector('[data-response-tab].active');
-                    if (activePreviewTab && activePreviewTab.getAttribute('data-response-tab') === 'preview') {
-                        updatePreview(currentResponse);
-                    }
+                    updateResponseUI(response, responseText, responseTime);
                     
                     // Salvar no histórico
                     addToHistory({
                         method,
-                        url,
+                        url: urlInput.value.trim(),
                         headers: headers,
                         body: body,
                         status: response.status,
@@ -894,7 +1381,14 @@
                     
                     // Mostrar resposta
                     loadingElement.classList.remove('active');
-                    responseSection.style.display = 'block';
+                    responseSection.classList.remove('d-none');
+                    
+                    // Mostrar mensagem de sucesso
+                    if (response.ok) {
+                        showAlert(`Requisição enviada com sucesso! (${responseTime}ms)`, 'success');
+                    } else {
+                        showAlert(`Erro ${response.status}: ${response.statusText}`, 'warning');
+                    }
                     
                 } catch (error) {
                     loadingElement.classList.remove('active');
@@ -906,12 +1400,12 @@
                     responseHeaders.textContent = '';
                     responseRaw.textContent = '';
                     
-                    responseSection.style.display = 'block';
+                    responseSection.classList.remove('d-none');
                     
                     // Adicionar erro ao histórico
                     addToHistory({
                         method,
-                        url,
+                        url: urlInput.value.trim(),
                         headers: headers,
                         body: body,
                         status: 0,
@@ -919,7 +1413,52 @@
                         error: error.message,
                         timestamp: new Date().toISOString()
                     });
+                    
+                    showAlert(`Erro de rede: ${error.message}`, 'danger');
                 }
+            }
+            
+            function updateResponseUI(response, responseText, responseTime) {
+                // Atualizar status
+                statusBadge.textContent = `${response.status} ${response.statusText} (${responseTime}ms)`;
+                statusBadge.className = 'status-badge';
+                
+                if (response.status >= 200 && response.status < 300) {
+                    statusBadge.classList.add('status-2xx');
+                } else if (response.status >= 300 && response.status < 400) {
+                    statusBadge.classList.add('status-3xx');
+                } else if (response.status >= 400 && response.status < 500) {
+                    statusBadge.classList.add('status-4xx');
+                } else if (response.status >= 500) {
+                    statusBadge.classList.add('status-5xx');
+                }
+                
+                // Tentar parsear como JSON para formatação
+                let responseBodyText = responseText;
+                try {
+                    const jsonResponse = JSON.parse(responseText);
+                    responseBodyText = syntaxHighlight(JSON.stringify(jsonResponse, null, 2));
+                } catch (e) {
+                    // Não é JSON, manter como texto
+                }
+                
+                // Formatar headers da resposta
+                const headersArray = [];
+                response.headers.forEach((value, key) => {
+                    headersArray.push(`${key}: ${value}`);
+                });
+                
+                responseBody.innerHTML = responseBodyText;
+                responseHeaders.textContent = headersArray.join('\n');
+                responseRaw.textContent = responseText;
+                
+                // Armazenar resposta atual para o preview
+                currentResponse = {
+                    text: responseText,
+                    headers: response.headers,
+                    contentType: response.headers.get('content-type') || '',
+                    status: response.status
+                };
             }
             
             function processEnvVars(url) {
@@ -927,14 +1466,26 @@
                     const envVars = JSON.parse(envVarsInput.value || '{}');
                     
                     for (const [key, value] of Object.entries(envVars)) {
-                        const placeholder = `{{${key}}}`;
-                        url = url.replace(new RegExp(placeholder, 'g'), value);
+                        // Usar [[key]] em vez de { {key} } para evitar conflito com Blade
+                        const placeholder = `\\[\\[${key}\\]\\]`;
+                        const regex = new RegExp(placeholder, 'g');
+                        url = url.replace(regex, value);
                     }
                 } catch (e) {
                     console.error('Erro ao processar variáveis de ambiente:', e);
                 }
                 
                 return url;
+            }
+            
+            function prettifyJson(textarea) {
+                try {
+                    const json = JSON.parse(textarea.value);
+                    textarea.value = JSON.stringify(json, null, 2);
+                    showAlert('JSON formatado com sucesso!', 'success');
+                } catch (e) {
+                    showAlert('Não é um JSON válido para formatar', 'warning');
+                }
             }
             
             function syntaxHighlight(json) {
@@ -968,13 +1519,12 @@
                 const responseText = response.text;
                 
                 // Limpar preview anterior
-                previewIframe.style.display = 'none';
-                previewText.style.display = 'none';
-                previewPlaceholder.style.display = 'none';
+                previewIframe.classList.add('d-none');
+                previewText.classList.add('d-none');
+                previewPlaceholder.classList.add('d-none');
                 
                 // Verificar o tipo de conteúdo
                 if (contentType.includes('text/html')) {
-                    // É HTML, mostrar no iframe
                     previewInfo.textContent = 'Preview HTML (iframe)';
                     
                     // Criar blob com o HTML
@@ -982,69 +1532,43 @@
                     const url = URL.createObjectURL(blob);
                     
                     previewIframe.src = url;
-                    previewIframe.style.display = 'block';
+                    previewIframe.classList.remove('d-none');
                     previewIframe.onload = function() {
                         URL.revokeObjectURL(url);
                     };
                     
                 } else if (contentType.includes('application/json')) {
-                    // É JSON, mostrar formatado
                     previewInfo.textContent = 'Preview JSON (formatado)';
                     
                     try {
                         const jsonObj = JSON.parse(responseText);
                         previewText.innerHTML = syntaxHighlight(JSON.stringify(jsonObj, null, 2));
-                        previewText.style.display = 'block';
+                        previewText.classList.remove('d-none');
                         previewText.className = 'response-content';
-                        previewText.style.height = '400px';
-                        previewText.style.overflowY = 'auto';
+                        previewText.style.height = '350px';
                     } catch (e) {
                         previewText.textContent = 'Erro ao formatar JSON: ' + e.message;
-                        previewText.style.display = 'block';
+                        previewText.classList.remove('d-none');
                     }
                     
-                } else if (contentType.includes('text/plain') || 
-                          contentType.includes('text/css') || 
-                          contentType.includes('text/javascript') ||
+                } else if (contentType.includes('text/') || 
                           contentType.includes('application/xml') ||
-                          contentType.includes('text/xml')) {
-                    // É texto simples, mostrar como texto
+                          contentType.includes('application/javascript')) {
                     previewInfo.textContent = 'Preview Texto (' + contentType + ')';
                     
                     previewText.textContent = responseText;
-                    previewText.style.display = 'block';
+                    previewText.classList.remove('d-none');
                     previewText.className = 'response-content';
-                    previewText.style.height = '400px';
-                    previewText.style.overflowY = 'auto';
-                    
-                } else if (contentType.includes('image/')) {
-                    // É imagem, mostrar no iframe com tag img
-                    previewInfo.textContent = 'Preview Imagem (' + contentType + ')';
-                    
-                    const imgHtml = `<div style="text-align: center; padding: 20px;">
-                        <img src="data:${contentType};base64,${btoa(responseText)}" 
-                             style="max-width: 100%; max-height: 350px; border: 1px solid #ddd; padding: 5px; background: white;">
-                        <p style="margin-top: 10px; color: #666;">Imagem ${contentType}</p>
-                    </div>`;
-                    
-                    const blob = new Blob([imgHtml], { type: 'text/html;charset=utf-8' });
-                    const url = URL.createObjectURL(blob);
-                    
-                    previewIframe.src = url;
-                    previewIframe.style.display = 'block';
-                    previewIframe.onload = function() {
-                        URL.revokeObjectURL(url);
-                    };
+                    previewText.style.height = '350px';
                     
                 } else {
-                    // Tipo não suportado, mostrar placeholder
                     previewInfo.textContent = 'Preview não disponível para este tipo de conteúdo';
                     previewPlaceholder.innerHTML = `
                         <p>Tipo de conteúdo: ${contentType || 'desconhecido'}</p>
                         <p>O preview não está disponível para este tipo de resposta.</p>
                         <p>Use a aba "Raw" para visualizar o conteúdo bruto.</p>
                     `;
-                    previewPlaceholder.style.display = 'flex';
+                    previewPlaceholder.classList.remove('d-none');
                 }
             }
             
@@ -1058,9 +1582,43 @@
                 urlInput.value = '';
                 headersInput.value = '{\n  "Content-Type": "application/json"\n}';
                 bodyInput.value = '';
-                responseSection.style.display = 'none';
+                envVarsInput.value = '{\n  "base_url": "http://127.0.0.1:8000",\n  "api_version": "v1"\n}';
+                responseSection.classList.add('d-none');
                 noResponseElement.style.display = 'block';
                 currentResponse = null;
+                updateUrlPreview();
+                showAlert('Formulário limpo', 'info');
+            }
+            
+            function loadUsersExample() {
+                setMethod('GET');
+                urlInput.value = 'http://127.0.0.1:8000/api/v1/users';
+                
+                let headers = {};
+                try {
+                    headers = JSON.parse(headersInput.value || '{}');
+                } catch (e) {
+                    headers = {};
+                }
+                
+                if (authToken) {
+                    headers['Authorization'] = `${tokenType} ${authToken}`;
+                }
+                
+                headers['Content-Type'] = 'application/json';
+                headersInput.value = JSON.stringify(headers, null, 2);
+                bodyInput.value = '';
+                updateUrlPreview();
+                showAlert('Exemplo de API de usuários carregado', 'info');
+            }
+            
+            function loadHtmlExample() {
+                setMethod('GET');
+                urlInput.value = 'https://httpbin.org/html';
+                headersInput.value = '{\n  "Accept": "text/html"\n}';
+                bodyInput.value = '';
+                updateUrlPreview();
+                showAlert('Exemplo de site HTML carregado', 'info');
             }
             
             function copyResponse() {
@@ -1070,24 +1628,40 @@
                     let textToCopy = '';
                     
                     if (tabId === 'body') {
-                        textToCopy = document.getElementById('response-body').textContent;
+                        textToCopy = responseBody.textContent;
                     } else if (tabId === 'headers') {
-                        textToCopy = document.getElementById('response-headers').textContent;
+                        textToCopy = responseHeaders.textContent;
                     } else if (tabId === 'raw') {
-                        textToCopy = document.getElementById('response-raw').textContent;
+                        textToCopy = responseRaw.textContent;
                     } else if (tabId === 'preview') {
                         textToCopy = currentResponse ? currentResponse.text : '';
                     }
                     
                     navigator.clipboard.writeText(textToCopy).then(() => {
-                        // Feedback visual
                         const originalText = copyResponseButton.textContent;
                         copyResponseButton.textContent = 'Copiado!';
+                        copyResponseButton.classList.add('btn-success');
                         setTimeout(() => {
                             copyResponseButton.textContent = originalText;
+                            copyResponseButton.classList.remove('btn-success');
                         }, 2000);
                     });
                 }
+            }
+            
+            function saveResponse() {
+                if (!currentResponse) return;
+                
+                const blob = new Blob([currentResponse.text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `api-response-${Date.now()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showAlert('Resposta salva como arquivo', 'success');
             }
             
             function extractTokenFromResponse() {
@@ -1095,26 +1669,42 @@
                     const rawResponse = responseRaw.textContent;
                     const jsonResponse = JSON.parse(rawResponse);
                     
-                    // Verificar se a resposta contém um token
+                    // Procurar token em várias posições possíveis
+                    let token = null;
+                    let foundTokenType = 'Bearer';
+                    
                     if (jsonResponse.data && jsonResponse.data.token) {
-                        authToken = jsonResponse.data.token;
-                        
-                        // Verificar se há token_type na resposta
+                        token = jsonResponse.data.token;
                         if (jsonResponse.data.token_type) {
-                            tokenType = jsonResponse.data.token_type;
+                            foundTokenType = jsonResponse.data.token_type;
                         }
+                    } else if (jsonResponse.token) {
+                        token = jsonResponse.token;
+                        if (jsonResponse.token_type) {
+                            foundTokenType = jsonResponse.token_type;
+                        }
+                    } else if (jsonResponse.access_token) {
+                        token = jsonResponse.access_token;
+                        foundTokenType = 'Bearer';
+                    } else if (jsonResponse.bearer) {
+                        token = jsonResponse.bearer;
+                        foundTokenType = 'Bearer';
+                    }
+                    
+                    if (token) {
+                        authToken = token;
+                        tokenType = foundTokenType;
                         
-                        // Armazenar no localStorage
                         localStorage.setItem('api_client_token', authToken);
                         localStorage.setItem('api_client_token_type', tokenType);
                         
                         updateAuthDisplay();
-                        alert('Token extraído e armazenado com sucesso!');
+                        showAlert('Token extraído e armazenado com sucesso!', 'success');
                     } else {
-                        alert('Não foi possível encontrar um token na resposta.');
+                        showAlert('Não foi possível encontrar um token na resposta.', 'warning');
                     }
                 } catch (e) {
-                    alert('Erro ao processar a resposta. Certifique-se de que é um JSON válido contendo um token.');
+                    showAlert('Erro ao processar a resposta para extrair token.', 'danger');
                 }
             }
             
@@ -1124,11 +1714,12 @@
                         let headers = JSON.parse(headersInput.value || '{}');
                         headers['Authorization'] = `${tokenType} ${authToken}`;
                         headersInput.value = JSON.stringify(headers, null, 2);
+                        showAlert('Header de autenticação adicionado', 'success');
                     } catch (e) {
-                        alert('Erro ao adicionar header de autenticação.');
+                        showAlert('Erro ao adicionar header de autenticação.', 'danger');
                     }
                 } else {
-                    alert('Nenhum token de autenticação armazenado. Faça login primeiro ou extraia o token de uma resposta.');
+                    showAlert('Nenhum token de autenticação armazenado.', 'warning');
                 }
             }
             
@@ -1138,26 +1729,25 @@
                 localStorage.removeItem('api_client_token');
                 localStorage.removeItem('api_client_token_type');
                 updateAuthDisplay();
-                alert('Token removido com sucesso!');
+                showAlert('Token removido com sucesso!', 'info');
             }
             
             function updateAuthDisplay() {
                 if (authToken) {
                     authStatusElement.textContent = 'Token de autenticação armazenado.';
                     tokenValueElement.textContent = `${tokenType} ${authToken.substring(0, 30)}...`;
-                    tokenDisplayElement.style.display = 'block';
-                    clearTokenButton.style.display = 'block';
+                    tokenDisplayElement.classList.remove('d-none');
+                    clearTokenButton.classList.remove('d-none');
                 } else {
                     authStatusElement.textContent = 'Nenhum token de autenticação armazenado.';
-                    tokenDisplayElement.style.display = 'none';
-                    clearTokenButton.style.display = 'none';
+                    tokenDisplayElement.classList.add('d-none');
+                    clearTokenButton.classList.add('d-none');
                 }
             }
             
             function addToHistory(request) {
                 requestHistory.unshift(request);
                 
-                // Manter apenas os últimos 50 itens
                 if (requestHistory.length > 50) {
                     requestHistory = requestHistory.slice(0, 50);
                 }
@@ -1179,15 +1769,29 @@
                     historyItem.className = 'history-item';
                     
                     const methodClass = item.method.toLowerCase();
+                    const date = new Date(item.timestamp);
+                    const timeStr = date.toLocaleTimeString('pt-BR', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
                     
                     historyItem.innerHTML = `
                         <div>
                             <span class="history-method ${methodClass}">${item.method}</span>
-                            <span style="margin-left: 10px;">${item.url}</span>
+                            <span style="margin-left: 0.75rem; font-size: 0.875rem; color: #666;">
+                                ${timeStr}
+                            </span>
+                        </div>
+                        <div style="flex: 1; margin: 0 1rem; overflow: hidden;">
+                            <div style="font-size: 0.875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                ${item.url}
+                            </div>
                         </div>
                         <div>
-                            <span>${item.status} ${item.statusText}</span>
-                            ${item.responseTime ? `<span style="margin-left: 10px; color: #777;">${item.responseTime}ms</span>` : ''}
+                            <span style="font-weight: 600; color: ${item.status >= 400 ? '#dc3545' : item.status >= 200 ? '#28a745' : '#6c757d'}">
+                                ${item.status || 'ERR'}
+                            </span>
+                            ${item.responseTime ? `<span style="margin-left: 0.5rem; font-size: 0.75rem; color: #777;">${item.responseTime}ms</span>` : ''}
                         </div>
                     `;
                     
@@ -1202,24 +1806,14 @@
             function loadRequestFromHistory(index) {
                 const request = requestHistory[index];
                 
-                // Configurar método
                 setMethod(request.method);
-                
-                // Configurar URL
                 urlInput.value = request.url;
-                
-                // Configurar headers
                 headersInput.value = JSON.stringify(request.headers, null, 2);
+                bodyInput.value = request.body || '';
                 
-                // Configurar body
-                if (request.body) {
-                    bodyInput.value = request.body;
-                } else {
-                    bodyInput.value = '';
-                }
-                
-                // Rolar para o topo
+                updateUrlPreview();
                 window.scrollTo(0, 0);
+                showAlert('Requisição carregada do histórico', 'info');
             }
             
             function clearHistory() {
@@ -1227,74 +1821,49 @@
                     requestHistory = [];
                     localStorage.removeItem('api_client_history');
                     renderHistory();
+                    showAlert('Histórico limpo', 'info');
                 }
             }
             
-            // Adicionar exemplo de requisição para API de usuários
-            document.addEventListener('keydown', function(e) {
-                // Atalho Ctrl+Enter para enviar requisição
-                if (e.ctrlKey && e.key === 'Enter') {
-                    sendRequest();
-                }
+            function showAlert(message, type = 'info') {
+                // Remover alertas anteriores
+                const existingAlerts = document.querySelectorAll('.alert-toast');
+                existingAlerts.forEach(alert => alert.remove());
                 
-                // Atalho Ctrl+L para limpar
-                if (e.ctrlKey && e.key === 'l') {
-                    clearForm();
-                }
+                // Criar novo alerta
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type} alert-toast`;
+                alert.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 9999;
+                    max-width: 400px;
+                    animation: slideUp 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                `;
+                alert.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>${message}</div>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; margin-left: 1rem;">
+                            ×
+                        </button>
+                    </div>
+                `;
                 
-                // Atalho Ctrl+H para histórico
-                if (e.ctrlKey && e.key === 'h') {
-                    document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-            
-            // Adicionar botão para exemplo de API de usuários
-            const userApiButton = document.createElement('button');
-            userApiButton.textContent = 'Exemplo: API de Usuários';
-            userApiButton.className = 'btn btn-light';
-            userApiButton.style.marginTop = '10px';
-            userApiButton.addEventListener('click', function() {
-                setMethod('GET');
-                urlInput.value = 'http://127.0.0.1:8000/api/v1/users';
+                document.body.appendChild(alert);
                 
-                let headers = {};
-                try {
-                    headers = JSON.parse(headersInput.value || '{}');
-                } catch (e) {
-                    headers = {};
-                }
-                
-                // Adicionar autenticação se disponível
-                if (authToken) {
-                    headers['Authorization'] = `${tokenType} ${authToken}`;
-                }
-                
-                headers['Content-Type'] = 'application/json';
-                headersInput.value = JSON.stringify(headers, null, 2);
-                
-                bodyInput.value = '';
-            });
-            
-            document.querySelector('.actions').appendChild(userApiButton);
-            
-            // Adicionar exemplo de requisição para site HTML
-            const htmlExampleButton = document.createElement('button');
-            htmlExampleButton.textContent = 'Exemplo: Site HTML';
-            htmlExampleButton.className = 'btn btn-light';
-            htmlExampleButton.style.marginTop = '10px';
-            htmlExampleButton.addEventListener('click', function() {
-                setMethod('GET');
-                urlInput.value = 'https://elfsolucoes.com.br';
-                headersInput.value = '{\n  "Accept": "text/html"\n}';
-                bodyInput.value = '';
-                
-                // Mostrar mensagem informativa
+                // Remover automaticamente após 5 segundos
                 setTimeout(() => {
-                    alert('Esta requisição retornará uma página HTML de exemplo. Após enviar, use a aba "Preview" para visualizar o HTML renderizado.');
-                }, 100);
-            });
+                    if (alert.parentElement) {
+                        alert.remove();
+                    }
+                }, 5000);
+            }
             
-            document.querySelector('.actions').appendChild(htmlExampleButton);
+            // Expor funções globalmente para alguns botões
+            window.prettifyJson = prettifyJson;
         });
     </script>
 </body>

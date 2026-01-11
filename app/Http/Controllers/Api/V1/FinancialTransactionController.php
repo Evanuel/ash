@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\FinancialTransactionResource;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class FinancialTransactionController extends BaseController {
+    
     protected Model $model;
 
-    protected string $resource = UserResource::class;
+    protected string $resource = FinancialTransactionResource::class;
 
     protected string $permissionView   = 'user.view';
     protected string $permissionCreate = 'user.create';
