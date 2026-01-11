@@ -13,7 +13,7 @@ class FinancialTransaction extends Model
 
     protected $fillable = [
         'client_id',
-        'type_id', // CORRIGIDO: de 'type' para 'type_id'
+        'type_id',
         'fiscal_document',
         'cost_center',
         'description',
@@ -47,7 +47,7 @@ class FinancialTransaction extends Model
     ];
 
     protected $casts = [
-        'type_id' => 'integer', // CORRIGIDO
+        'type_id' => 'integer',
         'person_type' => 'integer',
         'due_date' => 'date',
         'amount' => 'decimal:2',
@@ -69,9 +69,9 @@ class FinancialTransaction extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    public function type() // NOVA RELAÇÃO
+    public function type()
     {
-        return $this->belongsTo(TransactionType::class, 'type_id');
+        return $this->belongsTo(Type::class, 'type_id');
     }
 
     public function category()

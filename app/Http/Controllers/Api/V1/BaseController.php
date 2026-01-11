@@ -21,7 +21,8 @@ abstract class BaseController extends Controller
     protected string $resource;
 
     /**
-     * Permissões
+     * Permissões++
+     * 
      */
     protected string $permissionView   = '';
     protected string $permissionCreate = '';

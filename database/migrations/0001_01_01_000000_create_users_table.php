@@ -55,7 +55,7 @@ return new class extends Migration
             // Laravel defaults
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes(); // ADICIONE ESTA LINHA PARA SOFT DELETES
+            $table->softDeletes();
             
             // Indexes
             $table->index('client_id');
@@ -65,7 +65,7 @@ return new class extends Migration
             $table->index('archived');
             $table->index('role_id');
             $table->index(['client_id', 'active']);
-            $table->index('deleted_at'); // Adicione este índice também
+            $table->index('deleted_at');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

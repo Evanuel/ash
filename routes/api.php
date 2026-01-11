@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\V1\{
     AuthController,
+    CategoryController,
     UserController,
     RoleController,
     CompanyController,
@@ -66,7 +67,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
         
         // Pessoas
-        Route::prefix('people')->name('people')->group(function () {
+        Route::prefix('people')->name('people.')->group(function () {
             Route::get('/', [PeopleController::class, 'index'])->name('index');
             Route::post('/', [PeopleController::class, 'store'])->name('store');
             Route::get('/{id}', [PeopleController::class, 'show'])->name('show');
@@ -88,11 +89,22 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('/summary', [FinancialTransactionController::class, 'summary'])->name('summary');
         });
         
-        // Outros recursos podem ser adicionados aqui
+        // Categorias
+        Route::prefix('categories')->name('categories.')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::post('/', [CategoryController::class, 'store'])->name('store');
+            Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
+            Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
+            Route::patch('/{id}', [CategoryController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/restore', [CategoryController::class, 'restore'])->name('restore');
+            Route::get('/tree/hierarchical', [CategoryController::class, 'tree'])->name('tree');
+        });
+        
     });
     
     // Health check da API
-    Route::get('/health', function () {
+    Route::get('/', function () {
         return response()->json([
             'status' => 'healthy',
             'timestamp' => now()->toISOString(),

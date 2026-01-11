@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id')->nullable(false);
-            $table->tinyInteger('type')->default(1);
+            $table->unsignedBigInteger('type')->default(1);
             $table->string('cnpj', 18)->nullable(false);
             $table->string('trade_name')->nullable(false);
             $table->string('company_name')->nullable(false);
@@ -68,12 +68,15 @@ return new class extends Migration
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
             
+            $table->softDeletes();
+            
             // Indexes
             $table->unique(['client_id', 'cnpj']);
             $table->index('trade_name');
             $table->index('company_name');
             $table->index('status');
             $table->index('archived');
+            $table->index('deleted_at');
         });
     }
 
