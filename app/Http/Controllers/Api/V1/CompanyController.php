@@ -7,7 +7,6 @@ use App\Http\Requests\Api\V1\Company\UpdateCompanyRequest;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
 use App\Http\Resources\Api\V1\CompanyResource;
-use Illuminate\Http\Request;
 
 class CompanyController extends BaseController
 {
@@ -64,28 +63,21 @@ class CompanyController extends BaseController
         $this->model = $company;
     }
 
-    public function store(Request $request)
-    {
-        $storeRequestClass = StoreCompanyRequest::createFrom($request);
-        $storeRequestClass->setContainer(app());
-        $storeRequestClass->validateResolved();
-
+    public function store(StoreCompanyRequest $request) {
         $this->authorizeOrFail($this->permissionCreate);
-        $validated = $storeRequestClass->validated();
-        $company = $this->model->create($validated);
-        return new $this->resource($company);
+
+        $item = $this->model->create($request->validated());
+
+        return new $this->resource($item);
     }
 
-    public function update(Request $request, $id)
-    {
-        $updateRequestClass = UpdateCompanyRequest::createFrom($request);
-        $updateRequestClass->setContainer(app());
-        $updateRequestClass->validateResolved();
-
+    public function update(UpdateCompanyRequest $request, int|string $id) {
         $this->authorizeOrFail($this->permissionUpdate);
-        $company = $this->model->findOrFail($id);
-        $validated = $request->validated();
-        $company->update($validated);
-        return new $this->resource($company);
+
+        $item = $this->model->findOrFail($id);
+        $item->update($request->validated());
+
+        return new $this->resource($item);
     }
+
 }

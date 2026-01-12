@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>API Client - Postman Style</title>
+    <title>Client HTTP</title>
     <style>
         :root {
             --primary-color: #FF6C37;
@@ -364,13 +364,13 @@
         }
         
         /* Tabs estilo Postman */
-        .postman-tabs {
+        .client-http-tabs {
             display: flex;
             border-bottom: 1px solid var(--card-border);
             margin-bottom: 20px;
         }
         
-        .postman-tab {
+        .client-http-tab {
             padding: 12px 20px;
             font-size: 14px;
             font-weight: 500;
@@ -381,12 +381,12 @@
             position: relative;
         }
         
-        .postman-tab:hover {
+        .client-http-tab:hover {
             color: var(--text-primary);
             background-color: rgba(255, 255, 255, 0.05);
         }
         
-        .postman-tab.active {
+        .client-http-tab.active {
             color: var(--text-primary);
             border-bottom-color: var(--primary-color);
             background-color: rgba(255, 108, 55, 0.05);
@@ -1074,25 +1074,25 @@
                         </div>
                         
                         <!-- Tabs -->
-                        <div class="postman-tabs">
-                            <div class="postman-tab active" data-tab="params">
+                        <div class="client-http-tabs">
+                            <div class="client-http-tab active" data-tab="params">
                                 <span>Params</span>
                                 <span class="tab-count">0</span>
                             </div>
-                            <div class="postman-tab" data-tab="authorization">
+                            <div class="client-http-tab" data-tab="authorization">
                                 <span>Authorization</span>
                             </div>
-                            <div class="postman-tab" data-tab="headers">
+                            <div class="client-http-tab" data-tab="headers">
                                 <span>Headers</span>
                                 <span class="tab-count" id="headers-count">1</span>
                             </div>
-                            <div class="postman-tab" data-tab="body">
+                            <div class="client-http-tab" data-tab="body">
                                 <span>Body</span>
                             </div>
-                            <div class="postman-tab" data-tab="tests">
+                            <div class="client-http-tab" data-tab="tests">
                                 <span>Tests</span>
                             </div>
-                            <div class="postman-tab" data-tab="settings">
+                            <div class="client-http-tab" data-tab="settings">
                                 <span>Settings</span>
                             </div>
                         </div>
@@ -1317,20 +1317,20 @@
                         <div class="hidden" id="response-content">
                             <!-- Tabs de Resposta - Com Preview -->
                             <div style="margin-bottom: 20px;">
-                                <div class="postman-tabs">
-                                    <div class="postman-tab active" data-response-tab="body">
+                                <div class="client-http-tabs">
+                                    <div class="client-http-tab active" data-response-tab="body">
                                         Body
                                     </div>
-                                    <div class="postman-tab" data-response-tab="preview">
+                                    <div class="client-http-tab" data-response-tab="preview">
                                         Preview
                                     </div>
-                                    <div class="postman-tab" data-response-tab="headers">
+                                    <div class="client-http-tab" data-response-tab="headers">
                                         Headers
                                     </div>
-                                    <div class="postman-tab" data-response-tab="cookies">
+                                    <div class="client-http-tab" data-response-tab="cookies">
                                         Cookies
                                     </div>
-                                    <div class="postman-tab" data-response-tab="tests">
+                                    <div class="client-http-tab" data-response-tab="tests">
                                         Test Results
                                     </div>
                                 </div>
@@ -1434,7 +1434,7 @@
             const previewText = document.getElementById('preview-text');
             
             // Tabs
-            const tabs = document.querySelectorAll('.postman-tab[data-tab]');
+            const tabs = document.querySelectorAll('.client-http-tab[data-tab]');
             const responseTabs = document.querySelectorAll('[data-response-tab]');
             
             // Headers table

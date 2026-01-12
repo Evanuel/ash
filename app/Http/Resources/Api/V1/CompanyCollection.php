@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Api\V1;
 
-use CompanyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -16,7 +15,6 @@ class CompanyCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => CompanyResource::collection($this->collection),
             'meta' => [
                 'total' => $this->total(),
                 'count' => $this->count(),
@@ -33,6 +31,7 @@ class CompanyCollection extends ResourceCollection
                     'next' => $this->nextPageUrl(),
                 ],
             ],
+            'data' => CompanyResource::collection($this->collection),
         ];
     }
     

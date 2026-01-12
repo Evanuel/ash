@@ -20,7 +20,9 @@ return new class extends Migration
             $table->unsignedInteger('archived_by')->nullable();
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
-            
+
+            $table->softDeletes();
+
             $table->unique('code');
             $table->unique('uf');
             $table->index('name');

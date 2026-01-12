@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\FinancialTransactionResource;
+use App\Models\FinancialTransaction;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class FinancialTransactionController extends BaseController {
     
@@ -13,10 +12,10 @@ class FinancialTransactionController extends BaseController {
 
     protected string $resource = FinancialTransactionResource::class;
 
-    protected string $permissionView   = 'user.view';
-    protected string $permissionCreate = 'user.create';
-    protected string $permissionUpdate = 'user.update';
-    protected string $permissionDelete = 'user.delete';
+    protected string $permissionView   = 'view.financial-transaction';
+    protected string $permissionCreate = 'create.financial-transaction';
+    protected string $permissionUpdate = 'update.financial-transaction';
+    protected string $permissionDelete = 'delete.financial-transaction';
 
     protected array $allowedFilters = [
         'active',
@@ -28,8 +27,8 @@ class FinancialTransactionController extends BaseController {
         'email'
     ];
 
-    public function __construct(User $user)
+    public function __construct(FinancialTransaction $financialTransaction)
     {
-        $this->model = $user;
+        $this->model = $financialTransaction;
     }
 }

@@ -35,6 +35,11 @@ class StoreCompanyRequest extends FormRequest
 
         return [
             // Dados obrigatórios
+            'client_id' => [
+                'required',
+                'integer',
+                'exists:companies,id',
+            ],
             'type' => [
                 'required',
                 'integer',
@@ -260,6 +265,7 @@ class StoreCompanyRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'client_id' => 'ID do Cliente',
             'type' => 'tipo',
             'cnpj' => 'CNPJ',
             'trade_name' => 'nome fantasia',
@@ -298,6 +304,13 @@ class StoreCompanyRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'client_id.required' => 'O ID do cliente é obrigatório.',
+            'client_id.integer' => 'O ID do cliente deve ser um número inteiro.',
+            'client_id.exists' => 'O ID do cliente selecionado é inválido.',
+            'type.required' => 'O tipo é obrigatório.',
+            'type.integer' => 'O tipo deve ser um número inteiro.',
+            'type.min' => 'O tipo deve ser no mínimo :min.',
+            'type.max' => 'O tipo deve ser no máximo :max.',
             'cnpj.required' => 'O CNPJ é obrigatório.',
             'cnpj.size' => 'O CNPJ deve ter 18 caracteres.',
             'cnpj.regex' => 'O CNPJ deve estar no formato 00.000.000/0000-00.',

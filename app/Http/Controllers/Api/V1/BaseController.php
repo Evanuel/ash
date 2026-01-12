@@ -80,25 +80,6 @@ abstract class BaseController extends Controller
         return new $this->resource($item);
     }
 
-    public function store(Request $request)
-    {
-        $this->authorizeOrFail($this->permissionCreate);
-
-        $item = $this->model->create($request->validated());
-
-        return new $this->resource($item);
-    }
-
-    public function update(Request $request, int|string $id)
-    {
-        $this->authorizeOrFail($this->permissionUpdate);
-
-        $item = $this->model->findOrFail($id);
-        $item->update($request->validated());
-
-        return new $this->resource($item);
-    }
-
     public function destroy(int|string $id)
     {
         $this->authorizeOrFail($this->permissionDelete);

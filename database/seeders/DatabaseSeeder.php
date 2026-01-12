@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             StateSeeder::class,
             CitySeeder::class,
+            CategorySeeder::class,
+            CompanySeeder::class,
         ]);
     }
 }

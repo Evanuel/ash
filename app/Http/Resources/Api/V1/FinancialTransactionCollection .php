@@ -40,4 +40,22 @@ class FinancialTransactionCollection extends ResourceCollection
             }),
         ];
     }
+
+    /**
+     * Retorna um sumário dos tipos presentes na coleção
+     */
+    private function getTypesSummary(): array
+    {
+        return $this->collection
+            ->groupBy('type')
+            ->map(function ($items, $type) {
+                return [
+                    'type' => $type,
+                    'count' => $items->count(),
+                    'active_count' => $items->where('active', true)->count(),
+                ];
+            })
+            ->values()
+            ->toArray();
+    }
 }
