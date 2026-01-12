@@ -20,6 +20,9 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     
     // Rotas públicas (sem autenticação)
     Route::prefix('auth')->name('auth.')->group(function () {
+        Route::get('/login', function(){
+            return response()->json(['message' => 'Use POST method to login.'], 405);
+        } )->name('login.get'); // Rota temporária para evitar conflito de nomes
         Route::post('/login', [AuthController::class, 'login'])->name('login');
         Route::post('/register', [AuthController::class, 'register'])->name('register');
     });

@@ -140,33 +140,81 @@
         }
         
         .app-container {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 1.5rem;
             margin-bottom: 2rem;
-        }
-        
-        @media (min-width: 992px) {
-            .app-container {
-                grid-template-columns: 1fr 1fr;
-            }
         }
         
         .card {
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            padding: 1.5rem;
             overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .card-header:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .card-header.collapsed {
+            border-bottom: none;
         }
         
         .card-title {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 1.25rem;
             color: var(--secondary-color);
-            border-bottom: 2px solid #f0f7ff;
-            padding-bottom: 0.75rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-title-icon {
+            font-size: 1.1em;
+        }
+        
+        .collapse-toggle {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: #6c757d;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .collapse-toggle:hover {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+            max-height: 1000px;
+            overflow: visible;
+            transition: var(--transition);
+        }
+        
+        .card-content.collapsed {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden;
         }
         
         .form-group {
@@ -468,15 +516,15 @@
             display: block;
         }
         
-        .auth-info {
+        .auth-section {
             background-color: #f0f7ff;
             padding: 1.25rem;
             border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
             border-left: 4px solid var(--primary-color);
+            margin-bottom: 1.5rem;
         }
         
-        .auth-info h3 {
+        .auth-section h3 {
             margin-bottom: 0.75rem;
             color: var(--secondary-color);
             display: flex;
@@ -654,7 +702,7 @@
                 justify-content: center;
             }
             
-            .card {
+            .card-content {
                 padding: 1.25rem;
             }
             
@@ -812,6 +860,13 @@
             border-color: #17a2b8;
             color: #0c5460;
         }
+        
+        .auth-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
@@ -854,71 +909,67 @@
         </header>
         
         <div class="app-container">
-            <!-- Painel de configuração da requisição -->
+            <!-- Card 1: Configuração da Requisição (com collapse) -->
             <div class="card slide-up">
-                <h2 class="card-title">Configurar Requisição</h2>
-                
-                <!-- Informações de autenticação -->
-                <div id="auth-info" class="auth-info">
-                    <h3>🔐 Status de Autenticação</h3>
-                    <p id="auth-status">Nenhum token de autenticação armazenado.</p>
-                    <div id="token-display" class="token-display d-none">
-                        <strong>Token:</strong> <span id="token-value"></span>
-                    </div>
-                    <div class="actions">
-                        <button id="clear-token-btn" class="btn btn-light">Limpar Token</button>
-                    </div>
+                <div class="card-header" id="request-header">
+                    <h2 class="card-title">
+                        <span class="card-title-icon">⚙️</span>
+                        Configurar Requisição
+                    </h2>
+                    <button class="collapse-toggle" id="collapse-toggle">
+                        <span id="collapse-icon">▼</span>
+                    </button>
                 </div>
-                
-                <!-- Método HTTP -->
-                <div class="form-group">
-                    <label>Método HTTP</label>
-                    <div class="method-selector">
-                        <button type="button" class="method-btn get" data-method="GET">GET</button>
-                        <button type="button" class="method-btn post" data-method="POST">POST</button>
-                        <button type="button" class="method-btn put" data-method="PUT">PUT</button>
-                        <button type="button" class="method-btn patch" data-method="PATCH">PATCH</button>
-                        <button type="button" class="method-btn delete" data-method="DELETE">DELETE</button>
-                    </div>
-                    <input type="text" id="method-input" value="GET" readonly>
-                </div>
-                
-                <!-- URL -->
-                <div class="form-group">
-                    <label for="url-input">URL / Endpoint</label>
-                    <input type="text" id="url-input" placeholder="https://api.exemplo.com/endpoint" value="http://127.0.0.1:8000/api/v1/auth/login">
-                    <div class="url-display d-none" id="url-preview"></div>
-                </div>
-                
-                <!-- Tabs -->
-                <div class="tabs">
-                    <div class="tab active" data-tab="headers">Headers</div>
-                    <div class="tab" data-tab="body">Body</div>
-                    <div class="tab" data-tab="params">Variáveis de Ambiente</div>
-                </div>
-                
-                <!-- Headers Tab -->
-                <div id="headers-tab" class="tab-content active">
+                <div class="card-content" id="request-content">
+                    <!-- Método HTTP -->
                     <div class="form-group">
-                        <label for="headers-input">Headers (JSON)</label>
-                        <textarea id="headers-input" rows="6" placeholder='{
+                        <label>Método HTTP</label>
+                        <div class="method-selector">
+                            <button type="button" class="method-btn get" data-method="GET">GET</button>
+                            <button type="button" class="method-btn post" data-method="POST">POST</button>
+                            <button type="button" class="method-btn put" data-method="PUT">PUT</button>
+                            <button type="button" class="method-btn patch" data-method="PATCH">PATCH</button>
+                            <button type="button" class="method-btn delete" data-method="DELETE">DELETE</button>
+                        </div>
+                        <input type="text" id="method-input" value="GET" readonly>
+                    </div>
+                    
+                    <!-- URL -->
+                    <div class="form-group">
+                        <label for="url-input">URL / Endpoint</label>
+                        <input type="text" id="url-input" placeholder="https://api.exemplo.com/endpoint" value="http://127.0.0.1:8000/api/v1/auth/login">
+                        <div class="url-display d-none" id="url-preview"></div>
+                    </div>
+                    
+                    <!-- Tabs (Headers, Body, Params, Auth) -->
+                    <div class="tabs">
+                        <div class="tab active" data-tab="headers">Headers</div>
+                        <div class="tab" data-tab="body">Body</div>
+                        <div class="tab" data-tab="params">Variáveis de Ambiente</div>
+                        <div class="tab" data-tab="auth">Autenticação</div>
+                    </div>
+                    
+                    <!-- Headers Tab -->
+                    <div id="headers-tab" class="tab-content active">
+                        <div class="form-group">
+                            <label for="headers-input">Headers (JSON)</label>
+                            <textarea id="headers-input" rows="6" placeholder='{
   "Content-Type": "application/json",
   "Authorization": "Bearer token_aqui"
 }'>{
   "Content-Type": "application/json"
 }</textarea>
+                        </div>
+                        <div class="actions">
+                            <button id="prettify-headers-btn" class="btn btn-light">Formatar JSON</button>
+                        </div>
                     </div>
-                    <div class="actions">
-                        <button id="add-auth-header-btn" class="btn btn-light">Adicionar Header Auth</button>
-                        <button id="prettify-headers-btn" class="btn btn-light">Formatar JSON</button>
-                    </div>
-                </div>
-                
-                <!-- Body Tab -->
-                <div id="body-tab" class="tab-content">
-                    <div class="form-group">
-                        <label for="body-input">Body (JSON ou texto)</label>
-                        <textarea id="body-input" rows="10" placeholder='{
+                    
+                    <!-- Body Tab -->
+                    <div id="body-tab" class="tab-content">
+                        <div class="form-group">
+                            <label for="body-input">Body (JSON ou texto)</label>
+                            <textarea id="body-input" rows="10" placeholder='{
   "email": "admin@exemplo.com",
   "password": "senha123",
   "device_name": "api-client"
@@ -927,124 +978,165 @@
   "password": "@dmin#2026",
   "device_name": "curl"
 }</textarea>
+                        </div>
+                        <div class="actions">
+                            <button id="prettify-body-btn" class="btn btn-light">Formatar JSON</button>
+                            <button id="clear-body-btn" class="btn btn-light">Limpar Body</button>
+                        </div>
                     </div>
-                    <div class="actions">
-                        <button id="prettify-body-btn" class="btn btn-light">Formatar JSON</button>
-                        <button id="clear-body-btn" class="btn btn-light">Limpar Body</button>
-                    </div>
-                </div>
-                
-                <!-- Environment Variables Tab -->
-                <div id="params-tab" class="tab-content">
-                    <div class="form-group">
-                        <label for="env-vars-input">Variáveis de Ambiente (JSON)</label>
-                        <textarea id="env-vars-input" rows="6" placeholder='{
+                    
+                    <!-- Environment Variables Tab -->
+                    <div id="params-tab" class="tab-content">
+                        <div class="form-group">
+                            <label for="env-vars-input">Variáveis de Ambiente (JSON)</label>
+                            <textarea id="env-vars-input" rows="6" placeholder='{
   "base_url": "http://127.0.0.1:8000",
   "api_version": "v1"
 }'>{
   "base_url": "http://127.0.0.1:8000",
   "api_version": "v1"
 }</textarea>
-                        <p class="help-text">Use no URL como [[base_url]]/api/[[api_version]]/endpoint</p>
+                            <p class="help-text">Use no URL como [[base_url]]/api/[[api_version]]/endpoint</p>
+                        </div>
                     </div>
-                    <div class="alert alert-info">
-                        <strong>Nota:</strong> Usamos [[ ]] em vez de { { } } para evitar conflitos com Blade
+                    
+                    <!-- Authentication Tab -->
+                    <div id="auth-tab" class="tab-content">
+                        <div class="auth-section">
+                            <h3>🔐 Status de Autenticação</h3>
+                            <p id="auth-status">Nenhum token de autenticação armazenado.</p>
+                            <div id="token-display" class="token-display d-none">
+                                <strong>Token:</strong> <span id="token-value"></span>
+                            </div>
+                            <div class="auth-actions">
+                                <button id="add-auth-header-btn" class="btn btn-light">Adicionar ao Header</button>
+                                <button id="clear-token-btn" class="btn btn-light">Limpar Token</button>
+                                <button id="extract-token-btn" class="btn btn-success">Extrair Token da Resposta</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="token-type-input">Tipo de Token</label>
+                            <select id="token-type-input">
+                                <option value="Bearer" selected>Bearer</option>
+                                <option value="Basic">Basic</option>
+                                <option value="Token">Token</option>
+                                <option value="JWT">JWT</option>
+                                <option value="Custom">Custom</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-token-input">Token Customizado</label>
+                            <input type="text" id="custom-token-input" placeholder="Insira seu token manualmente">
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Botões de ação -->
-                <div class="actions">
-                    <button id="send-btn" class="btn btn-primary">
-                        <span>➤</span> Enviar Requisição
-                    </button>
-                    <button id="clear-btn" class="btn btn-light">Limpar</button>
-                    <button id="example-users-btn" class="btn btn-light">Exemplo: API Usuários</button>
-                    <button id="example-html-btn" class="btn btn-light">Exemplo: Site HTML</button>
+                    
+                    <!-- Botões de ação -->
+                    <div class="actions">
+                        <button id="send-btn" class="btn btn-primary">
+                            <span>➤</span> Enviar Requisição
+                        </button>
+                        <button id="clear-btn" class="btn btn-light">Limpar</button>
+                        <button id="example-users-btn" class="btn btn-light">Exemplo: API Usuários</button>
+                        <button id="example-html-btn" class="btn btn-light">Exemplo: Site HTML</button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Painel de resposta -->
+            <!-- Card 2: Painel de Resposta -->
             <div class="card slide-up">
-                <h2 class="card-title">Resposta</h2>
-                
-                <!-- Loading -->
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Enviando requisição...</p>
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span class="card-title-icon">📨</span>
+                        Resposta da API
+                    </h2>
                 </div>
-                
-                <!-- Response Section -->
-                <div id="response-section" class="response-section d-none">
-                    <div class="response-header">
-                        <h3>Resposta da API</h3>
-                        <div id="status-badge" class="status-badge">200 OK</div>
+                <div class="card-content">
+                    <!-- Loading -->
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Enviando requisição...</p>
                     </div>
                     
-                    <!-- Response Tabs -->
-                    <div class="tabs">
-                        <div class="tab active" data-response-tab="body">Body</div>
-                        <div class="tab" data-response-tab="preview">Preview</div>
-                        <div class="tab" data-response-tab="headers">Headers</div>
-                        <div class="tab" data-response-tab="raw">Raw</div>
-                    </div>
-                    
-                    <!-- Body Tab -->
-                    <div id="response-body-tab" class="tab-content active">
-                        <div class="response-content" id="response-body"></div>
-                    </div>
-                    
-                    <!-- Preview Tab -->
-                    <div id="response-preview-tab" class="tab-content">
-                        <div id="preview-controls" class="preview-controls">
-                            <div class="preview-info" id="preview-info">
-                                Preview da resposta (HTML/Texto)
+                    <!-- Response Section -->
+                    <div id="response-section" class="response-section d-none">
+                        <div class="response-header">
+                            <h3>Detalhes da Resposta</h3>
+                            <div id="status-badge" class="status-badge">200 OK</div>
+                        </div>
+                        
+                        <!-- Response Tabs -->
+                        <div class="tabs">
+                            <div class="tab active" data-response-tab="body">Body</div>
+                            <div class="tab" data-response-tab="preview">Preview</div>
+                            <div class="tab" data-response-tab="headers">Headers</div>
+                            <div class="tab" data-response-tab="raw">Raw</div>
+                        </div>
+                        
+                        <!-- Body Tab -->
+                        <div id="response-body-tab" class="tab-content active">
+                            <div class="response-content" id="response-body"></div>
+                        </div>
+                        
+                        <!-- Preview Tab -->
+                        <div id="response-preview-tab" class="tab-content">
+                            <div id="preview-controls" class="preview-controls">
+                                <div class="preview-info" id="preview-info">
+                                    Preview da resposta (HTML/Texto)
+                                </div>
+                                <div>
+                                    <button id="refresh-preview-btn" class="btn btn-light btn-sm">Atualizar Preview</button>
+                                </div>
                             </div>
-                            <div>
-                                <button id="refresh-preview-btn" class="btn btn-light btn-sm">Atualizar Preview</button>
+                            <div class="response-iframe-container" id="preview-container">
+                                <div id="preview-placeholder" class="iframe-placeholder">
+                                    <p>O preview será exibido aqui para respostas HTML ou texto</p>
+                                    <p><small>Para respostas JSON, será exibido como texto formatado</small></p>
+                                </div>
+                                <iframe id="preview-iframe" class="d-none"></iframe>
+                                <div id="preview-text" class="d-none"></div>
                             </div>
                         </div>
-                        <div class="response-iframe-container" id="preview-container">
-                            <div id="preview-placeholder" class="iframe-placeholder">
-                                <p>O preview será exibido aqui para respostas HTML ou texto</p>
-                                <p><small>Para respostas JSON, será exibido como texto formatado</small></p>
-                            </div>
-                            <iframe id="preview-iframe" class="d-none"></iframe>
-                            <div id="preview-text" class="d-none"></div>
+                        
+                        <!-- Headers Tab -->
+                        <div id="response-headers-tab" class="tab-content">
+                            <div class="response-content" id="response-headers"></div>
+                        </div>
+                        
+                        <!-- Raw Tab -->
+                        <div id="response-raw-tab" class="tab-content">
+                            <div class="response-content" id="response-raw"></div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="actions">
+                            <button id="copy-response-btn" class="btn btn-light">Copiar Resposta</button>
+                            <button id="save-response-btn" class="btn btn-light">Salvar Resposta</button>
+                            <button id="copy-token-btn" class="btn btn-success">Copiar Token</button>
                         </div>
                     </div>
                     
-                    <!-- Headers Tab -->
-                    <div id="response-headers-tab" class="tab-content">
-                        <div class="response-content" id="response-headers"></div>
+                    <!-- No Response Placeholder -->
+                    <div id="no-response" class="text-center" style="padding: 3rem 1.5rem; color: #777;">
+                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nenhuma requisição enviada ainda.</p>
+                        <p>Configure sua requisição e clique em "Enviar Requisição".</p>
                     </div>
-                    
-                    <!-- Raw Tab -->
-                    <div id="response-raw-tab" class="tab-content">
-                        <div class="response-content" id="response-raw"></div>
-                    </div>
-                    
-                    <!-- Action Buttons -->
-                    <div class="actions">
-                        <button id="copy-response-btn" class="btn btn-light">Copiar Resposta</button>
-                        <button id="extract-token-btn" class="btn btn-success">Extrair Token</button>
-                        <button id="save-response-btn" class="btn btn-light">Salvar Resposta</button>
-                    </div>
-                </div>
-                
-                <!-- No Response Placeholder -->
-                <div id="no-response" class="text-center" style="padding: 3rem 1.5rem; color: #777;">
-                    <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nenhuma requisição enviada ainda.</p>
-                    <p>Configure sua requisição e clique em "Enviar Requisição".</p>
                 </div>
             </div>
         </div>
         
-        <!-- Histórico de requisições -->
+        <!-- Card 3: Histórico de requisições -->
         <div class="card history-section slide-up">
-            <h2 class="card-title">📜 Histórico de Requisições</h2>
-            <div id="history-list" class="history-list"></div>
-            <div class="clear-history">
-                <button id="clear-history-btn" class="btn btn-light">Limpar Histórico</button>
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="card-title-icon">📜</span>
+                    Histórico de Requisições
+                </h2>
+            </div>
+            <div class="card-content">
+                <div id="history-list" class="history-list"></div>
+                <div class="clear-history">
+                    <button id="clear-history-btn" class="btn btn-light">Limpar Histórico</button>
+                </div>
             </div>
         </div>
         
@@ -1086,15 +1178,18 @@
             
             // Botões de resposta
             const copyResponseButton = document.getElementById('copy-response-btn');
-            const extractTokenButton = document.getElementById('extract-token-btn');
             const saveResponseButton = document.getElementById('save-response-btn');
+            const copyTokenButton = document.getElementById('copy-token-btn');
             
             // Autenticação
             const addAuthHeaderButton = document.getElementById('add-auth-header-btn');
             const clearTokenButton = document.getElementById('clear-token-btn');
+            const extractTokenButton = document.getElementById('extract-token-btn');
             const authStatusElement = document.getElementById('auth-status');
             const tokenValueElement = document.getElementById('token-value');
             const tokenDisplayElement = document.getElementById('token-display');
+            const tokenTypeInput = document.getElementById('token-type-input');
+            const customTokenInput = document.getElementById('custom-token-input');
             
             // História
             const historyList = document.getElementById('history-list');
@@ -1117,6 +1212,12 @@
             const tabs = document.querySelectorAll('.tab');
             const responseTabs = document.querySelectorAll('[data-response-tab]');
             
+            // Collapse
+            const collapseToggle = document.getElementById('collapse-toggle');
+            const collapseIcon = document.getElementById('collapse-icon');
+            const requestHeader = document.getElementById('request-header');
+            const requestContent = document.getElementById('request-content');
+            
             // ============================================
             // ESTADO DA APLICAÇÃO
             // ============================================
@@ -1124,6 +1225,7 @@
             let tokenType = localStorage.getItem('api_client_token_type') || 'Bearer';
             let requestHistory = JSON.parse(localStorage.getItem('api_client_history') || '[]');
             let currentResponse = null;
+            let isCollapsed = false;
             
             // ============================================
             // INICIALIZAÇÃO
@@ -1135,6 +1237,9 @@
                 renderHistory();
                 setMethod('GET');
                 
+                // Definir tipo de token no select
+                tokenTypeInput.value = tokenType;
+                
                 // Atualizar preview da URL quando variáveis mudam
                 urlInput.addEventListener('input', updateUrlPreview);
                 envVarsInput.addEventListener('input', updateUrlPreview);
@@ -1145,6 +1250,36 @@
                 
                 // Atualizar preview inicial
                 updateUrlPreview();
+                
+                // Configurar collapse
+                setupCollapse();
+            }
+            
+            function setupCollapse() {
+                collapseToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleCollapse();
+                });
+                
+                requestHeader.addEventListener('click', function() {
+                    if (isCollapsed) {
+                        toggleCollapse();
+                    }
+                });
+            }
+            
+            function toggleCollapse() {
+                isCollapsed = !isCollapsed;
+                
+                if (isCollapsed) {
+                    requestContent.classList.add('collapsed');
+                    requestHeader.classList.add('collapsed');
+                    collapseIcon.textContent = '▶';
+                } else {
+                    requestContent.classList.remove('collapsed');
+                    requestHeader.classList.remove('collapsed');
+                    collapseIcon.textContent = '▼';
+                }
             }
             
             // ============================================
@@ -1177,11 +1312,14 @@
             exampleHtmlBtn.addEventListener('click', loadHtmlExample);
             
             copyResponseButton.addEventListener('click', copyResponse);
-            extractTokenButton.addEventListener('click', extractTokenFromResponse);
             saveResponseButton.addEventListener('click', saveResponse);
+            copyTokenButton.addEventListener('click', copyToken);
             
             addAuthHeaderButton.addEventListener('click', addAuthHeader);
             clearTokenButton.addEventListener('click', clearToken);
+            extractTokenButton.addEventListener('click', extractTokenFromResponse);
+            tokenTypeInput.addEventListener('change', updateTokenType);
+            customTokenInput.addEventListener('input', handleCustomToken);
             
             prettifyHeadersBtn.addEventListener('click', () => prettifyJson(headersInput));
             prettifyBodyBtn.addEventListener('click', () => prettifyJson(bodyInput));
@@ -1212,8 +1350,8 @@
                     });
                 }
                 
-                // Ctrl+1,2,3 para tabs
-                if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '3') {
+                // Ctrl+1,2,3,4 para tabs
+                if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '4') {
                     e.preventDefault();
                     const tabIndex = parseInt(e.key) - 1;
                     const tabsArray = Array.from(tabs).filter(t => t.getAttribute('data-tab'));
@@ -1355,7 +1493,7 @@
                         method: method,
                         headers: headers,
                         body: body,
-                        credentials: 'same-origin' // Incluir cookies se necessário
+                        credentials: 'same-origin'
                     });
                     
                     const endTime = Date.now();
@@ -1466,7 +1604,6 @@
                     const envVars = JSON.parse(envVarsInput.value || '{}');
                     
                     for (const [key, value] of Object.entries(envVars)) {
-                        // Usar [[key]] em vez de { {key} } para evitar conflito com Blade
                         const placeholder = `\\[\\[${key}\\]\\]`;
                         const regex = new RegExp(placeholder, 'g');
                         url = url.replace(regex, value);
@@ -1697,6 +1834,7 @@
                         
                         localStorage.setItem('api_client_token', authToken);
                         localStorage.setItem('api_client_token_type', tokenType);
+                        tokenTypeInput.value = tokenType;
                         
                         updateAuthDisplay();
                         showAlert('Token extraído e armazenado com sucesso!', 'success');
@@ -1705,6 +1843,20 @@
                     }
                 } catch (e) {
                     showAlert('Erro ao processar a resposta para extrair token.', 'danger');
+                }
+            }
+            
+            function copyToken() {
+                if (authToken) {
+                    navigator.clipboard.writeText(authToken).then(() => {
+                        const originalText = copyTokenButton.textContent;
+                        copyTokenButton.textContent = 'Token Copiado!';
+                        setTimeout(() => {
+                            copyTokenButton.textContent = originalText;
+                        }, 2000);
+                    });
+                } else {
+                    showAlert('Nenhum token para copiar', 'warning');
                 }
             }
             
@@ -1728,8 +1880,23 @@
                 tokenType = 'Bearer';
                 localStorage.removeItem('api_client_token');
                 localStorage.removeItem('api_client_token_type');
+                tokenTypeInput.value = tokenType;
+                customTokenInput.value = '';
                 updateAuthDisplay();
                 showAlert('Token removido com sucesso!', 'info');
+            }
+            
+            function updateTokenType() {
+                tokenType = tokenTypeInput.value;
+                localStorage.setItem('api_client_token_type', tokenType);
+            }
+            
+            function handleCustomToken() {
+                if (customTokenInput.value.trim()) {
+                    authToken = customTokenInput.value.trim();
+                    localStorage.setItem('api_client_token', authToken);
+                    updateAuthDisplay();
+                }
             }
             
             function updateAuthDisplay() {
@@ -1737,11 +1904,11 @@
                     authStatusElement.textContent = 'Token de autenticação armazenado.';
                     tokenValueElement.textContent = `${tokenType} ${authToken.substring(0, 30)}...`;
                     tokenDisplayElement.classList.remove('d-none');
-                    clearTokenButton.classList.remove('d-none');
+                    copyTokenButton.classList.remove('d-none');
                 } else {
                     authStatusElement.textContent = 'Nenhum token de autenticação armazenado.';
                     tokenDisplayElement.classList.add('d-none');
-                    clearTokenButton.classList.add('d-none');
+                    copyTokenButton.classList.add('d-none');
                 }
             }
             
@@ -1862,7 +2029,7 @@
                 }, 5000);
             }
             
-            // Expor funções globalmente para alguns botões
+            // Expor funções globalmente
             window.prettifyJson = prettifyJson;
         });
     </script>
