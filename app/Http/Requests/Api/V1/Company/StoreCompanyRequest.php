@@ -22,7 +22,7 @@ class StoreCompanyRequest extends FormRequest
         }
 
         // Usar PermissionService para verificar permissão
-        return app(PermissionService::class)->has($user, 'create.company');
+        return app(PermissionService::class)->has($user, 'company.create');
     }
 
     /**

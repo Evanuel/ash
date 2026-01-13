@@ -16,10 +16,10 @@ class CompanyController extends BaseController
     protected string $storeRequestClass = StoreCompanyRequest::class;
     protected string $updateRequestClass = UpdateCompanyRequest::class;
 
-    protected string $permissionView = 'view.company';
-    protected string $permissionCreate = 'create.company';
-    protected string $permissionUpdate = 'edit.company';
-    protected string $permissionDelete = 'delete.company';
+    protected string $permissionView = 'company.view';
+    protected string $permissionCreate = 'company.create';
+    protected string $permissionUpdate = 'company.edit';
+    protected string $permissionDelete = 'company.delete';
 
     /**
      * Filtros permitidos
