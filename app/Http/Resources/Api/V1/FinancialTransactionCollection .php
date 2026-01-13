@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Api\V1;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class FinancialTransactionCollection extends ResourceCollection
@@ -12,7 +11,8 @@ class FinancialTransactionCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    
+    public function toArray($request)
     {
         return [
             'data' => FinancialTransactionResource::collection($this->collection),

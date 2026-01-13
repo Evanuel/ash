@@ -8,8 +8,9 @@ use App\Http\Resources\Api\V1\FinancialTransactionResource;
 use App\Models\FinancialTransaction;
 use Illuminate\Database\Eloquent\Model;
 
-class FinancialTransactionController extends BaseController {
-    
+class FinancialTransactionController extends BaseController
+{
+
     protected Model $model;
 
     protected string $resource = FinancialTransactionResource::class;
@@ -40,15 +41,27 @@ class FinancialTransactionController extends BaseController {
         $this->model = $financialTransaction;
     }
 
-    public function store(StoreFinancialTransactionRequest $request) {
-        $this->authorizeOrFail($this->permissionCreate);
-
-        $item = $this->model->create($request->validated());
-
-        return new $this->resource($item);
+    public function store()
+    {
+        
+        \Log::error('Usuário não autenticado na requisição de transação financeira');
+        return response()->json(['error' => 'Implemnetado Store'], 401);
     }
 
-    public function update(UpdateFinancialTransactionRequest $request, int|string $id) {
+    // public function store(StoreFinancialTransactionRequest $request) {
+    //     error_log("Mensagem de erro ou debug");
+    //     \Log::error('Usuário não autenticado na requisição de transação financeira');
+    //     return response()->json(['error' => 'Unauthorized'], 401);
+
+    //     $this->authorizeOrFail($this->permissionCreate);
+
+    //     $item = $this->model->create($request->validated());
+
+    //     return new $this->resource($item);
+    // }
+
+    public function update(UpdateFinancialTransactionRequest $request, int|string $id)
+    {
         $this->authorizeOrFail($this->permissionUpdate);
 
         $item = $this->model->findOrFail($id);

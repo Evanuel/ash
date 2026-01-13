@@ -89,6 +89,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::patch('/{id}', [FinancialTransactionController::class, 'update'])->name('update');
             Route::delete('/{id}', [FinancialTransactionController::class, 'destroy'])->name('destroy');
             Route::post('/{id}/pay', [FinancialTransactionController::class, 'markAsPaid'])->name('mark-as-paid');
+            Route::get('/{id}/receipt', [FinancialTransactionController::class, 'downloadReceipt'])->name('receipt');
+            Route::post('/{id}/restore', [FinancialTransactionController::class, 'restore'])->name('restore');
             Route::get('/summary', [FinancialTransactionController::class, 'summary'])->name('summary');
         });
         

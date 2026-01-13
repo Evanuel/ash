@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Api\V1;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FinancialTransactionResource extends JsonResource
@@ -12,7 +11,7 @@ class FinancialTransactionResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray($request): array
     {
         return [
             // Identificação básica
@@ -161,14 +160,14 @@ class FinancialTransactionResource extends JsonResource
             'archived_at' => $this->archived_at?->format('Y-m-d H:i:s'),
             
             // Timestamps
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
             'deleted_at' => $this->deleted_at?->format('Y-m-d H:i:s'),
             
             // Links (HATEOAS)
             'links' => [
                 'self' => route('api.v1.financial-transactions.show', $this->id),
-                'mark_paid' => $this->is_paid ? null : route('api.v1.financial-transactions.mark-paid', $this->id),
+                'mark_paid' => $this->is_paid ? null : route('api.v1.financial-transactions.mark-as-paid', $this->id),
                 'receipt' => $this->receipt_url ? route('api.v1.financial-transactions.receipt', $this->id) : null,
             ],
         ];
