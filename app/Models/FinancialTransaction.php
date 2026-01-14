@@ -186,6 +186,7 @@ class FinancialTransaction extends Model
         return $this->due_date < now() && !$this->paid_at && $this->status->name != 'Pago';
     }
 
+
     public function getRemainingAmountAttribute()
     {
         return $this->amount - ($this->paid_amount ?? 0);

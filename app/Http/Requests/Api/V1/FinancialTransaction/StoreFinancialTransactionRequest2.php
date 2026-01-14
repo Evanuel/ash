@@ -1,4 +1,5 @@
 <?php
+// app/Http/Requests/Api/V1/FinancialTransaction/StoreFinancialTransactionRequest.php
 
 namespace App\Http\Requests\Api\V1\FinancialTransaction;
 
@@ -8,65 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class StoreFinancialTransactionRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         \Log::info('Authorize method called', [
-            'user' => Auth::id(),
+            'user' => Auth::user(),
             'authenticated' => Auth::check()
         ]);
-        
-        if (!Auth::check()) {
-            \Log::error('No user authenticated in financial transaction request');
-            return false;
-        }
-        
-        if (empty(Auth::user()->client_id)) {
-            \Log::error('User has no client_id', ['user_id' => Auth::id()]);
-            // Pode lançar uma exceção ou retornar false
-            // return response()->json(['error' => 'User has no client_id'], 403);
-            return false;
-        }
-        
         return true;
     }
 
-    protected function passedValidation(): void
-    {
-        // Adicionar client_id se não foi fornecido
-        if (!$this->has('client_id') && Auth::check()) {
-            $this->merge([
-                'client_id' => Auth::user()->client_id,
-            ]);
-        }
-
-        // Adicionar created_by também
-        if (!$this->has('created_by') && Auth::check()) {
-            $this->merge([
-                'created_by' => Auth::id(),
-            ]);
-        }
-
-        // Garantir que person_type, individual_id e company_id sejam consistentes
-        if ($this->person_type == 1) {
-            $this->merge(['company_id' => null]);
-        } else {
-            $this->merge(['individual_id' => null]);
-        }
-
-        // Garantir que os valores monetários tenham 2 casas decimais
-        foreach (['amount', 'paid_amount'] as $field) {
-            if ($this->has($field)) {
-                $this->merge([$field => round($this->$field, 2)]);
-            }
-        }
-    }
-
+    /**
+     * Get the validation rules that apply to the request.
+     */
     public function rules(): array
     {
-        \Log::info('Rules method called', [
-            'data' => $this->all(),
-            'user' => Auth::id()
-        ]);
+        $user = Auth::user();
+        $clientId = $user ? $user->client_id : 0;
 
         return [
             // Tipo da transação (1 = receivable, 2 = payable)
@@ -76,7 +37,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'min:1',
                 'max:2',
             ],
-            
+
             // Documento fiscal
             'fiscal_document' => [
                 'nullable',
@@ -93,7 +54,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:500',
             ],
-            
+
             // Categorias
             'category_id' => [
                 'nullable',
@@ -105,14 +66,14 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:categories,id',
             ],
-            
+
             // Tipo de pessoa (1 = individual, 2 = company)
             'person_type' => [
                 'required',
                 'integer',
                 'in:1,2',
             ],
-            
+
             // Referências baseadas no tipo de pessoa
             'individual_id' => [
                 Rule::requiredIf(function () {
@@ -140,7 +101,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                     }
                 },
             ],
-            
+
             // Datas e valores
             'due_date' => [
                 'required',
@@ -153,14 +114,14 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'min:0.01',
                 'max:999999999999.99', // 15 dígitos, 2 decimais
             ],
-            
+
             // Status
             'status_id' => [
                 'nullable',
                 'integer',
                 'exists:statuses,id',
             ],
-            
+
             // Informações de pagamento
             'boleto_url' => [
                 'nullable',
@@ -194,7 +155,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:payment_methods,id',
             ],
-            
+
             // Parcelas
             'installment' => [
                 'nullable',
@@ -218,7 +179,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:100',
             ],
-            
+
             // Anexos
             'receipt_url' => [
                 'nullable',
@@ -226,7 +187,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'max:500',
                 'url',
             ],
-            
+
             // Campos personalizados
             'custom_field1' => [
                 'nullable',
@@ -254,8 +215,8 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'max:100',
                 'in:text-warning,text-success,text-danger,text-info,text-primary',
             ],
-            
-            // Campos que serão preenchidos automaticamente (não devem ser enviados)
+
+            // Campos bloqueados
             'client_id' => [
                 'prohibited',
             ],
@@ -347,13 +308,11 @@ class StoreFinancialTransactionRequest extends FormRequest
         ];
     }
 
+    /**
+     * Prepare the data for validation.
+     */
     protected function prepareForValidation(): void
     {
-        \Log::info('Prepare for validation', [
-            'original' => $this->all(),
-            'user' => Auth::id()
-        ]);
-
         // Definir valores padrão
         $defaults = [
             'type_id' => 2, // payable por padrão
@@ -362,17 +321,21 @@ class StoreFinancialTransactionRequest extends FormRequest
             'total_installments' => 1,
             'transaction_key' => '0',
             'css_class' => 'text-warning',
+            'client_id' => Auth::user()->client_id ?? 0,
         ];
-
-        // Gerar transaction_key se não fornecida e houver parcelas
-        if ((!$this->has('transaction_key') || $this->transaction_key === '0') && 
-            ($this->total_installments ?? 1) > 1) {
-            $defaults['transaction_key'] = uniqid('TRX_', true);
-        }
 
         foreach ($defaults as $key => $value) {
             if (!$this->has($key)) {
                 $this->merge([$key => $value]);
+            }
+        }
+
+        // Gerar transaction_key se não fornecida e houver parcelas
+        if (!$this->has('transaction_key') || $this->transaction_key === '0') {
+            if ($this->total_installments > 1) {
+                $this->merge([
+                    'transaction_key' => uniqid('TRX_', true),
+                ]);
             }
         }
 
@@ -401,6 +364,43 @@ class StoreFinancialTransactionRequest extends FormRequest
             $this->merge([
                 'paid_at' => now()->format('Y-m-d'),
             ]);
+        }
+    }
+
+    /**
+     * Handle a passed validation attempt.
+     */
+    protected function passedValidation(): void
+    {
+        // Adicionar audit fields
+        if (Auth::check()) {
+            $this->merge([
+                'created_by' => Auth::id(),
+                'client_id' => Auth::user()->client_id,
+            ]);
+        }
+
+        // Se houver pagamento, atualizar o status automaticamente
+        if ($this->has('paid_amount') && $this->paid_amount > 0) {
+            // Buscar status "Pago" se não houver status_id definido
+            if (!$this->has('status_id') || !$this->status_id) {
+                // Aqui você poderia buscar o status "Pago" do banco
+                // Por enquanto, vamos deixar o controller tratar isso
+            }
+        }
+
+        // Garantir que person_type, individual_id e company_id sejam consistentes
+        if ($this->person_type == 1) {
+            $this->merge(['company_id' => null]);
+        } else {
+            $this->merge(['individual_id' => null]);
+        }
+
+        // Garantir que os valores monetários tenham 2 casas decimais
+        foreach (['amount', 'paid_amount'] as $field) {
+            if ($this->has($field)) {
+                $this->merge([$field => round($this->$field, 2)]);
+            }
         }
     }
 }

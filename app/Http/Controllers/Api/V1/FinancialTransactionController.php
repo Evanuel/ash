@@ -41,11 +41,20 @@ class FinancialTransactionController extends BaseController
         $this->model = $financialTransaction;
     }
 
-    public function store()
+    public function store(StoreFinancialTransactionRequest $request)
     {
-        
-        \Log::error('Usuário não autenticado na requisição de transação financeira');
-        return response()->json(['error' => 'Implemnetado Store'], 401);
+        $this->authorizeOrFail($this->permissionCreate);
+
+        $data = $request->validated();
+        if (!isset($data['client_id']) && auth()->check()) {
+            $data['client_id'] = auth()->user()->client_id;
+        }
+
+        if (!isset($data['created_by']) && auth()->check()) {
+            $data['created_by'] = auth()->id();
+        }
+        $item = $this->model->create($data);
+        return new $this->resource($item);
     }
 
     // public function store(StoreFinancialTransactionRequest $request) {
