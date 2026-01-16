@@ -484,7 +484,7 @@
         }
         
         /* ============================================
-           BODY EDITOR COM JSON EXPANDÍVEL
+           BODY EDITOR
            ============================================ */
         .body-editor {
             background-color: #1E222A;
@@ -528,87 +528,6 @@
             white-space: pre;
             overflow-wrap: normal;
             overflow-x: auto;
-        }
-        
-        /* JSON EDITOR COM EXPAND/COLLAPSE */
-        .json-editor-container {
-            padding: 16px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .json-tree {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        
-        .json-node {
-            margin-left: 20px;
-            position: relative;
-        }
-        
-        .json-item {
-            display: flex;
-            align-items: flex-start;
-            margin: 2px 0;
-        }
-        
-        .json-toggle {
-            width: 16px;
-            height: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-right: 4px;
-            color: var(--text-secondary);
-            font-size: 10px;
-            transition: transform 0.2s;
-            user-select: none;
-            flex-shrink: 0;
-        }
-        
-        .json-toggle.collapsed {
-            transform: rotate(-90deg);
-        }
-        
-        .json-key {
-            color: #FF6C37;
-            margin-right: 6px;
-        }
-        
-        .json-colon {
-            color: var(--text-secondary);
-            margin-right: 6px;
-        }
-        
-        .json-string {
-            color: #98C379;
-        }
-        
-        .json-number {
-            color: #D19A66;
-        }
-        
-        .json-boolean {
-            color: #C678DD;
-        }
-        
-        .json-null {
-            color: #5C6370;
-        }
-        
-        .json-bracket,
-        .json-brace {
-            color: var(--text-primary);
-            font-weight: bold;
-        }
-        
-        .json-preview {
-            color: var(--text-muted);
-            font-style: italic;
-            margin-left: 4px;
         }
         
         /* ============================================
@@ -669,7 +588,7 @@
         }
         
         /* ============================================
-           PREVIEW COM TABELAS DINÂMICAS
+           PREVIEW STYLES
            ============================================ */
         .preview-container {
             background-color: #1E222A;
@@ -702,59 +621,6 @@
             text-align: center;
             padding: 60px 20px;
             color: var(--text-muted);
-        }
-        
-        /* Tabelas dinâmicas para JSON preview */
-        .json-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-        }
-        
-        .json-table th {
-            background-color: #252C3A;
-            color: var(--text-secondary);
-            text-align: left;
-            padding: 10px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            border-bottom: 1px solid #3A4252;
-        }
-        
-        .json-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #3A4252;
-            vertical-align: top;
-        }
-        
-        .json-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.03);
-        }
-        
-        .json-table .json-key-cell {
-            font-weight: 600;
-            color: #FF6C37;
-            width: 30%;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-        
-        .json-table .json-value-cell {
-            color: var(--text-primary);
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-        
-        .json-table .json-type-cell {
-            color: var(--text-muted);
-            font-size: 11px;
-            width: 15%;
-            text-align: center;
-        }
-        
-        .json-table .json-nested {
-            background-color: #252C3A;
-            border-radius: var(--border-radius);
-            padding: 8px;
-            margin: 4px 0;
         }
         
         /* ============================================
@@ -1461,7 +1327,7 @@
                 </div>
                 
                 <div class="user-menu">
-                    <button class="btn btn-icon" id="topbar-save-collection-btn">
+                    <button class="btn btn-icon" id="save-collection-btn">
                         <i class="fas fa-save"></i>
                     </button>
                     <button class="btn btn-icon" id="share-btn">
@@ -1710,11 +1576,6 @@
                                             <option value="html">HTML</option>
                                             <option value="xml">XML</option>
                                         </select>
-                                        <div class="json-actions" style="margin-left: 10px;">
-                                            <button class="btn btn-sm" id="toggle-json-view">
-                                                <i class="fas fa-code"></i> Alternar Visualização
-                                            </button>
-                                        </div>
                                     </div>
                                     <div class="editor-buttons">
                                         <button class="btn btn-sm" id="prettify-body-btn">
@@ -1725,13 +1586,6 @@
                                         </button>
                                     </div>
                                 </div>
-                                
-                                <!-- Editor de JSON com collapse/expand -->
-                                <div class="json-editor-container hidden" id="json-editor-container">
-                                    <div class="json-tree" id="json-tree"></div>
-                                </div>
-                                
-                                <!-- Textarea tradicional -->
                                 <textarea class="editor-textarea" 
                                           id="body-input" 
                                           rows="10" 
@@ -1850,7 +1704,6 @@
                                     </div>
                                     <iframe id="preview-iframe" class="preview-iframe hidden"></iframe>
                                     <div id="preview-text" class="hidden"></div>
-                                    <div id="preview-table" class="hidden"></div>
                                 </div>
                             </div>
                             
@@ -1970,7 +1823,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" id="cancel-collection-btn">Cancelar</button>
-                <button class="btn btn-primary" id="modal-save-collection-btn">Salvar Coleção</button>
+                <button class="btn btn-primary" id="save-collection-btn">Salvar Coleção</button>
             </div>
         </div>
     </div>
@@ -2129,7 +1982,6 @@
                 this.currentResponse = null;
                 this.currentMethod = 'GET';
                 this.isMethodDropdownOpen = false;
-                this.isJsonViewActive = false;
                 
                 this.init();
             }
@@ -2140,7 +1992,6 @@
                 this.updateAuthDisplay();
                 this.initializeDefaultParams();
                 this.updateCounts();
-                this.setupJsonEditor();
             }
             
             cacheElements() {
@@ -2167,7 +2018,6 @@
                 this.previewPlaceholder = document.getElementById('preview-placeholder');
                 this.previewIframe = document.getElementById('preview-iframe');
                 this.previewText = document.getElementById('preview-text');
-                this.previewTable = document.getElementById('preview-table');
                 
                 // Tabs
                 this.tabs = document.querySelectorAll('.client-http-tab[data-tab]');
@@ -2181,9 +2031,6 @@
                 this.bodyInput = document.getElementById('body-input');
                 this.prettifyBodyBtn = document.getElementById('prettify-body-btn');
                 this.clearBodyBtn = document.getElementById('clear-body-btn');
-                this.toggleJsonViewBtn = document.getElementById('toggle-json-view');
-                this.jsonEditorContainer = document.getElementById('json-editor-container');
-                this.jsonTree = document.getElementById('json-tree');
                 
                 // Auth elements
                 this.authMethodSelect = document.getElementById('auth-method');
@@ -2262,14 +2109,7 @@
                 
                 // Body editor
                 this.prettifyBodyBtn.addEventListener('click', () => this.prettifyJson(this.bodyInput));
-                this.clearBodyBtn.addEventListener('click', () => {
-                    this.bodyInput.value = '';
-                    this.jsonTree.innerHTML = '';
-                    this.showAlert('Body limpo', 'info');
-                });
-                
-                // Toggle JSON view
-                this.toggleJsonViewBtn.addEventListener('click', () => this.toggleJsonView());
+                this.clearBodyBtn.addEventListener('click', () => this.bodyInput.value = '');
                 
                 // Body type changes
                 this.bodyTypeSelect.addEventListener('change', () => this.updateBodyType());
@@ -2296,163 +2136,6 @@
                 
                 // Tests
                 this.testsInput.addEventListener('input', () => this.saveTests());
-                
-                // Body input change for JSON editor
-                this.bodyInput.addEventListener('input', () => {
-                    if (this.isJsonViewActive) {
-                        this.updateJsonEditor();
-                    }
-                });
-            }
-            
-            setupJsonEditor() {
-                // Inicializar editor de JSON se o body for JSON
-                this.updateJsonEditor();
-            }
-            
-            toggleJsonView() {
-                this.isJsonViewActive = !this.isJsonViewActive;
-                
-                if (this.isJsonViewActive) {
-                    // Mostrar editor de JSON
-                    this.bodyInput.classList.add('hidden');
-                    this.jsonEditorContainer.classList.remove('hidden');
-                    this.toggleJsonViewBtn.innerHTML = '<i class="fas fa-keyboard"></i> Alternar para Texto';
-                    this.updateJsonEditor();
-                } else {
-                    // Mostrar textarea
-                    this.bodyInput.classList.remove('hidden');
-                    this.jsonEditorContainer.classList.add('hidden');
-                    this.toggleJsonViewBtn.innerHTML = '<i class="fas fa-code"></i> Alternar para JSON';
-                }
-            }
-            
-            updateJsonEditor() {
-                const text = this.bodyInput.value.trim();
-                this.jsonTree.innerHTML = '';
-                
-                if (!text) {
-                    const emptyMsg = document.createElement('div');
-                    emptyMsg.className = 'json-item';
-                    emptyMsg.innerHTML = '<span class="json-null">Empty JSON</span>';
-                    this.jsonTree.appendChild(emptyMsg);
-                    return;
-                }
-                
-                try {
-                    const json = JSON.parse(text);
-                    const element = this.createJsonElement('', json, true);
-                    this.jsonTree.appendChild(element);
-                } catch (e) {
-                    const errorMsg = document.createElement('div');
-                    errorMsg.className = 'json-item';
-                    errorMsg.innerHTML = `<span style="color: #F44336;">Invalid JSON: ${e.message}</span>`;
-                    this.jsonTree.appendChild(errorMsg);
-                }
-            }
-            
-            createJsonElement(key, value, isRoot = false) {
-                const item = document.createElement('div');
-                item.className = 'json-item';
-                
-                const type = typeof value;
-                const isArray = Array.isArray(value);
-                const isObject = type === 'object' && value !== null && !isArray;
-                const isPrimitive = !isObject && !isArray;
-                
-                // Para valores primitivos
-                if (isPrimitive) {
-                    let valueElement;
-                    if (type === 'string') {
-                        valueElement = `<span class="json-string">"${this.escapeHtml(value)}"</span>`;
-                    } else if (type === 'number') {
-                        valueElement = `<span class="json-number">${value}</span>`;
-                    } else if (type === 'boolean') {
-                        valueElement = `<span class="json-boolean">${value}</span>`;
-                    } else if (value === null) {
-                        valueElement = `<span class="json-null">null</span>`;
-                    }
-                    
-                    if (isRoot) {
-                        item.innerHTML = valueElement;
-                    } else {
-                        item.innerHTML = `
-                            <span class="json-key">"${key}"</span>
-                            <span class="json-colon">:</span>
-                            ${valueElement}
-                        `;
-                    }
-                }
-                // Para objetos e arrays
-                else {
-                    const isCollapsible = (isObject && Object.keys(value).length > 0) || (isArray && value.length > 0);
-                    const bracket = isArray ? '[' : '{';
-                    const closeBracket = isArray ? ']' : '}';
-                    const itemCount = isArray ? value.length : Object.keys(value).length;
-                    
-                    const toggle = document.createElement('span');
-                    toggle.className = 'json-toggle';
-                    toggle.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                    toggle.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const node = this.closest('.json-item').querySelector('.json-node');
-                        if (node) {
-                            node.classList.toggle('hidden');
-                            this.classList.toggle('collapsed');
-                        }
-                    });
-                    
-                    if (isRoot) {
-                        item.innerHTML = `
-                            ${isCollapsible ? toggle.outerHTML : ''}
-                            <span class="json-brace">${bracket}</span>
-                            ${isCollapsible ? `<span class="json-preview">${itemCount} item${itemCount !== 1 ? 's' : ''}</span>` : ''}
-                        `;
-                    } else {
-                        item.innerHTML = `
-                            <span class="json-key">"${key}"</span>
-                            <span class="json-colon">:</span>
-                            ${isCollapsible ? toggle.outerHTML : ''}
-                            <span class="json-brace">${bracket}</span>
-                            ${isCollapsible ? `<span class="json-preview">${itemCount} item${itemCount !== 1 ? 's' : ''}</span>` : ''}
-                        `;
-                    }
-                    
-                    // Adicionar conteúdo colapsável
-                    if (isCollapsible) {
-                        const node = document.createElement('div');
-                        node.className = 'json-node hidden';
-                        
-                        if (isArray) {
-                            value.forEach((itemValue, index) => {
-                                const childElement = this.createJsonElement(index, itemValue);
-                                node.appendChild(childElement);
-                            });
-                        } else if (isObject) {
-                            Object.keys(value).forEach(childKey => {
-                                const childElement = this.createJsonElement(childKey, value[childKey]);
-                                node.appendChild(childElement);
-                            });
-                        }
-                        
-                        item.appendChild(node);
-                    }
-                    
-                    // Fechar bracket
-                    const closeElement = document.createElement('div');
-                    closeElement.className = 'json-item';
-                    closeElement.innerHTML = `<span class="json-brace">${closeBracket}</span>`;
-                    
-                    const container = document.createElement('div');
-                    container.appendChild(item);
-                    if (isCollapsible) {
-                        container.appendChild(closeElement);
-                    }
-                    
-                    return container;
-                }
-                
-                return item;
             }
             
             toggleMethodDropdown() {
@@ -2481,9 +2164,6 @@
                 // Clear body for GET and HEAD
                 if (method === 'GET' || method === 'HEAD') {
                     this.bodyInput.value = '';
-                    if (this.isJsonViewActive) {
-                        this.updateJsonEditor();
-                    }
                 }
             }
             
@@ -2612,26 +2292,14 @@
                 const type = this.bodyTypeSelect.value;
                 if (type === 'none') {
                     this.bodyInput.style.display = 'none';
-                    this.jsonEditorContainer.style.display = 'none';
                 } else {
                     this.bodyInput.style.display = 'block';
-                    if (this.isJsonViewActive) {
-                        this.jsonEditorContainer.style.display = 'block';
-                    }
                 }
             }
             
             updateBodyFormat() {
                 const format = this.bodyFormatSelect.value;
-                if (format === 'json') {
-                    this.toggleJsonViewBtn.style.display = 'inline-flex';
-                    this.updateJsonEditor();
-                } else {
-                    this.toggleJsonViewBtn.style.display = 'none';
-                    this.bodyInput.classList.remove('hidden');
-                    this.jsonEditorContainer.classList.add('hidden');
-                    this.isJsonViewActive = false;
-                }
+                // Could update syntax highlighting here
             }
             
             async sendRequest() {
@@ -2810,17 +2478,14 @@
                 this.responseTime.textContent = `${responseTimeMs}ms`;
                 this.responseTime.classList.remove('hidden');
                 
-                // Format response body
+                // Try to parse as JSON for formatting
                 let formattedBody = responseText;
                 try {
                     const jsonResponse = JSON.parse(responseText);
                     formattedBody = this.syntaxHighlight(JSON.stringify(jsonResponse, null, 2));
-                    // Também criar visualização expansível
-                    this.responseBody.innerHTML = this.createExpandableJsonViewer(jsonResponse);
                 } catch (e) {
                     // Not JSON, keep as text
                     formattedBody = this.escapeHtml(responseText);
-                    this.responseBody.innerHTML = formattedBody;
                 }
                 
                 // Format response headers
@@ -2829,6 +2494,7 @@
                     headersArray.push(`${key}: ${value}`);
                 });
                 
+                this.responseBody.innerHTML = formattedBody;
                 this.responseHeaders.textContent = headersArray.join('\n');
                 
                 // Store current response
@@ -2841,64 +2507,6 @@
                 };
             }
             
-            createExpandableJsonViewer(json, isRoot = true) {
-                let html = '';
-                const type = typeof json;
-                const isArray = Array.isArray(json);
-                const isObject = type === 'object' && json !== null && !isArray;
-                const isPrimitive = !isObject && !isArray;
-                
-                if (isPrimitive) {
-                    if (type === 'string') {
-                        html = `<span class="json-string">"${this.escapeHtml(json)}"</span>`;
-                    } else if (type === 'number') {
-                        html = `<span class="json-number">${json}</span>`;
-                    } else if (type === 'boolean') {
-                        html = `<span class="json-boolean">${json}</span>`;
-                    } else if (json === null) {
-                        html = `<span class="json-null">null</span>`;
-                    }
-                } else if (isArray || isObject) {
-                    const items = isArray ? json : Object.keys(json);
-                    const isEmpty = items.length === 0;
-                    const bracket = isArray ? '[' : '{';
-                    const closeBracket = isArray ? ']' : '}';
-                    
-                    if (isEmpty) {
-                        html = `<span class="json-brace">${bracket}${closeBracket}</span>`;
-                    } else {
-                        const id = 'json-' + Math.random().toString(36).substr(2, 9);
-                        html = `
-                            <div class="json-expandable">
-                                <span class="json-toggle" onclick="toggleJson('${id}')">
-                                    <i class="fas fa-chevron-right"></i>
-                                </span>
-                                <span class="json-brace">${bracket}</span>
-                                <span class="json-preview">${items.length} item${items.length !== 1 ? 's' : ''}</span>
-                                <span class="json-brace">${closeBracket}</span>
-                                <div id="${id}" class="json-node hidden">
-                        `;
-                        
-                        items.forEach((key, index) => {
-                            const value = isArray ? json[index] : json[key];
-                            const childHtml = this.createExpandableJsonViewer(value, false);
-                            if (isArray) {
-                                html += `<div class="json-item">${childHtml},</div>`;
-                            } else {
-                                html += `<div class="json-item"><span class="json-key">"${key}"</span>: ${childHtml},</div>`;
-                            }
-                        });
-                        
-                        html += `
-                                </div>
-                            </div>
-                        `;
-                    }
-                }
-                
-                return html;
-            }
-            
             updatePreview(response) {
                 const contentType = response.contentType.toLowerCase();
                 const responseText = response.text;
@@ -2906,14 +2514,13 @@
                 // Hide all preview elements
                 this.previewIframe.classList.add('hidden');
                 this.previewText.classList.add('hidden');
-                this.previewTable.classList.add('hidden');
                 this.previewPlaceholder.classList.add('hidden');
                 
                 // Clear previous iframe content
                 this.previewIframe.src = 'about:blank';
                 
                 if (contentType.includes('text/html')) {
-                    // HTML preview
+                    // Create blob with the HTML
                     const blob = new Blob([responseText], { type: 'text/html;charset=utf-8' });
                     const url = URL.createObjectURL(blob);
                     
@@ -2928,17 +2535,12 @@
                 } else if (contentType.includes('application/json')) {
                     try {
                         const jsonObj = JSON.parse(responseText);
-                        
-                        // Criar tabela para preview do JSON
-                        const tableHtml = this.jsonToTable(jsonObj);
-                        this.previewTable.innerHTML = tableHtml;
-                        this.previewTable.classList.remove('hidden');
-                        this.previewContainer.classList.remove('html-preview');
-                    } catch (e) {
-                        // Se não conseguir fazer tabela, mostrar JSON formatado
                         this.previewText.innerHTML = this.syntaxHighlight(JSON.stringify(jsonObj, null, 2));
                         this.previewText.classList.remove('hidden');
                         this.previewContainer.classList.remove('html-preview');
+                    } catch (e) {
+                        this.previewText.textContent = 'Erro ao formatar JSON: ' + e.message;
+                        this.previewText.classList.remove('hidden');
                     }
                     
                 } else if (contentType.includes('text/')) {
@@ -2959,114 +2561,10 @@
                 }
             }
             
-            jsonToTable(data, depth = 0) {
-                if (depth > 3) {
-                    return '<div class="json-nested">[Nested data...]</div>';
-                }
-                
-                const isArray = Array.isArray(data);
-                const isObject = typeof data === 'object' && data !== null && !isArray;
-                
-                if (!isObject && !isArray) {
-                    return `<span class="${this.getValueClass(data)}">${this.formatValue(data)}</span>`;
-                }
-                
-                let html = '';
-                const items = isArray ? data : Object.keys(data);
-                
-                if (items.length === 0) {
-                    return `<span class="json-null">${isArray ? '[]' : '{}'}</span>`;
-                }
-                
-                // Para arrays de objetos, criar tabela detalhada
-                if (isArray && data.length > 0 && typeof data[0] === 'object' && data[0] !== null) {
-                    // Criar tabela com colunas baseadas nas chaves do primeiro objeto
-                    const firstItem = data[0];
-                    const keys = Object.keys(firstItem);
-                    
-                    html = '<table class="json-table">';
-                    html += '<thead><tr>';
-                    html += '<th>#</th>';
-                    keys.forEach(key => {
-                        html += `<th>${key}</th>`;
-                    });
-                    html += '</tr></thead>';
-                    html += '<tbody>';
-                    
-                    data.forEach((item, index) => {
-                        html += '<tr>';
-                        html += `<td class="json-type-cell">${index}</td>`;
-                        keys.forEach(key => {
-                            const value = item[key];
-                            html += `<td class="json-value-cell">${this.jsonToTable(value, depth + 1)}</td>`;
-                        });
-                        html += '</tr>';
-                    });
-                    
-                    html += '</tbody></table>';
-                } else {
-                    // Tabela simples para objetos ou arrays simples
-                    html = '<table class="json-table">';
-                    html += '<thead><tr>';
-                    html += '<th>Key</th>';
-                    html += '<th>Value</th>';
-                    html += '<th>Type</th>';
-                    html += '</tr></thead>';
-                    html += '<tbody>';
-                    
-                    items.forEach((key, index) => {
-                        const value = isArray ? data[index] : data[key];
-                        const valueType = this.getValueType(value);
-                        
-                        html += '<tr>';
-                        if (isArray) {
-                            html += `<td class="json-key-cell">[${index}]</td>`;
-                        } else {
-                            html += `<td class="json-key-cell">${key}</td>`;
-                        }
-                        html += `<td class="json-value-cell">${this.jsonToTable(value, depth + 1)}</td>`;
-                        html += `<td class="json-type-cell"><span class="badge badge-info">${valueType}</span></td>`;
-                        html += '</tr>';
-                    });
-                    
-                    html += '</tbody></table>';
-                }
-                
-                return html;
-            }
-            
-            getValueType(value) {
-                if (value === null) return 'null';
-                if (Array.isArray(value)) return 'array';
-                if (typeof value === 'object') return 'object';
-                return typeof value;
-            }
-            
-            getValueClass(value) {
-                if (value === null) return 'json-null';
-                if (typeof value === 'string') return 'json-string';
-                if (typeof value === 'number') return 'json-number';
-                if (typeof value === 'boolean') return 'json-boolean';
-                return '';
-            }
-            
-            formatValue(value) {
-                if (value === null) return 'null';
-                if (typeof value === 'string') return `"${this.escapeHtml(value)}"`;
-                if (typeof value === 'boolean') return value.toString();
-                if (typeof value === 'number') return value.toString();
-                if (Array.isArray(value)) return `[${value.length} items]`;
-                if (typeof value === 'object') return `{${Object.keys(value).length} keys}`;
-                return String(value);
-            }
-            
             prettifyJson(textarea) {
                 try {
                     const json = JSON.parse(textarea.value);
                     textarea.value = JSON.stringify(json, null, 2);
-                    if (this.isJsonViewActive) {
-                        this.updateJsonEditor();
-                    }
                     this.showAlert('JSON formatado com sucesso!', 'success');
                 } catch (e) {
                     this.showAlert('Não é um JSON válido para formatar', 'warning');
@@ -3504,12 +3002,12 @@
                 this.collectionsCount = document.getElementById('collections-count');
                 this.collectionList = document.getElementById('collection-list');
                 
-                // Collection modal elements - CORRIGIDO: IDs duplicados
+                // Collection modal elements
                 this.newCollectionBtn = document.getElementById('new-collection-btn');
                 this.collectionModal = document.getElementById('collection-modal');
                 this.closeModalBtn = document.getElementById('close-modal-btn');
                 this.cancelCollectionBtn = document.getElementById('cancel-collection-btn');
-                this.modalSaveCollectionBtn = document.getElementById('modal-save-collection-btn'); // Corrigido
+                this.saveCollectionBtn = document.getElementById('save-collection-btn');
                 this.collectionNameInput = document.getElementById('collection-name');
                 this.collectionDescriptionInput = document.getElementById('collection-description');
                 this.collectionColorInput = document.getElementById('collection-color');
@@ -3532,9 +3030,6 @@
                 this.executeImportBtn = document.getElementById('execute-import-btn');
                 this.exportOutput = document.getElementById('export-output');
                 this.importFileInput = document.getElementById('import-file');
-                
-                // Topbar save button
-                this.topbarSaveCollectionBtn = document.getElementById('topbar-save-collection-btn');
             }
             
             setupEventListeners() {
@@ -3544,19 +3039,10 @@
                 // New collection button
                 this.newCollectionBtn.addEventListener('click', () => this.openCollectionModal());
                 
-                // Topbar save collection button
-                this.topbarSaveCollectionBtn.addEventListener('click', () => {
-                    if (this.collections.length === 0) {
-                        this.openCollectionModal();
-                    } else {
-                        this.openRequestModal();
-                    }
-                });
-                
                 // Collection modal
                 this.closeModalBtn.addEventListener('click', () => this.closeCollectionModal());
                 this.cancelCollectionBtn.addEventListener('click', () => this.closeCollectionModal());
-                this.modalSaveCollectionBtn.addEventListener('click', () => this.saveCollection()); // Corrigido
+                this.saveCollectionBtn.addEventListener('click', () => this.saveCollection());
                 
                 // Save request button (in main interface)
                 this.saveRequestBtn.addEventListener('click', () => {
@@ -3784,14 +3270,6 @@
             closeCollectionModal() {
                 this.collectionModal.classList.remove('active');
                 this.editingCollectionId = null;
-                this.resetCollectionModal();
-            }
-            
-            resetCollectionModal() {
-                this.collectionNameInput.value = '';
-                this.collectionDescriptionInput.value = '';
-                this.collectionColorInput.value = '#FF6C37';
-                this.collectionIsPublicInput.checked = false;
             }
             
             saveCollection() {
@@ -4079,9 +3557,6 @@
                 // Update body
                 if (bodyInput) {
                     bodyInput.value = request.body || '';
-                    if (window.apiClient && window.apiClient.isJsonViewActive) {
-                        window.apiClient.updateJsonEditor();
-                    }
                 }
                 
                 // Update tests
@@ -4679,9 +4154,6 @@
                 const bodyInput = document.getElementById('body-input');
                 if (bodyInput && request.body) {
                     bodyInput.value = request.body;
-                    if (window.apiClient && window.apiClient.isJsonViewActive) {
-                        window.apiClient.updateJsonEditor();
-                    }
                 }
                 
                 this.showAlert('Requisição carregada do histórico', 'info');
@@ -4752,18 +4224,6 @@
             
             // Load saved tests
             window.apiClient.loadTests();
-            
-            // Função global para toggle JSON
-            window.toggleJson = function(id) {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.classList.toggle('hidden');
-                    const toggle = element.previousElementSibling.querySelector('.json-toggle');
-                    if (toggle) {
-                        toggle.classList.toggle('collapsed');
-                    }
-                }
-            };
             
             console.log('API Client inicializado com sucesso!');
         });
