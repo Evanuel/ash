@@ -5,918 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Client HTTP</title>
-    <style>
-        :root {
-            --primary-color: #FF6C37;
-            --primary-dark: #E55A2B;
-            --primary-light: #FF8C5F;
-            --sidebar-bg: #252C3A;
-            --sidebar-text: #B0B7C3;
-            --sidebar-active: #FF6C37;
-            --main-bg: #0F1217;
-            --card-bg: #1A1D24;
-            --card-border: #2D3440;
-            --text-primary: #FFFFFF;
-            --text-secondary: #8C95A6;
-            --text-muted: #5A6375;
-            --success-color: #4CAF50;
-            --danger-color: #F44336;
-            --warning-color: #FF9800;
-            --info-color: #2196F3;
-            --border-radius: 4px;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --transition: all 0.2s ease;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-        
-        body {
-            background-color: var(--main-bg);
-            color: var(--text-primary);
-            line-height: 1.5;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* Layout principal tipo Postman */
-        .app-container {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-        
-        /* Sidebar Esquerda */
-        .sidebar {
-            width: 240px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid #1F2430;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-        
-        .sidebar-header {
-            padding: 20px 16px;
-            border-bottom: 1px solid #1F2430;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-        
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background-color: var(--primary-color);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .sidebar-nav {
-            padding: 20px 0;
-            flex: 1;
-        }
-        
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .nav-item:hover {
-            background-color: rgba(255, 108, 55, 0.1);
-            color: var(--sidebar-active);
-        }
-        
-        .nav-item.active {
-            background-color: rgba(255, 108, 55, 0.15);
-            color: var(--sidebar-active);
-            border-right: 3px solid var(--sidebar-active);
-        }
-        
-        .nav-icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-        
-        /* Conteúdo Principal */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        /* Topbar */
-        .topbar {
-            height: 56px;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            flex-shrink: 0;
-        }
-        
-        .workspace-selector {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background-color: #2D3440;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-        }
-        
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        /* Área de Trabalho */
-        .workspace {
-            flex: 1;
-            padding: 20px;
-            overflow: auto;
-            background-color: var(--main-bg);
-        }
-        
-        /* Card de Request */
-        .request-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            border: 1px solid var(--card-border);
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-        
-        .card-header {
-            padding: 16px 20px;
-            background-color: #252C3A;
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .card-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .card-content {
-            padding: 20px;
-        }
-        
-        /* URL Bar (tipo Postman) - Corrigido */
-        .url-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            align-items: stretch;
-        }
-        
-        .method-select {
-            width: 100px;
-            position: relative;
-            z-index: 100;
-        }
-        
-        .method-dropdown {
-            width: 100%;
-            height: 42px;
-            background-color: #2D3440;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            color: var(--text-primary);
-            padding: 0 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            user-select: none;
-        }
-        
-        .method-indicator {
-            padding: 4px 8px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 700;
-            min-width: 60px;
-            text-align: center;
-        }
-        
-        .method-get { background-color: #0B875B; color: white; }
-        .method-post { background-color: #F6C343; color: #333; }
-        .method-put { background-color: #186ADE; color: white; }
-        .method-patch { background-color: #6B4FBB; color: white; }
-        .method-delete { background-color: #E34F4F; color: white; }
-        .method-head { background-color: #9012FE; color: white; }
-        .method-options { background-color: #0D5AA7; color: white; }
-        
-        .method-options {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #2D3440;
-            border: 1px solid #3A4252;
-            border-top: none;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            margin-top: -1px;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        .method-options.show {
-            display: block;
-            animation: slideDown 0.2s ease;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .method-option {
-            padding: 10px 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .method-option:hover {
-            background-color: rgba(255, 108, 55, 0.1);
-        }
-        
-        .method-option .method-indicator {
-            width: 60px;
-            flex-shrink: 0;
-        }
-        
-        .url-input-container {
-            flex: 1;
-            display: flex;
-            background-color: #2D3440;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        .url-input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            padding: 0 16px;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        .url-input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        .send-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0 24px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            border-radius: var(--border-radius);
-        }
-        
-        .send-button:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .send-button:active {
-            transform: translateY(1px);
-        }
-        
-        /* Tabs estilo Postman */
-        .client-http-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--card-border);
-            margin-bottom: 20px;
-        }
-        
-        .client-http-tab {
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .client-http-tab:hover {
-            color: var(--text-primary);
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        .client-http-tab.active {
-            color: var(--text-primary);
-            border-bottom-color: var(--primary-color);
-            background-color: rgba(255, 108, 55, 0.05);
-        }
-        
-        .tab-count {
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 12px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            margin-left: 6px;
-        }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        /* Headers Editor */
-        .headers-editor {
-            background-color: #2D3440;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        .headers-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .headers-table th {
-            background-color: #252C3A;
-            padding: 12px 16px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--card-border);
-        }
-        
-        .headers-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #3A4252;
-        }
-        
-        .headers-table input {
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 14px;
-            padding: 4px 0;
-            outline: none;
-        }
-        
-        .headers-table input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        .header-row {
-            transition: var(--transition);
-        }
-        
-        .header-row:hover {
-            background-color: rgba(255, 255, 255, 0.03);
-        }
-        
-        /* Body Editor */
-        .body-editor {
-            background-color: #1E222A;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        .editor-toolbar {
-            background-color: #252C3A;
-            padding: 10px 16px;
-            border-bottom: 1px solid #3A4252;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .editor-format {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .editor-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .editor-textarea {
-            width: 100%;
-            min-height: 200px;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 13px;
-            line-height: 1.5;
-            resize: vertical;
-            outline: none;
-            white-space: pre;
-            overflow-wrap: normal;
-            overflow-x: auto;
-        }
-        
-        /* Response Card */
-        .response-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            border: 1px solid var(--card-border);
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-        
-        .response-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 20px;
-            background-color: #252C3A;
-            border-bottom: 1px solid var(--card-border);
-        }
-        
-        .response-status {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .status-code {
-            font-size: 14px;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 4px;
-        }
-        
-        .status-2xx { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; }
-        .status-3xx { background-color: rgba(33, 150, 243, 0.2); color: #2196F3; }
-        .status-4xx { background-color: rgba(244, 67, 54, 0.2); color: #F44336; }
-        .status-5xx { background-color: rgba(244, 67, 54, 0.2); color: #F44336; }
-        
-        .response-time {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        
-        .response-body {
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .json-viewer {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 13px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
-        
-        /* Preview Styles */
-        .preview-container {
-            background-color: #1E222A;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-        
-        .preview-container.html-preview {
-            background-color: white;
-            color: #333;
-        }
-        
-        .preview-container.text-preview {
-            font-family: 'Consolas', 'Monaco', monospace;
-            white-space: pre-wrap;
-        }
-        
-        .preview-iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
-            background-color: white;
-            border-radius: var(--border-radius);
-        }
-        
-        .preview-placeholder {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-        }
-        
-        /* Auth Panel */
-        .auth-panel {
-            background-color: #2D3440;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .auth-method-select {
-            width: 200px;
-            margin-bottom: 20px;
-        }
-        
-        .auth-method-select select {
-            width: 100%;
-            background-color: #1E222A;
-            border: 1px solid #3A4252;
-            color: var(--text-primary);
-            padding: 10px 12px;
-            border-radius: var(--border-radius);
-            font-size: 14px;
-        }
-        
-        .token-display {
-            background-color: #1E222A;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            padding: 12px;
-            font-family: monospace;
-            font-size: 13px;
-            word-break: break-all;
-            margin-top: 10px;
-        }
-        
-        /* Botões e Controles */
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #3A4252;
-            color: var(--text-primary);
-        }
-        
-        .btn:hover {
-            background-color: #4A5468;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .btn-success {
-            background-color: var(--success-color);
-            color: white;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger-color);
-            color: white;
-        }
-        
-        .btn-sm {
-            padding: 4px 8px;
-            font-size: 12px;
-        }
-        
-        .btn-icon {
-            padding: 6px;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Loading */
-        .loading {
-            display: none;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .loading.active {
-            display: block;
-        }
-        
-        .spinner {
-            border: 3px solid rgba(255, 108, 55, 0.2);
-            border-radius: 50%;
-            border-top: 3px solid var(--primary-color);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-        
-        /* Histórico */
-        .history-sidebar {
-            width: 300px;
-            background-color: var(--card-bg);
-            border-left: 1px solid var(--card-border);
-            padding: 20px;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .history-sidebar.active {
-            display: block;
-        }
-        
-        .history-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .history-item {
-            background-color: #2D3440;
-            border: 1px solid #3A4252;
-            border-radius: var(--border-radius);
-            padding: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .history-item:hover {
-            background-color: #3A4252;
-            border-color: var(--primary-light);
-        }
-        
-        .history-method {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin-right: 8px;
-            display: inline-block;
-        }
-        
-        /* Animações */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Responsividade */
-        @media (max-width: 1200px) {
-            .sidebar {
-                width: 64px;
-            }
-            
-            .logo-text, .nav-text {
-                display: none;
-            }
-            
-            .sidebar-header {
-                justify-content: center;
-                padding: 16px;
-            }
-            
-            .nav-item {
-                justify-content: center;
-                padding: 16px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                overflow-x: auto;
-            }
-            
-            .sidebar-nav {
-                display: flex;
-                padding: 0;
-            }
-            
-            .nav-item {
-                padding: 16px;
-                white-space: nowrap;
-            }
-            
-            .url-bar {
-                flex-direction: column;
-            }
-            
-            .method-select, .send-button {
-                width: 100%;
-            }
-        }
-        
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #1E222A;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #3A4252;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #4A5468;
-        }
-        
-        /* Utilitários */
-        .hidden {
-            display: none !important;
-        }
-        
-        .flex {
-            display: flex;
-        }
-        
-        .items-center {
-            align-items: center;
-        }
-        
-        .justify-between {
-            justify-content: space-between;
-        }
-        
-        .gap-2 {
-            gap: 8px;
-        }
-        
-        .gap-4 {
-            gap: 16px;
-        }
-        
-        .w-full {
-            width: 100%;
-        }
-        
-        .mt-4 {
-            margin-top: 16px;
-        }
-        
-        .mb-4 {
-            margin-bottom: 16px;
-        }
-        
-        .text-sm {
-            font-size: 13px;
-        }
-        
-        .text-xs {
-            font-size: 12px;
-        }
-        
-        .text-muted {
-            color: var(--text-muted);
-        }
-        
-        /* Status Badges */
-        .badge {
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .badge-success {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-        }
-        
-        .badge-warning {
-            background-color: rgba(255, 152, 0, 0.2);
-            color: #FF9800;
-        }
-        
-        .badge-danger {
-            background-color: rgba(244, 67, 54, 0.2);
-            color: #F44336;
-        }
-        
-        .badge-info {
-            background-color: rgba(33, 150, 243, 0.2);
-            color: #2196F3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('assets/css/styles.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -931,7 +20,7 @@
             </div>
             
             <div class="sidebar-nav">
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" id="new-request-tab">
                     <i class="nav-icon fas fa-rocket"></i>
                     <span class="nav-text">Nova Requisição</span>
                 </a>
@@ -939,19 +28,20 @@
                     <i class="nav-icon fas fa-history"></i>
                     <span class="nav-text">Histórico</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" id="collections-toggle">
                     <i class="nav-icon fas fa-folder"></i>
                     <span class="nav-text">Coleções</span>
+                    <span class="sidebar-badge" id="collections-count">0</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" id="settings-tab">
                     <i class="nav-icon fas fa-cog"></i>
                     <span class="nav-text">Configurações</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" id="team-tab">
                     <i class="nav-icon fas fa-users"></i>
                     <span class="nav-text">Equipe</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" id="sync-tab">
                     <i class="nav-icon fas fa-cloud"></i>
                     <span class="nav-text">Sync</span>
                 </a>
@@ -978,10 +68,10 @@
                 </div>
                 
                 <div class="user-menu">
-                    <button class="btn btn-icon">
+                    <button class="btn btn-icon" id="save-collection-btn">
                         <i class="fas fa-save"></i>
                     </button>
-                    <button class="btn btn-icon">
+                    <button class="btn btn-icon" id="share-btn">
                         <i class="fas fa-share"></i>
                     </button>
                     <button class="btn btn-icon" id="import-btn">
@@ -1021,7 +111,7 @@
                     </div>
                     
                     <div class="card-content">
-                        <!-- URL Bar - Corrigida -->
+                        <!-- URL Bar -->
                         <div class="url-bar">
                             <div class="method-select">
                                 <div class="method-dropdown" id="method-dropdown">
@@ -1031,26 +121,27 @@
                                 <div class="method-options" id="method-options">
                                     <div class="method-option" data-method="GET">
                                         <span class="method-indicator method-get">GET</span>
-
+                                        <span>GET</span>
                                     </div>
                                     <div class="method-option" data-method="POST">
                                         <span class="method-indicator method-post">POST</span>
-
+                                        <span>POST</span>
                                     </div>
                                     <div class="method-option" data-method="PUT">
                                         <span class="method-indicator method-put">PUT</span>
-
+                                        <span>PUT</span>
                                     </div>
                                     <div class="method-option" data-method="PATCH">
                                         <span class="method-indicator method-patch">PATCH</span>
-
+                                        <span>PATCH</span>
                                     </div>
                                     <div class="method-option" data-method="DELETE">
                                         <span class="method-indicator method-delete">DELETE</span>
-
+                                        <span>DELETE</span>
                                     </div>
                                     <div class="method-option" data-method="HEAD">
                                         <span class="method-indicator method-head">HEAD</span>
+                                        <span>HEAD</span>
                                     </div>
                                     <div class="method-option" data-method="OPTIONS">
                                         <span class="method-indicator method-options">OPTIONS</span>
@@ -1077,7 +168,7 @@
                         <div class="client-http-tabs">
                             <div class="client-http-tab active" data-tab="params">
                                 <span>Params</span>
-                                <span class="tab-count">0</span>
+                                <span class="tab-count" id="params-count">0</span>
                             </div>
                             <div class="client-http-tab" data-tab="authorization">
                                 <span>Authorization</span>
@@ -1188,7 +279,7 @@
                                                 <input type="text" placeholder="Description">
                                             </td>
                                             <td>
-                                                <button class="btn btn-icon btn-sm" onclick="this.closest('tr').remove(); updateHeadersCount();">
+                                                <button class="btn btn-icon btn-sm delete-header-btn">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
@@ -1259,6 +350,7 @@
                                     </div>
                                 </div>
                                 <textarea class="editor-textarea" 
+                                          id="tests-input"
                                           placeholder="// Escreva seus testes aqui
 // Exemplo:
 // pm.test('Status code is 200', function() {
@@ -1315,7 +407,7 @@
                         </div>
                         
                         <div class="hidden" id="response-content">
-                            <!-- Tabs de Resposta - Com Preview -->
+                            <!-- Tabs de Resposta -->
                             <div style="margin-bottom: 20px;">
                                 <div class="client-http-tabs">
                                     <div class="client-http-tab active" data-response-tab="body">
@@ -1370,7 +462,7 @@
                             
                             <!-- Tests Tab -->
                             <div id="response-tests-tab" class="tab-content">
-                                <div class="preview-container">
+                                <div class="preview-container" id="test-results">
                                     No tests defined
                                 </div>
                             </div>
@@ -1398,897 +490,230 @@
                 <!-- Histórico será carregado aqui -->
             </div>
         </div>
+        
+        <!-- Sidebar de Coleções -->
+        <div class="collections-sidebar" id="collections-sidebar">
+            <div class="collections-header">
+                <h3 style="font-size: 14px; font-weight: 600;">Coleções</h3>
+                <div>
+                    <button class="btn btn-sm" id="new-collection-btn">
+                        <i class="fas fa-plus"></i> Nova
+                    </button>
+                </div>
+            </div>
+            
+            <div class="collection-list" id="collection-list">
+                <!-- Coleções serão carregadas aqui -->
+            </div>
+            
+            <div class="quick-actions">
+                <button class="btn btn-sm" id="import-collection-btn">
+                    <i class="fas fa-upload"></i> Importar
+                </button>
+                <button class="btn btn-sm" id="export-collection-btn">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modais -->
+    <div class="modal-overlay" id="collection-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="collection-modal-title">Nova Coleção</div>
+                <button class="btn btn-icon btn-sm" id="close-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="collection-name">Nome da Coleção</label>
+                    <input type="text" 
+                           id="collection-name" 
+                           class="form-control" 
+                           placeholder="Minha Coleção API">
+                </div>
+                
+                <div class="form-group">
+                    <label for="collection-description">Descrição</label>
+                    <textarea id="collection-description" 
+                             class="form-control form-textarea" 
+                             placeholder="Descrição da coleção..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="collection-color">Cor</label>
+                    <select id="collection-color" class="form-control">
+                        <option value="#FF6C37">Laranja (Padrão)</option>
+                        <option value="#4CAF50">Verde</option>
+                        <option value="#2196F3">Azul</option>
+                        <option value="#9C27B0">Roxo</option>
+                        <option value="#FF9800">Âmbar</option>
+                        <option value="#F44336">Vermelho</option>
+                        <option value="#00BCD4">Ciano</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="collection-is-public">
+                        <span style="margin-left: 8px;">Coleção pública (compartilhável)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-collection-btn">Cancelar</button>
+                <button class="btn btn-primary" id="save-collection-btn">Salvar Coleção</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para Nova Requisição na Coleção -->
+    <div class="modal-overlay" id="request-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="request-modal-title">Nova Requisição</div>
+                <button class="btn btn-icon btn-sm" id="close-request-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="request-name">Nome da Requisição</label>
+                    <input type="text" 
+                           id="request-name" 
+                           class="form-control" 
+                           placeholder="Ex: Login de usuário">
+                </div>
+                
+                <div class="form-group">
+                    <label for="request-description">Descrição</label>
+                    <textarea id="request-description" 
+                             class="form-control form-textarea" 
+                             placeholder="Descrição da requisição..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="request-folder">Pasta</label>
+                    <select id="request-folder" class="form-control">
+                        <option value="">Sem pasta</option>
+                        <!-- Pastas serão preenchidas dinamicamente -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="request-save-headers">
+                        <span style="margin-left: 8px;">Salvar headers da requisição atual</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="request-save-body" checked>
+                        <span style="margin-left: 8px;">Salvar body da requisição atual</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="request-save-tests">
+                        <span style="margin-left: 8px;">Salvar testes da requisição atual</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-request-btn">Cancelar</button>
+                <button class="btn btn-primary" id="save-request-to-collection-btn">Salvar na Coleção</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para Exportar/Importar Coleções -->
+    <div class="modal-overlay" id="import-export-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Exportar/Importar Coleções</div>
+                <button class="btn btn-icon btn-sm" id="close-import-export-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="sidebar-tabs">
+                    <div class="sidebar-tab active" data-tab="export">Exportar</div>
+                    <div class="sidebar-tab" data-tab="import">Importar</div>
+                </div>
+                
+                <div class="sidebar-tab-content active" id="export-tab">
+                    <div class="form-group">
+                        <label>Selecionar Coleções para Exportar</label>
+                        <div id="export-collections-list" style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                            <!-- Lista de coleções para exportar -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Formato de Exportação</label>
+                        <select id="export-format" class="form-control">
+                            <option value="json">JSON (Completo)</option>
+                            <option value="postman">Postman Collection v2.1</option>
+                            <option value="curl">Comandos cURL</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Conteúdo Exportado</label>
+                        <textarea id="export-output" 
+                                 class="form-control form-textarea" 
+                                 rows="8" 
+                                 readonly 
+                                 placeholder="Clique em 'Gerar Exportação' para visualizar..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="sidebar-tab-content" id="import-tab">
+                    <div class="form-group">
+                        <label>Selecione o arquivo para importar</label>
+                        <input type="file" 
+                               id="import-file" 
+                               class="form-control" 
+                               accept=".json,.txt">
+                        <div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">
+                            Formatos suportados: JSON (nativo), Postman Collection v2.1
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Importar como</label>
+                        <select id="import-action" class="form-control">
+                            <option value="merge">Mesclar com coleções existentes</option>
+                            <option value="replace">Substituir todas as coleções</option>
+                            <option value="new">Nova coleção separada</option>
+                        </select>
+                    </div>
+                    
+                    <div id="import-preview" class="hidden">
+                        <div class="form-group">
+                            <label>Pré-visualização</label>
+                            <textarea id="import-preview-text" 
+                                     class="form-control form-textarea" 
+                                     rows="6" 
+                                     readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-import-export-btn">Cancelar</button>
+                <button class="btn btn-primary" id="generate-export-btn">Gerar Exportação</button>
+                <button class="btn btn-success" id="execute-import-btn" style="display: none;">Importar</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // ============================================
-            // ESTADO DA APLICAÇÃO
-            // ============================================
-            let authToken = localStorage.getItem('api_client_token');
-            let requestHistory = JSON.parse(localStorage.getItem('api_client_history') || '[]');
-            let currentResponse = null;
-            let currentMethod = 'GET';
-            let isMethodDropdownOpen = false;
-            
-            // ============================================
-            // ELEMENTOS DOM
-            // ============================================
-            const methodIndicator = document.getElementById('method-indicator');
-            const methodOptions = document.getElementById('method-options');
-            const methodDropdown = document.getElementById('method-dropdown');
-            const urlInput = document.getElementById('url-input');
-            const sendButton = document.getElementById('send-btn');
-            const loadingElement = document.getElementById('loading');
-            const responseContent = document.getElementById('response-content');
-            const noResponseElement = document.getElementById('no-response');
-            const statusCode = document.getElementById('status-code');
-            const responseTime = document.getElementById('response-time');
-            const responseBody = document.getElementById('response-body');
-            const responseHeaders = document.getElementById('response-headers');
-            
-            // Preview elements
-            const previewContainer = document.getElementById('preview-container');
-            const previewPlaceholder = document.getElementById('preview-placeholder');
-            const previewIframe = document.getElementById('preview-iframe');
-            const previewText = document.getElementById('preview-text');
-            
-            // Tabs
-            const tabs = document.querySelectorAll('.client-http-tab[data-tab]');
-            const responseTabs = document.querySelectorAll('[data-response-tab]');
-            
-            // Headers table
-            const headersTable = document.getElementById('headers-table');
-            const addHeaderBtn = document.getElementById('add-header-btn');
-            
-            // Body
-            const bodyInput = document.getElementById('body-input');
-            const prettifyBodyBtn = document.getElementById('prettify-body-btn');
-            const clearBodyBtn = document.getElementById('clear-body-btn');
-            
-            // Auth
-            const authMethodSelect = document.getElementById('auth-method');
-            const bearerTokenInput = document.getElementById('bearer-token');
-            const tokenDisplay = document.getElementById('token-display');
-            const tokenValue = document.getElementById('token-value');
-            const addAuthHeaderBtn = document.getElementById('add-auth-header-btn');
-            const extractTokenBtn = document.getElementById('extract-token-btn');
-            const clearTokenBtn = document.getElementById('clear-token-btn');
-            
-            // Response actions
-            const copyResponseBtn = document.getElementById('copy-response-btn');
-            const saveResponseBtn = document.getElementById('save-response-btn');
-            
-            // History
-            const historyToggle = document.getElementById('history-toggle');
-            const historySidebar = document.getElementById('history-sidebar');
-            const historyList = document.getElementById('history-list');
-            const clearHistoryBtn = document.getElementById('clear-history-btn');
-            
-            // Params
-            const paramsTable = document.getElementById('params-table');
-            const addParamBtn = document.getElementById('add-param-btn');
-            
-            // Environment
-            const envVarsInput = document.getElementById('env-vars-input');
-            
-            // Body type and format
-            const bodyTypeSelect = document.getElementById('body-type');
-            const bodyFormatSelect = document.getElementById('body-format');
-            
-            // ============================================
-            // INICIALIZAÇÃO
-            // ============================================
-            init();
-            
-            function init() {
-                updateAuthDisplay();
-                renderHistory();
-                
-                // Carregar token se existir
-                if (authToken) {
-                    bearerTokenInput.value = authToken;
-                    tokenDisplay.classList.remove('hidden');
-                    tokenValue.textContent = authToken.substring(0, 50) + '...';
-                }
-                
-                // Adicionar algumas linhas de exemplo para params
-                addParamRow();
-                
-                // Setup event listeners
-                setupEventListeners();
-                
-                // Initial updates
-                updateHeadersCount();
-                updateParamsCount();
-            }
-            
-            function setupEventListeners() {
-                // Method dropdown - Corrigido
-                methodDropdown.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    toggleMethodDropdown();
-                });
-                
-                document.querySelectorAll('.method-option').forEach(option => {
-                    option.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const method = this.getAttribute('data-method');
-                        setMethod(method);
-                        methodOptions.classList.remove('show');
-                        isMethodDropdownOpen = false;
-                    });
-                });
-                
-                // Close dropdown when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!methodDropdown.contains(e.target) && isMethodDropdownOpen) {
-                        methodOptions.classList.remove('show');
-                        isMethodDropdownOpen = false;
-                    }
-                });
-                
-                // Send request
-                sendButton.addEventListener('click', sendRequest);
-                urlInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') sendRequest();
-                });
-                
-                // Tabs
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        switchTab(this.getAttribute('data-tab'));
-                    });
-                });
-                
-                responseTabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        switchResponseTab(this.getAttribute('data-response-tab'));
-                    });
-                });
-                
-                // Headers table
-                addHeaderBtn.addEventListener('click', addHeaderRow);
-                
-                // Body editor
-                prettifyBodyBtn.addEventListener('click', () => prettifyJson(bodyInput));
-                clearBodyBtn.addEventListener('click', () => bodyInput.value = '');
-                
-                // Body type changes
-                bodyTypeSelect.addEventListener('change', updateBodyType);
-                bodyFormatSelect.addEventListener('change', updateBodyFormat);
-                
-                // Auth
-                authMethodSelect.addEventListener('change', updateAuthMethod);
-                addAuthHeaderBtn.addEventListener('click', addAuthHeader);
-                extractTokenBtn.addEventListener('click', extractTokenFromResponse);
-                clearTokenBtn.addEventListener('click', clearToken);
-                
-                // Response
-                copyResponseBtn.addEventListener('click', copyResponse);
-                saveResponseBtn.addEventListener('click', saveResponse);
-                
-                // History
-                historyToggle.addEventListener('click', toggleHistorySidebar);
-                clearHistoryBtn.addEventListener('click', clearHistory);
-                
-                // Params
-                addParamBtn.addEventListener('click', addParamRow);
-            }
-            
-            // ============================================
-            // FUNÇÕES PRINCIPAIS
-            // ============================================
-            function toggleMethodDropdown() {
-                isMethodDropdownOpen = !isMethodDropdownOpen;
-                if (isMethodDropdownOpen) {
-                    methodOptions.classList.add('show');
-                } else {
-                    methodOptions.classList.remove('show');
-                }
-            }
-            
-            function setMethod(method) {
-                currentMethod = method;
-                methodIndicator.textContent = method;
-                methodIndicator.className = `method-indicator method-${method.toLowerCase()}`;
-                
-                // Update method in dropdown options
-                document.querySelectorAll('.method-option').forEach(option => {
-                    if (option.getAttribute('data-method') === method) {
-                        option.style.backgroundColor = 'rgba(255, 108, 55, 0.1)';
-                    } else {
-                        option.style.backgroundColor = '';
-                    }
-                });
-                
-                // Clear body for GET and HEAD
-                if (method === 'GET' || method === 'HEAD') {
-                    bodyInput.value = '';
-                }
-            }
-            
-            function switchTab(tabId) {
-                // Update active tab
-                tabs.forEach(tab => {
-                    if (tab.getAttribute('data-tab') === tabId) {
-                        tab.classList.add('active');
-                    } else {
-                        tab.classList.remove('active');
-                    }
-                });
-                
-                // Show corresponding content
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    if (content.id === `${tabId}-tab`) {
-                        content.classList.add('active');
-                    } else {
-                        content.classList.remove('active');
-                    }
-                });
-            }
-            
-            function switchResponseTab(tabId) {
-                // Update active tab
-                responseTabs.forEach(tab => {
-                    if (tab.getAttribute('data-response-tab') === tabId) {
-                        tab.classList.add('active');
-                    } else {
-                        tab.classList.remove('active');
-                    }
-                });
-                
-                // Show corresponding content
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    if (content.id === `response-${tabId}-tab`) {
-                        content.classList.add('active');
-                    } else {
-                        content.classList.remove('active');
-                    }
-                });
-                
-                // Update preview if needed
-                if (tabId === 'preview' && currentResponse) {
-                    updatePreview(currentResponse);
-                }
-            }
-            
-            function addHeaderRow() {
-                const row = document.createElement('tr');
-                row.className = 'header-row';
-                row.innerHTML = `
-                    <td>
-                        <input type="checkbox" checked>
-                    </td>
-                    <td>
-                        <input type="text" placeholder="Key">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="Value">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="Description">
-                    </td>
-                    <td>
-                        <button class="btn btn-icon btn-sm" onclick="this.closest('tr').remove(); updateHeadersCount();">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                headersTable.appendChild(row);
-                updateHeadersCount();
-            }
-            
-            function addParamRow() {
-                const row = document.createElement('tr');
-                row.className = 'header-row';
-                row.innerHTML = `
-                    <td>
-                        <input type="checkbox" checked>
-                    </td>
-                    <td>
-                        <input type="text" placeholder="key" value="${paramsTable.children.length === 0 ? 'page' : ''}">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="value" value="${paramsTable.children.length === 0 ? '1' : ''}">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="Description" value="${paramsTable.children.length === 0 ? 'Page number' : ''}">
-                    </td>
-                    <td>
-                        <button class="btn btn-icon btn-sm" onclick="this.closest('tr').remove(); updateParamsCount();">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                paramsTable.appendChild(row);
-                updateParamsCount();
-            }
-            
-            function updateHeadersCount() {
-                const count = headersTable.querySelectorAll('tr').length;
-                document.getElementById('headers-count').textContent = count;
-            }
-            
-            function updateParamsCount() {
-                const count = paramsTable.querySelectorAll('tr').length;
-                document.querySelector('[data-tab="params"] .tab-count').textContent = count;
-            }
-            
-            function updateBodyType() {
-                const type = bodyTypeSelect.value;
-                if (type === 'none') {
-                    bodyInput.style.display = 'none';
-                } else {
-                    bodyInput.style.display = 'block';
-                }
-            }
-            
-            function updateBodyFormat() {
-                const format = bodyFormatSelect.value;
-                // Could update syntax highlighting here
-            }
-            
-            async function sendRequest() {
-                const method = currentMethod;
-                let url = urlInput.value.trim();
-                
-                if (!url) {
-                    showAlert('Por favor, informe uma URL', 'warning');
-                    return;
-                }
-                
-                // Process environment variables
-                url = processEnvVars(url);
-                
-                // Add query parameters
-                const params = getQueryParams();
-                if (params) {
-                    url += (url.includes('?') ? '&' : '?') + params;
-                }
-                
-                // Validate URL
-                try {
-                    new URL(url);
-                } catch (e) {
-                    showAlert('URL inválida. Certifique-se de incluir http:// ou https://', 'danger');
-                    return;
-                }
-                
-                // Prepare headers
-                const headers = getHeaders();
-                
-                // Prepare body
-                let body = null;
-                if (method !== 'GET' && method !== 'HEAD' && bodyInput.value.trim()) {
-                    body = bodyInput.value.trim();
-                }
-                
-                // Show loading
-                loadingElement.classList.add('active');
-                responseContent.classList.add('hidden');
-                noResponseElement.classList.add('hidden');
-                
-                try {
-                    const startTime = Date.now();
-                    
-                    // Make request
-                    const response = await fetch(url, {
-                        method: method,
-                        headers: headers,
-                        body: body,
-                        credentials: 'same-origin'
-                    });
-                    
-                    const endTime = Date.now();
-                    const responseTime = endTime - startTime;
-                    
-                    // Get response text
-                    const responseText = await response.text();
-                    
-                    // Update UI with response
-                    updateResponseUI(response, responseText, responseTime);
-                    
-                    // Add to history
-                    addToHistory({
-                        method,
-                        url: urlInput.value.trim(),
-                        headers: headers,
-                        body: body,
-                        status: response.status,
-                        statusText: response.statusText,
-                        timestamp: new Date().toISOString(),
-                        responseTime
-                    });
-                    
-                    // Show response
-                    loadingElement.classList.remove('active');
-                    responseContent.classList.remove('hidden');
-                    
-                    // Show success message
-                    showAlert(`Requisição enviada com sucesso! (${responseTime}ms)`, 'success');
-                    
-                } catch (error) {
-                    loadingElement.classList.remove('active');
-                    
-                    // Show error
-                    statusCode.textContent = 'Error';
-                    statusCode.className = 'status-code status-4xx';
-                    statusCode.classList.remove('hidden');
-                    responseTime.textContent = '';
-                    responseBody.textContent = `Erro de rede: ${error.message}`;
-                    responseHeaders.textContent = '';
-                    
-                    responseContent.classList.remove('hidden');
-                    
-                    // Add error to history
-                    addToHistory({
-                        method,
-                        url: urlInput.value.trim(),
-                        headers: headers,
-                        body: body,
-                        status: 0,
-                        statusText: 'Erro de Rede',
-                        error: error.message,
-                        timestamp: new Date().toISOString()
-                    });
-                    
-                    showAlert(`Erro de rede: ${error.message}`, 'danger');
-                }
-            }
-            
-            function getHeaders() {
-                const headers = {};
-                headersTable.querySelectorAll('tr').forEach(row => {
-                    const checkbox = row.querySelector('input[type="checkbox"]');
-                    if (checkbox && checkbox.checked) {
-                        const keyInput = row.querySelector('td:nth-child(2) input');
-                        const valueInput = row.querySelector('td:nth-child(3) input');
-                        if (keyInput && keyInput.value && valueInput && valueInput.value) {
-                            headers[keyInput.value] = valueInput.value;
-                        }
-                    }
-                });
-                return headers;
-            }
-            
-            function getQueryParams() {
-                const params = new URLSearchParams();
-                paramsTable.querySelectorAll('tr').forEach(row => {
-                    const checkbox = row.querySelector('input[type="checkbox"]');
-                    if (checkbox && checkbox.checked) {
-                        const keyInput = row.querySelector('td:nth-child(2) input');
-                        const valueInput = row.querySelector('td:nth-child(3) input');
-                        if (keyInput && keyInput.value && valueInput) {
-                            params.append(keyInput.value, valueInput.value);
-                        }
-                    }
-                });
-                return params.toString();
-            }
-            
-            function processEnvVars(url) {
-                try {
-                    const envVars = JSON.parse(envVarsInput.value || '{}');
-                    for (const [key, value] of Object.entries(envVars)) {
-                        const placeholder = `\\[\\[${key}\\]\\]`;
-                        const regex = new RegExp(placeholder, 'g');
-                        url = url.replace(regex, value);
-                    }
-                } catch (e) {
-                    console.error('Error processing environment variables:', e);
-                }
-                return url;
-            }
-            
-            function updateResponseUI(response, responseText, responseTimeMs) {
-                // Update status
-                statusCode.textContent = `${response.status} ${response.statusText}`;
-                statusCode.className = 'status-code';
-                
-                if (response.status >= 200 && response.status < 300) {
-                    statusCode.classList.add('status-2xx');
-                } else if (response.status >= 300 && response.status < 400) {
-                    statusCode.classList.add('status-3xx');
-                } else if (response.status >= 400 && response.status < 500) {
-                    statusCode.classList.add('status-4xx');
-                } else if (response.status >= 500) {
-                    statusCode.classList.add('status-5xx');
-                }
-                
-                statusCode.classList.remove('hidden');
-                responseTime.textContent = `${responseTimeMs}ms`;
-                responseTime.classList.remove('hidden');
-                
-                // Try to parse as JSON for formatting
-                let formattedBody = responseText;
-                try {
-                    const jsonResponse = JSON.parse(responseText);
-                    formattedBody = syntaxHighlight(JSON.stringify(jsonResponse, null, 2));
-                } catch (e) {
-                    // Not JSON, keep as text
-                }
-                
-                // Format response headers
-                const headersArray = [];
-                response.headers.forEach((value, key) => {
-                    headersArray.push(`${key}: ${value}`);
-                });
-                
-                responseBody.innerHTML = formattedBody;
-                responseHeaders.textContent = headersArray.join('\n');
-                
-                // Store current response
-                currentResponse = {
-                    text: responseText,
-                    headers: response.headers,
-                    contentType: response.headers.get('content-type') || '',
-                    status: response.status
-                };
-            }
-            
-            function updatePreview(response) {
-                const contentType = response.contentType.toLowerCase();
-                const responseText = response.text;
-                
-                // Hide all preview elements
-                previewIframe.classList.add('hidden');
-                previewText.classList.add('hidden');
-                previewPlaceholder.classList.add('hidden');
-                
-                // Clear previous iframe content
-                previewIframe.src = 'about:blank';
-                
-                if (contentType.includes('text/html')) {
-                    // Create blob with the HTML
-                    const blob = new Blob([responseText], { type: 'text/html;charset=utf-8' });
-                    const url = URL.createObjectURL(blob);
-                    
-                    previewIframe.src = url;
-                    previewIframe.classList.remove('hidden');
-                    previewContainer.classList.add('html-preview');
-                    
-                    previewIframe.onload = function() {
-                        URL.revokeObjectURL(url);
-                    };
-                    
-                } else if (contentType.includes('application/json')) {
-                    try {
-                        const jsonObj = JSON.parse(responseText);
-                        previewText.innerHTML = syntaxHighlight(JSON.stringify(jsonObj, null, 2));
-                        previewText.classList.remove('hidden');
-                        previewContainer.classList.remove('html-preview');
-                    } catch (e) {
-                        previewText.textContent = 'Erro ao formatar JSON: ' + e.message;
-                        previewText.classList.remove('hidden');
-                    }
-                    
-                } else if (contentType.includes('text/')) {
-                    previewText.textContent = responseText;
-                    previewText.classList.remove('hidden');
-                    previewContainer.classList.add('text-preview');
-                    
-                } else {
-                    previewPlaceholder.innerHTML = `
-                        <i class="fas fa-file" style="font-size: 48px; margin-bottom: 16px;"></i>
-                        <p style="font-size: 14px; margin-bottom: 8px;">Tipo de conteúdo: ${contentType || 'desconhecido'}</p>
-                        <p style="font-size: 12px; color: var(--text-muted);">
-                            Preview não disponível para este tipo de conteúdo
-                        </p>
-                    `;
-                    previewPlaceholder.classList.remove('hidden');
-                    previewContainer.classList.remove('html-preview');
-                }
-            }
-            
-            function prettifyJson(textarea) {
-                try {
-                    const json = JSON.parse(textarea.value);
-                    textarea.value = JSON.stringify(json, null, 2);
-                    showAlert('JSON formatado com sucesso!', 'success');
-                } catch (e) {
-                    showAlert('Não é um JSON válido para formatar', 'warning');
-                }
-            }
-            
-            function syntaxHighlight(json) {
-                if (typeof json != 'string') {
-                    json = JSON.stringify(json, null, 2);
-                }
-                
-                // Escape HTML
-                json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                
-                // Apply styles
-                return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
-                    let cls = 'json-number';
-                    if (/^"/.test(match)) {
-                        if (/:$/.test(match)) {
-                            return `<span style="color: #FF6C37">${match}</span>`;
-                        } else {
-                            return `<span style="color: #98C379">${match}</span>`;
-                        }
-                    } else if (/true|false/.test(match)) {
-                        return `<span style="color: #C678DD">${match}</span>`;
-                    } else if (/null/.test(match)) {
-                        return `<span style="color: #5C6370">${match}</span>`;
-                    } else {
-                        return `<span style="color: #D19A66">${match}</span>`;
-                    }
-                });
-            }
-            
-            function updateAuthMethod() {
-                const method = authMethodSelect.value;
-                // Show/hide appropriate auth panels
-                // Implementation depends on selected method
-            }
-            
-            function addAuthHeader() {
-                if (authToken) {
-                    // Check if Authorization header already exists
-                    let headerExists = false;
-                    headersTable.querySelectorAll('tr').forEach(row => {
-                        const keyInput = row.querySelector('td:nth-child(2) input');
-                        if (keyInput && keyInput.value === 'Authorization') {
-                            headerExists = true;
-                            const valueInput = row.querySelector('td:nth-child(3) input');
-                            if (valueInput) {
-                                valueInput.value = `Bearer ${authToken}`;
-                            }
-                        }
-                    });
-                    
-                    if (!headerExists) {
-                        // Add a new header row with Authorization
-                        addHeaderRow();
-                        const lastRow = headersTable.lastElementChild;
-                        const keyInput = lastRow.querySelector('td:nth-child(2) input');
-                        const valueInput = lastRow.querySelector('td:nth-child(3) input');
-                        if (keyInput) keyInput.value = 'Authorization';
-                        if (valueInput) valueInput.value = `Bearer ${authToken}`;
-                    }
-                    
-                    showAlert('Authorization header adicionado', 'success');
-                } else {
-                    showAlert('Nenhum token de autenticação armazenado', 'warning');
-                }
-            }
-            
-            function extractTokenFromResponse() {
-                if (!currentResponse) {
-                    showAlert('Nenhuma resposta disponível', 'warning');
-                    return;
-                }
-                
-                try {
-                    const jsonResponse = JSON.parse(currentResponse.text);
-                    
-                    // Look for token in various possible locations
-                    let token = null;
-                    
-                    if (jsonResponse.data && jsonResponse.data.token) {
-                        token = jsonResponse.data.token;
-                    } else if (jsonResponse.token) {
-                        token = jsonResponse.token;
-                    } else if (jsonResponse.access_token) {
-                        token = jsonResponse.access_token;
-                    } else if (jsonResponse.bearer) {
-                        token = jsonResponse.bearer;
-                    }
-                    
-                    if (token) {
-                        authToken = token;
-                        localStorage.setItem('api_client_token', authToken);
-                        bearerTokenInput.value = authToken;
-                        tokenDisplay.classList.remove('hidden');
-                        tokenValue.textContent = authToken.substring(0, 50) + '...';
-                        showAlert('Token extraído e armazenado com sucesso!', 'success');
-                    } else {
-                        showAlert('Não foi possível encontrar um token na resposta', 'warning');
-                    }
-                } catch (e) {
-                    showAlert('Erro ao processar a resposta para extrair token', 'danger');
-                }
-            }
-            
-            function clearToken() {
-                authToken = null;
-                localStorage.removeItem('api_client_token');
-                bearerTokenInput.value = '';
-                tokenDisplay.classList.add('hidden');
-                showAlert('Token removido com sucesso!', 'info');
-            }
-            
-            function updateAuthDisplay() {
-                if (authToken) {
-                    tokenDisplay.classList.remove('hidden');
-                    tokenValue.textContent = authToken.substring(0, 50) + '...';
-                }
-            }
-            
-            function copyResponse() {
-                if (!currentResponse) return;
-                
-                const activeTab = document.querySelector('[data-response-tab].active');
-                if (activeTab) {
-                    const tabId = activeTab.getAttribute('data-response-tab');
-                    let textToCopy = currentResponse.text;
-                    
-                    if (tabId === 'body') {
-                        textToCopy = responseBody.textContent;
-                    } else if (tabId === 'headers') {
-                        textToCopy = responseHeaders.textContent;
-                    }
-                    
-                    navigator.clipboard.writeText(textToCopy).then(() => {
-                        showAlert('Resposta copiada para a área de transferência', 'success');
-                    });
-                }
-            }
-            
-            function saveResponse() {
-                if (!currentResponse) return;
-                
-                const blob = new Blob([currentResponse.text], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `response-${Date.now()}.txt`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showAlert('Resposta salva como arquivo', 'success');
-            }
-            
-            function toggleHistorySidebar() {
-                historySidebar.classList.toggle('active');
-                renderHistory();
-            }
-            
-            function addToHistory(request) {
-                requestHistory.unshift(request);
-                
-                if (requestHistory.length > 50) {
-                    requestHistory = requestHistory.slice(0, 50);
-                }
-                
-                localStorage.setItem('api_client_history', JSON.stringify(requestHistory));
-                renderHistory();
-            }
-            
-            function renderHistory() {
-                historyList.innerHTML = '';
-                
-                if (requestHistory.length === 0) {
-                    historyList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Nenhum histórico ainda</div>';
-                    return;
-                }
-                
-                requestHistory.forEach((item, index) => {
-                    const historyItem = document.createElement('div');
-                    historyItem.className = 'history-item';
-                    
-                    const methodClass = `method-${item.method.toLowerCase()}`;
-                    const date = new Date(item.timestamp);
-                    const timeStr = date.toLocaleTimeString('pt-BR', { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                    });
-                    
-                    historyItem.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                            <span class="history-method ${methodClass}">${item.method}</span>
-                            <span style="font-size: 11px; color: var(--text-muted);">${timeStr}</span>
-                        </div>
-                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; word-break: break-all;">
-                            ${item.url}
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 11px; color: ${item.status >= 400 ? '#F44336' : item.status >= 200 ? '#4CAF50' : '#FF9800'}">
-                                ${item.status || 'ERR'}
-                            </span>
-                            ${item.responseTime ? `<span style="font-size: 11px; color: var(--text-muted);">${item.responseTime}ms</span>` : ''}
-                        </div>
-                    `;
-                    
-                    historyItem.addEventListener('click', () => {
-                        loadRequestFromHistory(index);
-                        if (window.innerWidth < 1200) {
-                            historySidebar.classList.remove('active');
-                        }
-                    });
-                    
-                    historyList.appendChild(historyItem);
-                });
-            }
-            
-            function loadRequestFromHistory(index) {
-                const request = requestHistory[index];
-                
-                setMethod(request.method);
-                urlInput.value = request.url;
-                
-                // Load headers
-                headersTable.innerHTML = '';
-                if (request.headers) {
-                    Object.entries(request.headers).forEach(([key, value]) => {
-                        const row = document.createElement('tr');
-                        row.className = 'header-row';
-                        row.innerHTML = `
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="text" value="${key}" placeholder="Key">
-                            </td>
-                            <td>
-                                <input type="text" value="${value}" placeholder="Value">
-                            </td>
-                            <td>
-                                <input type="text" placeholder="Description">
-                            </td>
-                            <td>
-                                <button class="btn btn-icon btn-sm" onclick="this.closest('tr').remove(); updateHeadersCount();">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        `;
-                        headersTable.appendChild(row);
-                    });
-                }
-                updateHeadersCount();
-                
-                // Load body
-                if (request.body) {
-                    bodyInput.value = request.body;
-                }
-                
-                showAlert('Requisição carregada do histórico', 'info');
-            }
-            
-            function clearHistory() {
-                if (confirm('Limpar todo o histórico de requisições?')) {
-                    requestHistory = [];
-                    localStorage.removeItem('api_client_history');
-                    renderHistory();
-                    showAlert('Histórico limpo', 'info');
-                }
-            }
-            
-            function showAlert(message, type = 'info') {
-                // Create toast notification
-                const toast = document.createElement('div');
-                toast.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background-color: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#FF9800' : type === 'danger' ? '#F44336' : '#2196F3'};
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    z-index: 10000;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-                    animation: fadeIn 0.3s ease;
-                    max-width: 400px;
-                `;
-                toast.textContent = message;
-                
-                document.body.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.style.opacity = '0';
-                    toast.style.transition = 'opacity 0.3s ease';
-                    setTimeout(() => {
-                        if (toast.parentElement) {
-                            toast.remove();
-                        }
-                    }, 300);
-                }, 3000);
-            }
-        });
-    </script>
+    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{asset('assets/js/collections.js')}}"></script>
+    <script src="{{asset('assets/js/history.js')}}"></script>
 </body>
 </html>
