@@ -1,0 +1,85 @@
+
+MODELS:
+  app\Console\Commands\FixModelStructure.php
+  app\Console\Commands\GenerateAllModels.php
+  app\Console\Commands\GenerateModelStructure.php
+  app\Models\Bank.php
+  app\Models\Category.php
+  app\Models\City.php
+  app\Models\Company.php
+  app\Models\Country.php
+  app\Models\FinancialTransaction.php
+  app\Models\PaymentMethod.php
+  app\Models\Person.php
+  app\Models\Role.php
+  app\Models\State.php
+  app\Models\Status.php
+  app\Models\Type.php
+  app\Models\User.php
+
+CONTROLLERS:
+  app\Http\Controllers\Api\V1\AuthController.php
+  app\Http\Controllers\Api\V1\BankController.php
+  app\Http\Controllers\Api\V1\BaseController.php
+  app\Http\Controllers\Api\V1\CategoryController.php
+  app\Http\Controllers\Api\V1\CityController.php
+  app\Http\Controllers\Api\V1\CompanyController.php
+  app\Http\Controllers\Api\V1\CountryController.php
+  app\Http\Controllers\Api\V1\FinancialTransactionController.php
+  app\Http\Controllers\Api\V1\PaymentMethodController.php
+  app\Http\Controllers\Api\V1\PeopleController.php
+  app\Http\Controllers\Api\V1\PersonController.php
+  app\Http\Controllers\Api\V1\RoleController.php
+  app\Http\Controllers\Api\V1\StateController.php
+  app\Http\Controllers\Api\V1\StatusController.php
+  app\Http\Controllers\Api\V1\TypeController.php
+  app\Http\Controllers\Api\V1\UserController.php
+  app\Http\Controllers\Controller.php
+
+REQUESTS:
+  app\Http\Requests\Api\V1\Auth\LoginRequest.php
+  app\Http\Requests\Api\V1\Auth\RegisterRequest.php
+  app\Http\Requests\Api\V1\Category\CategoryRequest.php
+  app\Http\Requests\Api\V1\Company\StoreCompanyRequest-20260118154218.php
+  app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php
+  app\Http\Requests\Api\V1\Company\UpdateCompanyRequest-20260118154622.php
+  app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php
+  app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php
+  app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest2.php
+  app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php
+  app\Http\Requests\Api\V1\User\StoreUserRequest.php
+  app\Http\Requests\Api\V1\User\UpdateUserRequest.php
+
+SERVICES:
+  app\Providers\AppServiceProvider.php
+  app\Services\AuthService.php
+  app\Services\FinancialTransactionService.php
+  app\Services\LogService.php
+  app\Services\PermissionService.php
+  app\Services\UserService.php
+  bootstrap\cache\services.php
+  config\services.php
+
+PROVIDERS:
+  bootstrap\providers.php
+
+JOBS:
+  database\migrations\0001_01_01_000002_create_jobs_table.php
+
+SEEDERS:
+  database\seeders\BankSeeder.php
+  database\seeders\CategorySeeder.php
+  database\seeders\CitySeeder.php
+  database\seeders\CompanySeeder.php
+  database\seeders\DatabaseSeeder.php
+  database\seeders\PaymentMethodSeeder.php
+  database\seeders\RoleSeeder.php
+  database\seeders\StateSeeder.php
+  database\seeders\StatusesSeeder.php
+  database\seeders\UserSeeder.php
+
+FACTORIES:
+  database\factories\UserFactory.php
+
+CONFIGS:
+  .editorconfig

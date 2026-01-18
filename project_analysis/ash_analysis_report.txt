@@ -1,0 +1,112 @@
+================================================================================
+📊 PROJETO ASH - RELATÓRIO COMPLETO DE ANÁLISE
+================================================================================
+📅 Data da análise: 2026-01-18T16:28:14.684331
+📁 Projeto: ash
+📂 Diretório: C:\Users\Evanuel\repositories\ash
+
+📈 ESTATÍSTICAS GERAIS
+----------------------------------------
+• Total de arquivos: 195
+• Total de diretórios: 59
+• Tamanho total: 2.80 MB
+
+📁 DISTRIBUIÇÃO POR TIPO DE ARQUIVO
+----------------------------------------
+  .php       →    169 arquivos ( 86.7%)
+  .js        →      6 arquivos (  3.1%)
+  .json      →      4 arquivos (  2.1%)
+  .txt       →      3 arquivos (  1.5%)
+  .md        →      2 arquivos (  1.0%)
+  .css       →      2 arquivos (  1.0%)
+  .bash      →      1 arquivos (  0.5%)
+  .xml       →      1 arquivos (  0.5%)
+  .ico       →      1 arquivos (  0.5%)
+  .py        →      1 arquivos (  0.5%)
+
+🐘 ARQUIVOS PHP (DETALHADO)
+----------------------------------------
+• PHP Files total: 66
+• Blade Views: 0
+• JavaScript Files: 6
+• CSS Files: 2
+• Config Files: 1
+
+🗃️  MODELS ENCONTRADOS
+----------------------------------------
+  • FixModelStructure              → app\Console\Commands\FixModelStructure.php
+  • GenerateAllModels              → app\Console\Commands\GenerateAllModels.php
+  • GenerateModelStructure         → app\Console\Commands\GenerateModelStructure.php
+  • Bank                           → app\Models\Bank.php
+  • Category                       → app\Models\Category.php
+  • City                           → app\Models\City.php
+  • Company                        → app\Models\Company.php
+  • Country                        → app\Models\Country.php
+  • FinancialTransaction           → app\Models\FinancialTransaction.php
+  • PaymentMethod                  → app\Models\PaymentMethod.php
+  • Person                         → app\Models\Person.php
+  • Role                           → app\Models\Role.php
+  • State                          → app\Models\State.php
+  • Status                         → app\Models\Status.php
+  • Type                           → app\Models\Type.php
+  • User                           → app\Models\User.php
+
+🎮  CONTROLLERS ENCONTRADOS
+----------------------------------------
+  • AuthController                 → app\Http\Controllers\Api\V1\AuthController.php
+  • BankController                 → app\Http\Controllers\Api\V1\BankController.php
+  • BaseController                 → app\Http\Controllers\Api\V1\BaseController.php
+  • CategoryController             → app\Http\Controllers\Api\V1\CategoryController.php
+  • CityController                 → app\Http\Controllers\Api\V1\CityController.php
+  • CompanyController              → app\Http\Controllers\Api\V1\CompanyController.php
+  • CountryController              → app\Http\Controllers\Api\V1\CountryController.php
+  • FinancialTransactionController → app\Http\Controllers\Api\V1\FinancialTransactionController.php
+  • PaymentMethodController        → app\Http\Controllers\Api\V1\PaymentMethodController.php
+  • PeopleController               → app\Http\Controllers\Api\V1\PeopleController.php
+  • PersonController               → app\Http\Controllers\Api\V1\PersonController.php
+  • RoleController                 → app\Http\Controllers\Api\V1\RoleController.php
+  • StateController                → app\Http\Controllers\Api\V1\StateController.php
+  • StatusController               → app\Http\Controllers\Api\V1\StatusController.php
+  • TypeController                 → app\Http\Controllers\Api\V1\TypeController.php
+  • UserController                 → app\Http\Controllers\Api\V1\UserController.php
+  • Controller                     → app\Http\Controllers\Controller.php
+
+⚙️  SERVICES ENCONTRADOS
+----------------------------------------
+  • AuthServiceProvider            → app\Providers\AppServiceProvider.php
+  • AuthService                    → app\Services\AuthService.php
+  • Unknown                        → app\Services\FinancialTransactionService.php
+  • LogService                     → app\Services\LogService.php
+  • PermissionService              → app\Services\PermissionService.php
+  • Unknown                        → app\Services\UserService.php
+  • Unknown                        → bootstrap\cache\services.php
+  • Unknown                        → config\services.php
+
+📦 DEPENDÊNCIAS DO COMPOSER (principais)
+----------------------------------------
+  • php                                      → ^8.2
+  • laravel/framework                        → ^12.0
+  • laravel/sanctum                          → ^4.2
+  • laravel/tinker                           → ^2.10.1
+
+🕐 ARQUIVOS MODIFICADOS RECENTEMENTE (últimos 7 dias)
+----------------------------------------
+  • resources\views\welcome.blade.php                  → 0 dias atrás
+  • storage\framework\views\54399da8b75bfbc002a79acd0d0341c4.php → 0 dias atrás
+  • resources\views\login.blade.php                    → 0 dias atrás
+  • routes\web.php                                     → 0 dias atrás
+  • routes\api.php                                     → 0 dias atrás
+  • app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php → 0 dias atrás
+  • app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php → 0 dias atrás
+  • app\Http\Resources\Api\V1\CompanyResource.php      → 0 dias atrás
+  • app\Http\Controllers\Api\V1\TypeController.php     → 0 dias atrás
+  • app\Http\Controllers\Api\V1\StatusController.php   → 0 dias atrás
+  • app\Http\Controllers\Api\V1\StateController.php    → 0 dias atrás
+  • app\Http\Controllers\Api\V1\PersonController.php   → 0 dias atrás
+  • app\Http\Controllers\Api\V1\PaymentMethodController.php → 0 dias atrás
+  • app\Http\Controllers\Api\V1\CountryController.php  → 0 dias atrás
+  • app\Http\Controllers\Api\V1\CityController.php     → 0 dias atrás
+
+================================================================================
+✅ ANÁLISE COMPLETADA
+================================================================================

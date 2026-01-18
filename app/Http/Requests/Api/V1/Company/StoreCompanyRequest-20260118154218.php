@@ -1,5 +1,5 @@
 <?php
-// app/Http/Requests/Api/V1/UpdateCompanyRequest.php
+// app/Http/Requests/Api/V1/StoreCompanyRequest.php
 
 namespace App\Http\Requests\Api\V1\Company;
 
@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Services\PermissionService;
 
-class UpdateCompanyRequest extends FormRequest
+class StoreCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +21,8 @@ class UpdateCompanyRequest extends FormRequest
             return false;
         }
 
-        // Verificar se pode editar empresas
-        return app(PermissionService::class)->has($user, 'edit.company');
+        // Usar PermissionService para verificar permissão
+        return app(PermissionService::class)->has($user, 'company.create');
     }
 
     /**
@@ -32,56 +32,55 @@ class UpdateCompanyRequest extends FormRequest
     {
         $user = Auth::user();
         $clientId = $user ? $user->client_id : 0;
-        $companyId = $this->route('id') ?? $this->route('company');
 
         return [
-            // Dados básicos (não podem ser alterados após criação)
+            // Dados obrigatórios
+            'client_id' => [
+                'required',
+                'integer',
+                'exists:companies,id',
+            ],
             'type' => [
-                'sometimes',
+                'required',
                 'integer',
                 'min:1',
                 'max:255',
             ],
             'cnpj' => [
-                'sometimes',
+                'required',
                 'string',
                 'size:18',
                 'regex:/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/',
                 Rule::unique('companies', 'cnpj')
-                    ->ignore($companyId)
                     ->where('client_id', $clientId)
                     ->whereNull('deleted_at'),
             ],
             'trade_name' => [
-                'sometimes',
+                'required',
                 'string',
                 'min:3',
                 'max:255',
                 Rule::unique('companies', 'trade_name')
-                    ->ignore($companyId)
                     ->where('client_id', $clientId)
                     ->whereNull('deleted_at'),
             ],
             'company_name' => [
-                'sometimes',
+                'required',
                 'string',
                 'min:3',
                 'max:255',
                 Rule::unique('companies', 'company_name')
-                    ->ignore($companyId)
                     ->where('client_id', $clientId)
                     ->whereNull('deleted_at'),
             ],
             
             // Registros
             'state_registration' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:50',
             ],
             'municipal_registration' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:50',
@@ -89,38 +88,32 @@ class UpdateCompanyRequest extends FormRequest
             
             // Endereço
             'street' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:255',
             ],
             'number' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:20',
             ],
             'neighborhood' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:100',
             ],
             'zip_code' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'size:9',
                 'regex:/^\d{5}-\d{3}$/',
             ],
             'state_id' => [
-                'sometimes',
                 'nullable',
                 'integer',
                 'exists:states,id',
             ],
             'city_id' => [
-                'sometimes',
                 'nullable',
                 'integer',
                 'exists:cities,id',
@@ -128,20 +121,17 @@ class UpdateCompanyRequest extends FormRequest
             
             // Detalhes da empresa
             'logo' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:500',
                 'url',
             ],
             'cnae' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:10',
             ],
             'opening_date' => [
-                'sometimes',
                 'nullable',
                 'date',
                 'before_or_equal:today',
@@ -149,23 +139,19 @@ class UpdateCompanyRequest extends FormRequest
             
             // Matriz/Filial
             'is_headquarters' => [
-                'sometimes',
                 'nullable',
                 'boolean',
             ],
             'headquarters_code' => [
-                'sometimes',
                 'nullable',
                 'integer',
                 'min:0',
             ],
             'is_branch' => [
-                'sometimes',
                 'nullable',
                 'boolean',
             ],
             'branch_code' => [
-                'sometimes',
                 'nullable',
                 'integer',
                 'min:0',
@@ -173,13 +159,11 @@ class UpdateCompanyRequest extends FormRequest
             
             // Categorias
             'category_id' => [
-                'sometimes',
                 'nullable',
                 'integer',
                 'exists:categories,id',
             ],
             'subcategory_id' => [
-                'sometimes',
                 'nullable',
                 'integer',
                 'exists:categories,id',
@@ -187,44 +171,25 @@ class UpdateCompanyRequest extends FormRequest
             
             // Regime tributário
             'tax_regime' => [
-                'sometimes',
                 'nullable',
                 'integer',
-                'in:1,2,3,4,5',
+                'in:1,2,3,4,5', // Exemplo: 1=Simples Nacional, 2=Lucro Presumido, etc.
             ],
             
-            // Contatos - NOVO FORMATO
+            // Contatos
             'contacts' => [
-                'sometimes',
                 'nullable',
                 'array',
-            ],
-            'contacts.*.name' => [
-                'required_with:contacts',
-                'string',
-                'max:100',
             ],
             'contacts.*.type' => [
                 'required_with:contacts',
                 'string',
-                'in:comercial,financial,technical,administrative,support,marketing,other',
+                'in:email,phone,whatsapp,website',
             ],
-            'contacts.*.phone' => [
+            'contacts.*.value' => [
                 'required_with:contacts',
                 'string',
-                'max:20',
-                'regex:/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/',
-            ],
-            'contacts.*.email' => [
-                'required_with:contacts',
-                'string',
-                'email',
                 'max:255',
-            ],
-            'contacts.*.note' => [
-                'nullable',
-                'string',
-                'max:500',
             ],
             'contacts.*.is_main' => [
                 'boolean',
@@ -232,86 +197,58 @@ class UpdateCompanyRequest extends FormRequest
             
             // Financeiro
             'credit_limit' => [
-                'sometimes',
                 'nullable',
                 'numeric',
                 'min:0',
-                'max:999999999999.99',
+                'max:999999999999.99', // 15 dígitos, 2 decimais
             ],
             'used_credit' => [
-                'sometimes',
                 'nullable',
                 'numeric',
                 'min:0',
                 'max:999999999999.99',
-                function ($attribute, $value, $fail) {
-                    $creditLimit = $this->credit_limit ?? $this->company->credit_limit ?? 0;
-                    if ($value > $creditLimit) {
-                        $fail('O crédito utilizado não pode ser maior que o limite de crédito.');
-                    }
-                },
             ],
             
             // Status
             'activated' => [
-                'sometimes',
+                'nullable',
                 'boolean',
             ],
             'situation' => [
-                'sometimes',
                 'nullable',
                 'integer',
-                'in:1,2,3,4',
+                'in:1,2,3,4', // Exemplo: 1=Ativa, 2=Inativa, 3=Suspensa, 4=Baixada
             ],
             'status' => [
-                'sometimes',
+                'nullable',
                 'boolean',
             ],
             
             // Campos customizados
             'custom_field1' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:255',
             ],
             'custom_field2' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:255',
             ],
             'custom_field3' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:255',
             ],
             'notes' => [
-                'sometimes',
                 'nullable',
                 'string',
                 'max:1000',
             ],
             
-            // Arquivamento
+            // Campos de auditoria (preenchidos automaticamente)
             'archived' => [
-                'sometimes',
-                'boolean',
-                function ($attribute, $value, $fail) use ($companyId) {
-                    // Não permitir arquivar empresa que tem crédito utilizado
-                    if ($value && $this->company && $this->company->used_credit > 0) {
-                        $fail('Não é possível arquivar uma empresa com crédito utilizado.');
-                    }
-                },
-            ],
-            
-            // Campos bloqueados
-            'client_id' => [
-                'prohibited',
-            ],
-            'created_by' => [
-                'prohibited',
+                'prohibited', // Não permitir definir manualmente
             ],
             'archived_by' => [
                 'prohibited',
@@ -328,6 +265,7 @@ class UpdateCompanyRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'client_id' => 'ID do Cliente',
             'type' => 'tipo',
             'cnpj' => 'CNPJ',
             'trade_name' => 'nome fantasia',
@@ -351,12 +289,6 @@ class UpdateCompanyRequest extends FormRequest
             'subcategory_id' => 'subcategoria',
             'tax_regime' => 'regime tributário',
             'contacts' => 'contatos',
-            'contacts.*.name' => 'nome do contato',
-            'contacts.*.type' => 'tipo do contato',
-            'contacts.*.phone' => 'telefone do contato',
-            'contacts.*.email' => 'e-mail do contato',
-            'contacts.*.note' => 'observação do contato',
-            'contacts.*.is_main' => 'contato principal',
             'credit_limit' => 'limite de crédito',
             'used_credit' => 'crédito utilizado',
             'activated' => 'ativado',
@@ -372,10 +304,20 @@ class UpdateCompanyRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'client_id.required' => 'O ID do cliente é obrigatório.',
+            'client_id.integer' => 'O ID do cliente deve ser um número inteiro.',
+            'client_id.exists' => 'O ID do cliente selecionado é inválido.',
+            'type.required' => 'O tipo é obrigatório.',
+            'type.integer' => 'O tipo deve ser um número inteiro.',
+            'type.min' => 'O tipo deve ser no mínimo :min.',
+            'type.max' => 'O tipo deve ser no máximo :max.',
+            'cnpj.required' => 'O CNPJ é obrigatório.',
             'cnpj.size' => 'O CNPJ deve ter 18 caracteres.',
             'cnpj.regex' => 'O CNPJ deve estar no formato 00.000.000/0000-00.',
             'cnpj.unique' => 'Este CNPJ já está cadastrado.',
+            'trade_name.required' => 'O nome fantasia é obrigatório.',
             'trade_name.unique' => 'Este nome fantasia já está em uso.',
+            'company_name.required' => 'A razão social é obrigatória.',
             'company_name.unique' => 'Esta razão social já está em uso.',
             'zip_code.size' => 'O CEP deve ter 9 caracteres.',
             'zip_code.regex' => 'O CEP deve estar no formato 00000-000.',
@@ -388,13 +330,6 @@ class UpdateCompanyRequest extends FormRequest
             'used_credit.max' => 'O crédito utilizado não pode ser superior a 999.999.999.999,99.',
             'tax_regime.in' => 'O regime tributário selecionado é inválido.',
             'situation.in' => 'A situação selecionada é inválida.',
-            'contacts.*.name.required_with' => 'O nome do contato é obrigatório.',
-            'contacts.*.type.required_with' => 'O tipo do contato é obrigatório.',
-            'contacts.*.type.in' => 'O tipo do contato deve ser: comercial, financeiro, técnico, administrativo, suporte, marketing ou outro.',
-            'contacts.*.phone.required_with' => 'O telefone do contato é obrigatório.',
-            'contacts.*.phone.regex' => 'O telefone deve estar em um formato válido.',
-            'contacts.*.email.required_with' => 'O e-mail do contato é obrigatório.',
-            'contacts.*.email.email' => 'O e-mail do contato deve ser um endereço de e-mail válido.',
         ];
     }
 
@@ -403,7 +338,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        // Normalizar CNPJ
+        // Normalizar CNPJ (remover formatação para validação de unicidade)
         if ($this->has('cnpj')) {
             $this->merge([
                 'cnpj' => $this->normalizeCnpj($this->cnpj),
@@ -417,16 +352,25 @@ class UpdateCompanyRequest extends FormRequest
             ]);
         }
 
-        // Normalizar telefones nos contatos
-        if ($this->has('contacts') && is_array($this->contacts)) {
-            $contacts = [];
-            foreach ($this->contacts as $contact) {
-                if (isset($contact['phone'])) {
-                    $contact['phone'] = $this->normalizePhone($contact['phone']);
-                }
-                $contacts[] = $contact;
+        // Definir valores padrão
+        $defaults = [
+            'type' => 1,
+            'state_registration' => '',
+            'municipal_registration' => '',
+            'cnae' => '',
+            'tax_regime' => 1,
+            'credit_limit' => 0,
+            'used_credit' => 0,
+            'activated' => false,
+            'situation' => 1,
+            'status' => true,
+            'client_id' => Auth::user()->client_id ?? 0,
+        ];
+
+        foreach ($defaults as $key => $value) {
+            if (!$this->has($key)) {
+                $this->merge([$key => $value]);
             }
-            $this->merge(['contacts' => $contacts]);
         }
 
         // Capitalizar nomes
@@ -448,8 +392,10 @@ class UpdateCompanyRequest extends FormRequest
      */
     private function normalizeCnpj(string $cnpj): string
     {
+        // Remove todos os caracteres não numéricos
         $cleanCnpj = preg_replace('/[^0-9]/', '', $cnpj);
         
+        // Formata para o padrão 00.000.000/0000-00 se tiver 14 dígitos
         if (strlen($cleanCnpj) === 14) {
             return sprintf(
                 '%s.%s.%s/%s-%s',
@@ -479,41 +425,20 @@ class UpdateCompanyRequest extends FormRequest
     }
 
     /**
-     * Normaliza telefone.
-     */
-    private function normalizePhone(string $phone): string
-    {
-        $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
-        
-        if (strlen($cleanPhone) === 11) {
-            // Formato: (11) 99999-9999
-            return '(' . substr($cleanPhone, 0, 2) . ') ' . 
-                   substr($cleanPhone, 2, 5) . '-' . 
-                   substr($cleanPhone, 7, 4);
-        } elseif (strlen($cleanPhone) === 10) {
-            // Formato: (11) 9999-9999
-            return '(' . substr($cleanPhone, 0, 2) . ') ' . 
-                   substr($cleanPhone, 2, 4) . '-' . 
-                   substr($cleanPhone, 6, 4);
-        }
-        
-        return $phone;
-    }
-
-    /**
      * Handle a passed validation attempt.
      */
     protected function passedValidation(): void
     {
-        // Adicionar audit field
-        if (Auth::check() && !$this->has('updated_by')) {
+        // Adicionar audit fields
+        if (Auth::check()) {
             $this->merge([
-                'updated_by' => Auth::id(),
+                'created_by' => Auth::id(),
+                'client_id' => Auth::user()->client_id,
             ]);
         }
         
-        // Garantir que campos booleanos sejam booleanos
-        foreach (['is_headquarters', 'is_branch', 'activated', 'status', 'archived'] as $field) {
+        // Garantir que is_headquarters e is_branch sejam booleanos
+        foreach (['is_headquarters', 'is_branch', 'activated', 'status'] as $field) {
             if ($this->has($field)) {
                 $this->merge([
                     $field => filter_var($this->$field, FILTER_VALIDATE_BOOLEAN),
@@ -521,32 +446,11 @@ class UpdateCompanyRequest extends FormRequest
             }
         }
         
-        // Se estiver arquivando, adicionar timestamp
-        if ($this->has('archived') && $this->archived) {
-            $this->merge([
-                'archived_at' => now(),
-                'archived_by' => Auth::id(),
-            ]);
-        }
-        
-        // Se estiver desarquivando, limpar campos
-        if ($this->has('archived') && !$this->archived) {
-            $this->merge([
-                'archived_at' => null,
-                'archived_by' => null,
-            ]);
-        }
-        
-        // Garantir que is_main em contatos seja boolean e converter para JSON
+        // Garantir que contacts seja JSON válido
         if ($this->has('contacts') && is_array($this->contacts)) {
-            $contacts = [];
-            foreach ($this->contacts as $contact) {
-                if (isset($contact['is_main'])) {
-                    $contact['is_main'] = filter_var($contact['is_main'], FILTER_VALIDATE_BOOLEAN);
-                }
-                $contacts[] = $contact;
-            }
-            $this->merge(['contacts' => json_encode($contacts)]);
+            $this->merge([
+                'contacts' => json_encode($this->contacts),
+            ]);
         }
     }
 }

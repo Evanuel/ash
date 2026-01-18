@@ -173,23 +173,40 @@ class StoreCompanyRequest extends FormRequest
             'tax_regime' => [
                 'nullable',
                 'integer',
-                'in:1,2,3,4,5', // Exemplo: 1=Simples Nacional, 2=Lucro Presumido, etc.
+                'in:1,2,3,4,5',
             ],
             
-            // Contatos
+            // Contatos - NOVO FORMATO
             'contacts' => [
                 'nullable',
                 'array',
             ],
+            'contacts.*.name' => [
+                'required_with:contacts',
+                'string',
+                'max:100',
+            ],
             'contacts.*.type' => [
                 'required_with:contacts',
                 'string',
-                'in:email,phone,whatsapp,website',
+                'in:comercial,financial,technical,administrative,support,marketing,other',
             ],
-            'contacts.*.value' => [
+            'contacts.*.phone' => [
                 'required_with:contacts',
                 'string',
+                'max:20',
+                'regex:/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/',
+            ],
+            'contacts.*.email' => [
+                'required_with:contacts',
+                'string',
+                'email',
                 'max:255',
+            ],
+            'contacts.*.note' => [
+                'nullable',
+                'string',
+                'max:500',
             ],
             'contacts.*.is_main' => [
                 'boolean',
@@ -200,7 +217,7 @@ class StoreCompanyRequest extends FormRequest
                 'nullable',
                 'numeric',
                 'min:0',
-                'max:999999999999.99', // 15 dígitos, 2 decimais
+                'max:999999999999.99',
             ],
             'used_credit' => [
                 'nullable',
@@ -217,7 +234,7 @@ class StoreCompanyRequest extends FormRequest
             'situation' => [
                 'nullable',
                 'integer',
-                'in:1,2,3,4', // Exemplo: 1=Ativa, 2=Inativa, 3=Suspensa, 4=Baixada
+                'in:1,2,3,4',
             ],
             'status' => [
                 'nullable',
@@ -246,9 +263,9 @@ class StoreCompanyRequest extends FormRequest
                 'max:1000',
             ],
             
-            // Campos de auditoria (preenchidos automaticamente)
+            // Campos de auditoria
             'archived' => [
-                'prohibited', // Não permitir definir manualmente
+                'prohibited',
             ],
             'archived_by' => [
                 'prohibited',
@@ -289,6 +306,12 @@ class StoreCompanyRequest extends FormRequest
             'subcategory_id' => 'subcategoria',
             'tax_regime' => 'regime tributário',
             'contacts' => 'contatos',
+            'contacts.*.name' => 'nome do contato',
+            'contacts.*.type' => 'tipo do contato',
+            'contacts.*.phone' => 'telefone do contato',
+            'contacts.*.email' => 'e-mail do contato',
+            'contacts.*.note' => 'observação do contato',
+            'contacts.*.is_main' => 'contato principal',
             'credit_limit' => 'limite de crédito',
             'used_credit' => 'crédito utilizado',
             'activated' => 'ativado',
@@ -330,6 +353,13 @@ class StoreCompanyRequest extends FormRequest
             'used_credit.max' => 'O crédito utilizado não pode ser superior a 999.999.999.999,99.',
             'tax_regime.in' => 'O regime tributário selecionado é inválido.',
             'situation.in' => 'A situação selecionada é inválida.',
+            'contacts.*.name.required_with' => 'O nome do contato é obrigatório.',
+            'contacts.*.type.required_with' => 'O tipo do contato é obrigatório.',
+            'contacts.*.type.in' => 'O tipo do contato deve ser: comercial, financeiro, técnico, administrativo, suporte, marketing ou outro.',
+            'contacts.*.phone.required_with' => 'O telefone do contato é obrigatório.',
+            'contacts.*.phone.regex' => 'O telefone deve estar em um formato válido.',
+            'contacts.*.email.required_with' => 'O e-mail do contato é obrigatório.',
+            'contacts.*.email.email' => 'O e-mail do contato deve ser um endereço de e-mail válido.',
         ];
     }
 
@@ -338,7 +368,7 @@ class StoreCompanyRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        // Normalizar CNPJ (remover formatação para validação de unicidade)
+        // Normalizar CNPJ
         if ($this->has('cnpj')) {
             $this->merge([
                 'cnpj' => $this->normalizeCnpj($this->cnpj),
@@ -350,6 +380,18 @@ class StoreCompanyRequest extends FormRequest
             $this->merge([
                 'zip_code' => $this->normalizeZipCode($this->zip_code),
             ]);
+        }
+
+        // Normalizar telefones nos contatos
+        if ($this->has('contacts') && is_array($this->contacts)) {
+            $contacts = [];
+            foreach ($this->contacts as $contact) {
+                if (isset($contact['phone'])) {
+                    $contact['phone'] = $this->normalizePhone($contact['phone']);
+                }
+                $contacts[] = $contact;
+            }
+            $this->merge(['contacts' => $contacts]);
         }
 
         // Definir valores padrão
@@ -365,6 +407,7 @@ class StoreCompanyRequest extends FormRequest
             'situation' => 1,
             'status' => true,
             'client_id' => Auth::user()->client_id ?? 0,
+            'contacts' => [],
         ];
 
         foreach ($defaults as $key => $value) {
@@ -392,10 +435,8 @@ class StoreCompanyRequest extends FormRequest
      */
     private function normalizeCnpj(string $cnpj): string
     {
-        // Remove todos os caracteres não numéricos
         $cleanCnpj = preg_replace('/[^0-9]/', '', $cnpj);
         
-        // Formata para o padrão 00.000.000/0000-00 se tiver 14 dígitos
         if (strlen($cleanCnpj) === 14) {
             return sprintf(
                 '%s.%s.%s/%s-%s',
@@ -425,6 +466,28 @@ class StoreCompanyRequest extends FormRequest
     }
 
     /**
+     * Normaliza telefone.
+     */
+    private function normalizePhone(string $phone): string
+    {
+        $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
+        
+        if (strlen($cleanPhone) === 11) {
+            // Formato: (11) 99999-9999
+            return '(' . substr($cleanPhone, 0, 2) . ') ' . 
+                   substr($cleanPhone, 2, 5) . '-' . 
+                   substr($cleanPhone, 7, 4);
+        } elseif (strlen($cleanPhone) === 10) {
+            // Formato: (11) 9999-9999
+            return '(' . substr($cleanPhone, 0, 2) . ') ' . 
+                   substr($cleanPhone, 2, 4) . '-' . 
+                   substr($cleanPhone, 6, 4);
+        }
+        
+        return $phone;
+    }
+
+    /**
      * Handle a passed validation attempt.
      */
     protected function passedValidation(): void
@@ -437,7 +500,7 @@ class StoreCompanyRequest extends FormRequest
             ]);
         }
         
-        // Garantir que is_headquarters e is_branch sejam booleanos
+        // Garantir que booleanos sejam convertidos
         foreach (['is_headquarters', 'is_branch', 'activated', 'status'] as $field) {
             if ($this->has($field)) {
                 $this->merge([
@@ -446,11 +509,16 @@ class StoreCompanyRequest extends FormRequest
             }
         }
         
-        // Garantir que contacts seja JSON válido
+        // Garantir que is_main em contatos seja boolean
         if ($this->has('contacts') && is_array($this->contacts)) {
-            $this->merge([
-                'contacts' => json_encode($this->contacts),
-            ]);
+            $contacts = [];
+            foreach ($this->contacts as $contact) {
+                if (isset($contact['is_main'])) {
+                    $contact['is_main'] = filter_var($contact['is_main'], FILTER_VALIDATE_BOOLEAN);
+                }
+                $contacts[] = $contact;
+            }
+            $this->merge(['contacts' => json_encode($contacts)]);
         }
     }
 }

@@ -1,0 +1,3300 @@
+{
+  "metadata": {
+    "scan_date": "2026-01-18T16:28:14.684331",
+    "project_name": "ash",
+    "project_path": "C:\\Users\\Evanuel\\repositories\\ash",
+    "scanner_version": "2.0.0"
+  },
+  "statistics": {
+    "total_files": 195,
+    "total_size_bytes": 2936402,
+    "total_size_human": "2.80 MB",
+    "file_types": {
+      ".php": 169,
+      ".bash": 1,
+      ".json": 4,
+      ".xml": 1,
+      ".txt": 3,
+      ".md": 2,
+      ".css": 2,
+      ".js": 6,
+      ".ico": 1,
+      ".py": 1
+    },
+    "directory_count": 59,
+    "php_files": 66,
+    "blade_files": 0,
+    "js_files": 6,
+    "css_files": 2,
+    "config_files": 1
+  },
+  "structure": {
+    "models": [
+      {
+        "path": "app\\Console\\Commands\\FixModelStructure.php",
+        "size": 5227,
+        "size_human": "5.10 KB",
+        "modified": "2026-01-18T12:04:53.404341",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Console\\Commands\\FixModelStructure.php",
+        "classes": [
+          "FixModelStructure"
+        ],
+        "namespace": "App\\Console\\Commands",
+        "extends": "Command",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Console\\Command",
+          "Illuminate\\Support\\Facades\\File"
+        ],
+        "methods": [
+          "public handle",
+          "private fixSingleModel",
+          "private fixAllModels",
+          "private checkModelStructure"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Console\\Commands\\GenerateAllModels.php",
+        "size": 4254,
+        "size_human": "4.15 KB",
+        "modified": "2026-01-18T12:04:27.992036",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Console\\Commands\\GenerateAllModels.php",
+        "classes": [
+          "GenerateAllModels"
+        ],
+        "namespace": "App\\Console\\Commands",
+        "extends": "Command",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Console\\Command"
+        ],
+        "methods": [
+          "public handle",
+          "private getMissingModels",
+          "private modelExists"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Console\\Commands\\GenerateModelStructure.php",
+        "size": 20509,
+        "size_human": "20.03 KB",
+        "modified": "2026-01-18T12:03:50.151394",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Console\\Commands\\GenerateModelStructure.php",
+        "classes": [
+          "GenerateModelStructure"
+        ],
+        "namespace": "App\\Console\\Commands",
+        "extends": "Command",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Console\\Command",
+          "Illuminate\\Support\\Facades\\File",
+          "Illuminate\\Support\\Str",
+          "Illuminate\\Support\\Facades\\Artisan",
+          "Illuminate\\Http\\Request",
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Support\\Facades\\Auth",
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Support\\Facades\\Auth",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Http\\Request",
+          "Illuminate\\Http\\Resources\\Json\\JsonResource",
+          "Illuminate\\Http\\Request",
+          "Illuminate\\Http\\Resources\\Json\\ResourceCollection"
+        ],
+        "methods": [
+          "public handle",
+          "private generateAll",
+          "private generateSelected",
+          "private generateModel",
+          "private generateMigration",
+          "private generateController",
+          "private generateRequests",
+          "private generateResource",
+          "private generateResourceCollection",
+          "private generateSeeder"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Bank.php",
+        "size": 4391,
+        "size_human": "4.29 KB",
+        "modified": "2026-01-08T15:12:21.042802",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Bank.php",
+        "classes": [
+          "Bank"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public client",
+          "public financialTransactions",
+          "public createdBy",
+          "public updatedBy",
+          "public archivedBy",
+          "public scopeActive",
+          "public scopeCommercial",
+          "public scopePublic",
+          "public scopeParticipatesOnPix",
+          "public scopeByClient"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Category.php",
+        "size": 2218,
+        "size_human": "2.17 KB",
+        "modified": "2026-01-08T15:12:21.044810",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Category.php",
+        "classes": [
+          "Category"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "Illuminate\\Database\\Eloquent\\Relations\\HasMany",
+          "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public parent",
+          "public children",
+          "public allChildren",
+          "public scopeActive",
+          "public scopeByType",
+          "public scopeByClient",
+          "public companies",
+          "public subcategoryCompanies",
+          "public people",
+          "public subcategoryPeople"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\City.php",
+        "size": 811,
+        "size_human": "811.00 B",
+        "modified": "2026-01-08T15:12:21.046819",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\City.php",
+        "classes": [
+          "City"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public state",
+          "public companies",
+          "public people"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Company.php",
+        "size": 2736,
+        "size_human": "2.67 KB",
+        "modified": "2026-01-08T15:12:21.046819",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Company.php",
+        "classes": [
+          "Company"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public client",
+          "public state",
+          "public city",
+          "public category",
+          "public subcategory",
+          "public users",
+          "public financialTransactions",
+          "public scopeActive",
+          "public getFullAddressAttribute"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Country.php",
+        "size": 592,
+        "size_human": "592.00 B",
+        "modified": "2026-01-08T15:12:21.048828",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Country.php",
+        "classes": [
+          "Country"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public states"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\FinancialTransaction.php",
+        "size": 5543,
+        "size_human": "5.41 KB",
+        "modified": "2026-01-14T08:22:58.873428",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\FinancialTransaction.php",
+        "classes": [
+          "FinancialTransaction"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public client",
+          "public type",
+          "public category",
+          "public subcategory",
+          "public individual",
+          "public company",
+          "public status",
+          "public paymentMethod",
+          "public bank",
+          "public createdBy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\PaymentMethod.php",
+        "size": 627,
+        "size_human": "627.00 B",
+        "modified": "2026-01-08T15:12:21.050574",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\PaymentMethod.php",
+        "classes": [
+          "PaymentMethod"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public financialTransactions"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Person.php",
+        "size": 2546,
+        "size_human": "2.49 KB",
+        "modified": "2026-01-08T15:12:21.052582",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Person.php",
+        "classes": [
+          "Person"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public client",
+          "public state",
+          "public city",
+          "public category",
+          "public subcategory",
+          "public users",
+          "public financialTransactions",
+          "public scopeActive",
+          "public getFullNameAttribute",
+          "public getFullAddressAttribute"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Role.php",
+        "size": 2376,
+        "size_human": "2.32 KB",
+        "modified": "2026-01-08T18:05:42.045415",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Role.php",
+        "classes": [
+          "Role"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public client",
+          "public users",
+          "public scopeActive",
+          "public hasPermission",
+          "public scopeMinLevel",
+          "public scopeByClient",
+          "public addPermission",
+          "public removePermission",
+          "public getPermissionCountAttribute",
+          "public isAdmin"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\State.php",
+        "size": 902,
+        "size_human": "902.00 B",
+        "modified": "2026-01-08T15:12:21.056600",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\State.php",
+        "classes": [
+          "State"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public country",
+          "public cities",
+          "public companies",
+          "public people"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Status.php",
+        "size": 1264,
+        "size_human": "1.23 KB",
+        "modified": "2026-01-08T15:12:21.056600",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Status.php",
+        "classes": [
+          "Status"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "SoftDeletes"
+        ],
+        "methods": [
+          "public client",
+          "public financialTransactions",
+          "public scopeByType",
+          "public scopeActive",
+          "public scopeDefault"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\Type.php",
+        "size": 107,
+        "size_human": "107.00 B",
+        "modified": "2026-01-10T12:52:48.825467",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\Type.php",
+        "classes": [
+          "Type"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Model",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Model"
+        ],
+        "methods": [],
+        "properties": []
+      },
+      {
+        "path": "app\\Models\\User.php",
+        "size": 17917,
+        "size_human": "17.50 KB",
+        "modified": "2026-01-08T18:05:42.047416",
+        "type": "php-model",
+        "category": "Model",
+        "file": "app\\Models\\User.php",
+        "classes": [
+          "User"
+        ],
+        "namespace": "App\\Models",
+        "extends": "Authenticatable",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Factories\\HasFactory",
+          "Illuminate\\Database\\Eloquent\\SoftDeletes",
+          "Illuminate\\Notifications\\Notifiable",
+          "Illuminate\\Support\\Facades\\Session",
+          "Laravel\\Sanctum\\HasApiTokens",
+          "Laravel\\Sanctum\\PersonalAccessToken"
+        ],
+        "methods": [
+          "public role",
+          "public supervisor",
+          "public subordinates",
+          "public company",
+          "public person",
+          "public client",
+          "public branch",
+          "public creator",
+          "public updater",
+          "public archiver"
+        ],
+        "properties": []
+      }
+    ],
+    "controllers": [
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\AuthController.php",
+        "size": 4813,
+        "size_human": "4.70 KB",
+        "modified": "2026-01-10T11:15:47.103810",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\AuthController.php",
+        "classes": [
+          "AuthController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Controllers\\Api\\ApiResponse",
+          "App\\Http\\Requests\\Api\\V1\\Auth\\LoginRequest",
+          "App\\Http\\Requests\\Api\\V1\\Auth\\RegisterRequest",
+          "App\\Http\\Resources\\Api\\V1\\UserResource",
+          "App\\Models\\User",
+          "App\\Services\\AuthService",
+          "Illuminate\\Http\\JsonResponse",
+          "Illuminate\\Support\\Facades\\DB",
+          "Illuminate\\Support\\Facades\\Hash",
+          "Illuminate\\Validation\\ValidationException",
+          "ApiResponse"
+        ],
+        "methods": [
+          "public __construct",
+          "public login",
+          "public logout",
+          "public me",
+          "public refresh",
+          "public register"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\BankController.php",
+        "size": 1684,
+        "size_human": "1.64 KB",
+        "modified": "2026-01-18T12:06:05.044466",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\BankController.php",
+        "classes": [
+          "BankController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\Bank\\StoreBankRequest",
+          "App\\Http\\Requests\\Api\\V1\\Bank\\UpdateBankRequest",
+          "App\\Http\\Resources\\Api\\V1\\BankResource",
+          "App\\Http\\Resources\\Api\\V1\\BankCollection",
+          "App\\Models\\Bank",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\BaseController.php",
+        "size": 4190,
+        "size_human": "4.09 KB",
+        "modified": "2026-01-12T21:26:40.703465",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\BaseController.php",
+        "classes": [
+          "BaseController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "Controller",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Controllers\\Controller",
+          "App\\Services\\PermissionService",
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Http\\Request",
+          "Illuminate\\Http\\Resources\\Json\\JsonResource"
+        ],
+        "methods": [
+          "public index",
+          "public show",
+          "public destroy",
+          "protected authorizeOrFail",
+          "protected applyFilters",
+          "protected applySearch",
+          "protected applySorting"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\CategoryController.php",
+        "size": 1868,
+        "size_human": "1.82 KB",
+        "modified": "2026-01-10T16:12:40.098294",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\CategoryController.php",
+        "classes": [
+          "CategoryController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Models\\Category",
+          "App\\Http\\Resources\\Api\\V1\\CategoryResource",
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public tree"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\CityController.php",
+        "size": 1684,
+        "size_human": "1.64 KB",
+        "modified": "2026-01-18T12:06:05.055463",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\CityController.php",
+        "classes": [
+          "CityController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\City\\StoreCityRequest",
+          "App\\Http\\Requests\\Api\\V1\\City\\UpdateCityRequest",
+          "App\\Http\\Resources\\Api\\V1\\CityResource",
+          "App\\Http\\Resources\\Api\\V1\\CityCollection",
+          "App\\Models\\City",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\CompanyController.php",
+        "size": 2096,
+        "size_human": "2.05 KB",
+        "modified": "2026-01-12T22:54:31.988854",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\CompanyController.php",
+        "classes": [
+          "CompanyController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest",
+          "App\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest",
+          "Illuminate\\Database\\Eloquent\\Model",
+          "App\\Models\\Company",
+          "App\\Http\\Resources\\Api\\V1\\CompanyResource"
+        ],
+        "methods": [
+          "public __construct",
+          "public store",
+          "public update"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\CountryController.php",
+        "size": 1750,
+        "size_human": "1.71 KB",
+        "modified": "2026-01-18T12:06:05.064189",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\CountryController.php",
+        "classes": [
+          "CountryController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\Country\\StoreCountryRequest",
+          "App\\Http\\Requests\\Api\\V1\\Country\\UpdateCountryRequest",
+          "App\\Http\\Resources\\Api\\V1\\CountryResource",
+          "App\\Http\\Resources\\Api\\V1\\CountryCollection",
+          "App\\Models\\Country",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
+        "size": 2527,
+        "size_human": "2.47 KB",
+        "modified": "2026-01-13T19:43:18.660246",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
+        "classes": [
+          "FinancialTransactionController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest",
+          "App\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest",
+          "App\\Http\\Resources\\Api\\V1\\FinancialTransactionResource",
+          "App\\Models\\FinancialTransaction",
+          "Illuminate\\Database\\Eloquent\\Model"
+        ],
+        "methods": [
+          "public __construct",
+          "public store",
+          "public store",
+          "public update"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\PaymentMethodController.php",
+        "size": 1882,
+        "size_human": "1.84 KB",
+        "modified": "2026-01-18T12:06:05.075820",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\PaymentMethodController.php",
+        "classes": [
+          "PaymentMethodController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\PaymentMethod\\StorePaymentMethodRequest",
+          "App\\Http\\Requests\\Api\\V1\\PaymentMethod\\UpdatePaymentMethodRequest",
+          "App\\Http\\Resources\\Api\\V1\\PaymentMethodResource",
+          "App\\Http\\Resources\\Api\\V1\\PaymentMethodCollection",
+          "App\\Models\\PaymentMethod",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\PeopleController.php",
+        "size": 105,
+        "size_human": "105.00 B",
+        "modified": "2026-01-08T23:04:08.119311",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\PeopleController.php",
+        "classes": [
+          "PeopleController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\PersonController.php",
+        "size": 1728,
+        "size_human": "1.69 KB",
+        "modified": "2026-01-18T12:06:05.090059",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\PersonController.php",
+        "classes": [
+          "PersonController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\Person\\StorePersonRequest",
+          "App\\Http\\Requests\\Api\\V1\\Person\\UpdatePersonRequest",
+          "App\\Http\\Resources\\Api\\V1\\PersonResource",
+          "App\\Http\\Resources\\Api\\V1\\PersonCollection",
+          "App\\Models\\Person",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\RoleController.php",
+        "size": 132,
+        "size_human": "132.00 B",
+        "modified": "2026-01-08T23:04:10.303026",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\RoleController.php",
+        "classes": [
+          "RoleController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\StateController.php",
+        "size": 1706,
+        "size_human": "1.67 KB",
+        "modified": "2026-01-18T12:06:05.132559",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\StateController.php",
+        "classes": [
+          "StateController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\State\\StoreStateRequest",
+          "App\\Http\\Requests\\Api\\V1\\State\\UpdateStateRequest",
+          "App\\Http\\Resources\\Api\\V1\\StateResource",
+          "App\\Http\\Resources\\Api\\V1\\StateCollection",
+          "App\\Models\\State",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\StatusController.php",
+        "size": 1728,
+        "size_human": "1.69 KB",
+        "modified": "2026-01-18T12:06:05.153472",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\StatusController.php",
+        "classes": [
+          "StatusController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\Status\\StoreStatusRequest",
+          "App\\Http\\Requests\\Api\\V1\\Status\\UpdateStatusRequest",
+          "App\\Http\\Resources\\Api\\V1\\StatusResource",
+          "App\\Http\\Resources\\Api\\V1\\StatusCollection",
+          "App\\Models\\Status",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\TypeController.php",
+        "size": 1684,
+        "size_human": "1.64 KB",
+        "modified": "2026-01-18T12:06:05.168529",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\TypeController.php",
+        "classes": [
+          "TypeController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Requests\\Api\\V1\\Type\\StoreTypeRequest",
+          "App\\Http\\Requests\\Api\\V1\\Type\\UpdateTypeRequest",
+          "App\\Http\\Resources\\Api\\V1\\TypeResource",
+          "App\\Http\\Resources\\Api\\V1\\TypeCollection",
+          "App\\Models\\Type",
+          "Illuminate\\Http\\Request"
+        ],
+        "methods": [
+          "public __construct",
+          "public index",
+          "public store",
+          "public show",
+          "public update",
+          "public destroy"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Api\\V1\\UserController.php",
+        "size": 804,
+        "size_human": "804.00 B",
+        "modified": "2026-01-09T22:17:15.414065",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Api\\V1\\UserController.php",
+        "classes": [
+          "UserController"
+        ],
+        "namespace": "App\\Http\\Controllers\\Api\\V1",
+        "extends": "BaseController",
+        "implements": [],
+        "traits": [
+          "App\\Http\\Resources\\Api\\V1\\UserResource",
+          "App\\Models\\User",
+          "Illuminate\\Database\\Eloquent\\Model"
+        ],
+        "methods": [
+          "public __construct"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Controllers\\Controller.php",
+        "size": 77,
+        "size_human": "77.00 B",
+        "modified": "2026-01-08T15:12:21.028739",
+        "type": "php-controller",
+        "category": "Controller",
+        "file": "app\\Http\\Controllers\\Controller.php",
+        "classes": [
+          "Controller"
+        ],
+        "namespace": "App\\Http\\Controllers",
+        "extends": "",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      }
+    ],
+    "middlewares": [],
+    "requests": [
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Auth\\LoginRequest.php",
+        "size": 914,
+        "size_human": "914.00 B",
+        "modified": "2026-01-08T15:12:21.032757",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Auth\\LoginRequest.php",
+        "classes": [
+          "LoginRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\Auth",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rules\\Password"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public messages"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Auth\\RegisterRequest.php",
+        "size": 1772,
+        "size_human": "1.73 KB",
+        "modified": "2026-01-10T11:15:47.107812",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Auth\\RegisterRequest.php",
+        "classes": [
+          "RegisterRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\Auth",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rules\\Password"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public messages"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Category\\CategoryRequest.php",
+        "size": 2312,
+        "size_human": "2.26 KB",
+        "modified": "2026-01-10T21:23:23.621747",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Category\\CategoryRequest.php",
+        "classes": [
+          "CategoryRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public messages"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
+        "size": 14067,
+        "size_human": "13.74 KB",
+        "modified": "2026-01-12T23:06:10.790828",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
+        "classes": [
+          "StoreCompanyRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth",
+          "App\\Services\\PermissionService"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "private normalizeCnpj",
+          "private normalizeZipCode",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
+        "size": 17242,
+        "size_human": "16.84 KB",
+        "modified": "2026-01-18T15:42:47.721484",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
+        "classes": [
+          "StoreCompanyRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth",
+          "App\\Services\\PermissionService"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "private normalizeCnpj",
+          "private normalizeZipCode",
+          "private normalizePhone",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
+        "size": 15067,
+        "size_human": "14.71 KB",
+        "modified": "2026-01-11T19:44:47.727665",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
+        "classes": [
+          "UpdateCompanyRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth",
+          "App\\Services\\PermissionService"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "private normalizeCnpj",
+          "private normalizeZipCode",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest.php",
+        "size": 18181,
+        "size_human": "17.75 KB",
+        "modified": "2026-01-18T15:47:19.027453",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest.php",
+        "classes": [
+          "UpdateCompanyRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth",
+          "App\\Services\\PermissionService"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "private normalizeCnpj",
+          "private normalizeZipCode",
+          "private normalizePhone",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+        "size": 14498,
+        "size_human": "14.16 KB",
+        "modified": "2026-01-13T21:16:00.977073",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+        "classes": [
+          "StoreFinancialTransactionRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth"
+        ],
+        "methods": [
+          "public authorize",
+          "protected passedValidation",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
+        "size": 13961,
+        "size_human": "13.63 KB",
+        "modified": "2026-01-13T16:58:24.931767",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
+        "classes": [
+          "StoreFinancialTransactionRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+        "size": 14234,
+        "size_human": "13.90 KB",
+        "modified": "2026-01-13T16:40:25.505699",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+        "classes": [
+          "UpdateFinancialTransactionRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth",
+          "App\\Services\\PermissionService"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\User\\StoreUserRequest.php",
+        "size": 6699,
+        "size_human": "6.54 KB",
+        "modified": "2026-01-09T20:08:49.802922",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\User\\StoreUserRequest.php",
+        "classes": [
+          "StoreUserRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\User",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Support\\Facades\\Auth"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\User\\UpdateUserRequest.php",
+        "size": 9080,
+        "size_human": "8.87 KB",
+        "modified": "2026-01-09T20:09:21.302184",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\User\\UpdateUserRequest.php",
+        "classes": [
+          "UpdateUserRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "protected passedValidation"
+        ],
+        "properties": []
+      }
+    ],
+    "services": [
+      {
+        "path": "app\\Providers\\AppServiceProvider.php",
+        "size": 1800,
+        "size_human": "1.76 KB",
+        "modified": "2026-01-08T18:05:42.052454",
+        "type": "php-service",
+        "category": "Service",
+        "file": "app\\Providers\\AppServiceProvider.php",
+        "classes": [
+          "AuthServiceProvider"
+        ],
+        "namespace": "App\\Providers",
+        "extends": "ServiceProvider",
+        "implements": [],
+        "traits": [
+          "App\\Models\\User",
+          "App\\Policies\\UserPolicy",
+          "Illuminate\\Support\\Facades\\Gate"
+        ],
+        "methods": [
+          "public boot"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Services\\AuthService.php",
+        "size": 2087,
+        "size_human": "2.04 KB",
+        "modified": "2026-01-10T11:15:47.111324",
+        "type": "php-service",
+        "category": "Service",
+        "file": "app\\Services\\AuthService.php",
+        "classes": [
+          "AuthService"
+        ],
+        "namespace": "App\\Services",
+        "extends": "",
+        "implements": [],
+        "traits": [
+          "App\\Models\\User",
+          "Illuminate\\Support\\Facades\\Hash",
+          "Illuminate\\Validation\\ValidationException"
+        ],
+        "methods": [
+          "public authenticate",
+          "public logout",
+          "public createToken",
+          "public register"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Services\\FinancialTransactionService.php",
+        "size": 0,
+        "size_human": "0.00 B",
+        "modified": "2026-01-08T15:12:21.066378",
+        "type": "php-service",
+        "category": "Service",
+        "file": "app\\Services\\FinancialTransactionService.php",
+        "classes": [],
+        "namespace": "",
+        "extends": "",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      },
+      {
+        "path": "app\\Services\\LogService.php",
+        "size": 660,
+        "size_human": "660.00 B",
+        "modified": "2026-01-08T18:05:42.054529",
+        "type": "php-service",
+        "category": "Service",
+        "file": "app\\Services\\LogService.php",
+        "classes": [
+          "LogService"
+        ],
+        "namespace": "App\\Services",
+        "extends": "",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Http\\Request",
+          "Illuminate\\Support\\Facades\\Log"
+        ],
+        "methods": [
+          "public apiRequest"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Services\\PermissionService.php",
+        "size": 726,
+        "size_human": "726.00 B",
+        "modified": "2026-01-09T20:08:05.751865",
+        "type": "php-service",
+        "category": "Service",
+        "file": "app\\Services\\PermissionService.php",
+        "classes": [
+          "PermissionService"
+        ],
+        "namespace": "App\\Services",
+        "extends": "",
+        "implements": [],
+        "traits": [
+          "App\\Models\\User"
+        ],
+        "methods": [
+          "public has"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Services\\UserService.php",
+        "size": 0,
+        "size_human": "0.00 B",
+        "modified": "2026-01-08T15:12:21.066378",
+        "type": "php-service",
+        "category": "Service",
+        "file": "app\\Services\\UserService.php",
+        "classes": [],
+        "namespace": "",
+        "extends": "",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      },
+      {
+        "path": "bootstrap\\cache\\services.php",
+        "size": 22001,
+        "size_human": "21.49 KB",
+        "modified": "2026-01-08T18:38:55.069881",
+        "type": "php-service",
+        "category": "Service",
+        "file": "bootstrap\\cache\\services.php",
+        "classes": [],
+        "namespace": "",
+        "extends": "",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      },
+      {
+        "path": "config\\services.php",
+        "size": 1039,
+        "size_human": "1.01 KB",
+        "modified": "2026-01-08T15:12:21.085291",
+        "type": "php-service",
+        "category": "Service",
+        "file": "config\\services.php",
+        "classes": [],
+        "namespace": "",
+        "extends": "",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      }
+    ],
+    "providers": [
+      {
+        "path": "bootstrap\\providers.php",
+        "size": 64,
+        "size_human": "64.00 B",
+        "modified": "2026-01-08T15:12:21.074390",
+        "type": "php-provider",
+        "category": "Provider",
+        "file": "bootstrap\\providers.php",
+        "classes": [],
+        "namespace": "",
+        "extends": "",
+        "implements": [],
+        "traits": [],
+        "methods": [],
+        "properties": []
+      }
+    ],
+    "jobs": [
+      {
+        "path": "database\\migrations\\0001_01_01_000002_create_jobs_table.php",
+        "size": 1812,
+        "size_human": "1.77 KB",
+        "modified": "2026-01-08T15:12:21.097509",
+        "type": "php-job",
+        "category": "Job",
+        "file": "database\\migrations\\0001_01_01_000002_create_jobs_table.php",
+        "classes": [
+          "extends"
+        ],
+        "namespace": "",
+        "extends": "Migration",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Migrations\\Migration",
+          "Illuminate\\Database\\Schema\\Blueprint",
+          "Illuminate\\Support\\Facades\\Schema"
+        ],
+        "methods": [
+          "public up",
+          "public down"
+        ],
+        "properties": []
+      }
+    ],
+    "migrations": [],
+    "seeders": [
+      {
+        "path": "database\\seeders\\BankSeeder.php",
+        "size": 4122,
+        "size_human": "4.03 KB",
+        "modified": "2026-01-08T15:12:21.107309",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\BankSeeder.php",
+        "classes": [
+          "BankSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Seeder",
+          "App\\Models\\Bank"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\CategorySeeder.php",
+        "size": 5573,
+        "size_human": "5.44 KB",
+        "modified": "2026-01-12T21:26:40.732400",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\CategorySeeder.php",
+        "classes": [
+          "CategorySeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "App\\Models\\Category",
+          "Illuminate\\Database\\Seeder"
+        ],
+        "methods": [
+          "public run",
+          "private createSubcategories"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\CitySeeder.php",
+        "size": 580434,
+        "size_human": "566.83 KB",
+        "modified": "2026-01-08T15:12:21.115761",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\CitySeeder.php",
+        "classes": [
+          "CitySeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "App\\Models\\City",
+          "App\\Models\\Country",
+          "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+          "Illuminate\\Database\\Seeder"
+        ],
+        "methods": [
+          "public run",
+          "private getPaises",
+          "private getCidades"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\CompanySeeder.php",
+        "size": 3256,
+        "size_human": "3.18 KB",
+        "modified": "2026-01-12T21:26:40.734814",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\CompanySeeder.php",
+        "classes": [
+          "CompanySeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "App\\Models\\Company",
+          "App\\Models\\User",
+          "App\\Models\\State",
+          "App\\Models\\City",
+          "App\\Models\\Category",
+          "Illuminate\\Database\\Seeder"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\DatabaseSeeder.php",
+        "size": 674,
+        "size_human": "674.00 B",
+        "modified": "2026-01-13T21:48:41.708846",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\DatabaseSeeder.php",
+        "classes": [
+          "DatabaseSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "App\\Models\\Status",
+          "App\\Models\\User",
+          "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+          "Illuminate\\Database\\Seeder",
+          "WithoutModelEvents"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\PaymentMethodSeeder.php",
+        "size": 274,
+        "size_human": "274.00 B",
+        "modified": "2026-01-08T15:12:21.115761",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\PaymentMethodSeeder.php",
+        "classes": [
+          "PaymentMethodSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+          "Illuminate\\Database\\Seeder"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\RoleSeeder.php",
+        "size": 2254,
+        "size_human": "2.20 KB",
+        "modified": "2026-01-08T15:12:21.124103",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\RoleSeeder.php",
+        "classes": [
+          "RoleSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Seeder",
+          "Illuminate\\Support\\Facades\\DB",
+          "Carbon\\Carbon"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\StateSeeder.php",
+        "size": 2686,
+        "size_human": "2.62 KB",
+        "modified": "2026-01-08T15:12:21.124103",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\StateSeeder.php",
+        "classes": [
+          "StateSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "App\\Models\\State",
+          "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+          "Illuminate\\Database\\Seeder"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\StatusesSeeder.php",
+        "size": 8483,
+        "size_human": "8.28 KB",
+        "modified": "2026-01-13T21:48:10.343369",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\StatusesSeeder.php",
+        "classes": [
+          "StatusesSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Seeder",
+          "Illuminate\\Support\\Facades\\DB"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      },
+      {
+        "path": "database\\seeders\\UserSeeder.php",
+        "size": 3901,
+        "size_human": "3.81 KB",
+        "modified": "2026-01-08T15:12:21.124103",
+        "type": "php-seeder",
+        "category": "Seeder",
+        "file": "database\\seeders\\UserSeeder.php",
+        "classes": [
+          "UserSeeder"
+        ],
+        "namespace": "Database\\Seeders",
+        "extends": "Seeder",
+        "implements": [],
+        "traits": [
+          "Carbon\\Carbon",
+          "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+          "Illuminate\\Database\\Seeder",
+          "Illuminate\\Support\\Facades\\DB",
+          "Illuminate\\Support\\Facades\\Hash"
+        ],
+        "methods": [
+          "public run"
+        ],
+        "properties": []
+      }
+    ],
+    "factories": [
+      {
+        "path": "database\\factories\\UserFactory.php",
+        "size": 1075,
+        "size_human": "1.05 KB",
+        "modified": "2026-01-08T15:12:21.090743",
+        "type": "php-factory",
+        "category": "Factory",
+        "file": "database\\factories\\UserFactory.php",
+        "classes": [
+          "UserFactory"
+        ],
+        "namespace": "Database\\Factories",
+        "extends": "\\Illuminate\\Database\\Eloquent\\Factories\\Factory",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Database\\Eloquent\\Factories\\Factory",
+          "Illuminate\\Support\\Facades\\Hash",
+          "Illuminate\\Support\\Str"
+        ],
+        "methods": [
+          "public definition",
+          "public unverified"
+        ],
+        "properties": []
+      }
+    ],
+    "views": [],
+    "configs": [
+      {
+        "path": ".editorconfig",
+        "size": 252,
+        "size_human": "252.00 B",
+        "modified": "2026-01-08T15:12:20.995383",
+        "type": "config",
+        "category": "Configuration"
+      }
+    ],
+    "routes": []
+  },
+  "composer": {
+    "name": "laravel/laravel",
+    "description": "The skeleton application for the Laravel framework.",
+    "dependencies": {
+      "php": "^8.2",
+      "laravel/framework": "^12.0",
+      "laravel/sanctum": "^4.2",
+      "laravel/tinker": "^2.10.1"
+    },
+    "dev_dependencies": {
+      "fakerphp/faker": "^1.23",
+      "laravel/pail": "^1.2.2",
+      "laravel/pint": "^1.24",
+      "laravel/sail": "^1.41",
+      "mockery/mockery": "^1.6",
+      "nunomaduro/collision": "^8.6",
+      "pestphp/pest": "^3.8",
+      "pestphp/pest-plugin-laravel": "^3.2"
+    }
+  },
+  "routes_analysis": {
+    "web_routes": [
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": ", function () {\n            return response()->json([\n                ",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": ", function () {\n        //     return response()->json([",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "]);\n        Route::post(",
+        "file": "api.php"
+      },
+      {
+        "method": "MIDDLEWARE",
+        "path": ")->group(function () {\n\n        // Autenticação\n        Route::prefix(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PUT",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PATCH",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "DELETE",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PUT",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PATCH",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "DELETE",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PUT",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PATCH",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "DELETE",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PUT",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PATCH",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "DELETE",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PUT",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PATCH",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "DELETE",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PREFIX",
+        "path": ")->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PUT",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "PATCH",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "DELETE",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "POST",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": "])->name(",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": ", function () {\n        return response()->json([\n            ",
+        "file": "api.php"
+      },
+      {
+        "method": "GET",
+        "path": ", function () {\n    return view(",
+        "file": "web.php"
+      },
+      {
+        "method": "GET",
+        "path": ", function () {\n    return view(",
+        "file": "web.php"
+      },
+      {
+        "method": "GET",
+        "path": ", function () {\n    // return response()->json([",
+        "file": "web.php"
+      }
+    ],
+    "api_routes": [],
+    "custom_routes": []
+  },
+  "recent_files": [
+    {
+      "path": "app\\Console\\Commands\\FixModelStructure.php",
+      "size": 5227,
+      "size_human": "5.10 KB",
+      "modified": "2026-01-18T12:04:53.404341",
+      "type": "php-model",
+      "category": "Model",
+      "file": "app\\Console\\Commands\\FixModelStructure.php",
+      "classes": [
+        "FixModelStructure"
+      ],
+      "namespace": "App\\Console\\Commands",
+      "extends": "Command",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Console\\Command",
+        "Illuminate\\Support\\Facades\\File"
+      ],
+      "methods": [
+        "public handle",
+        "private fixSingleModel",
+        "private fixAllModels",
+        "private checkModelStructure"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Console\\Commands\\GenerateAllModels.php",
+      "size": 4254,
+      "size_human": "4.15 KB",
+      "modified": "2026-01-18T12:04:27.992036",
+      "type": "php-model",
+      "category": "Model",
+      "file": "app\\Console\\Commands\\GenerateAllModels.php",
+      "classes": [
+        "GenerateAllModels"
+      ],
+      "namespace": "App\\Console\\Commands",
+      "extends": "Command",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Console\\Command"
+      ],
+      "methods": [
+        "public handle",
+        "private getMissingModels",
+        "private modelExists"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Console\\Commands\\GenerateModelStructure.php",
+      "size": 20509,
+      "size_human": "20.03 KB",
+      "modified": "2026-01-18T12:03:50.151394",
+      "type": "php-model",
+      "category": "Model",
+      "file": "app\\Console\\Commands\\GenerateModelStructure.php",
+      "classes": [
+        "GenerateModelStructure"
+      ],
+      "namespace": "App\\Console\\Commands",
+      "extends": "Command",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Console\\Command",
+        "Illuminate\\Support\\Facades\\File",
+        "Illuminate\\Support\\Str",
+        "Illuminate\\Support\\Facades\\Artisan",
+        "Illuminate\\Http\\Request",
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Support\\Facades\\Auth",
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Support\\Facades\\Auth",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Http\\Request",
+        "Illuminate\\Http\\Resources\\Json\\JsonResource",
+        "Illuminate\\Http\\Request",
+        "Illuminate\\Http\\Resources\\Json\\ResourceCollection"
+      ],
+      "methods": [
+        "public handle",
+        "private generateAll",
+        "private generateSelected",
+        "private generateModel",
+        "private generateMigration",
+        "private generateController",
+        "private generateRequests",
+        "private generateResource",
+        "private generateResourceCollection",
+        "private generateSeeder"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\BankController.php",
+      "size": 1684,
+      "size_human": "1.64 KB",
+      "modified": "2026-01-18T12:06:05.044466",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\BankController.php",
+      "classes": [
+        "BankController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\Bank\\StoreBankRequest",
+        "App\\Http\\Requests\\Api\\V1\\Bank\\UpdateBankRequest",
+        "App\\Http\\Resources\\Api\\V1\\BankResource",
+        "App\\Http\\Resources\\Api\\V1\\BankCollection",
+        "App\\Models\\Bank",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\BaseController.php",
+      "size": 4190,
+      "size_human": "4.09 KB",
+      "modified": "2026-01-12T21:26:40.703465",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\BaseController.php",
+      "classes": [
+        "BaseController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "Controller",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Controllers\\Controller",
+        "App\\Services\\PermissionService",
+        "Illuminate\\Database\\Eloquent\\Model",
+        "Illuminate\\Http\\Request",
+        "Illuminate\\Http\\Resources\\Json\\JsonResource"
+      ],
+      "methods": [
+        "public index",
+        "public show",
+        "public destroy",
+        "protected authorizeOrFail",
+        "protected applyFilters",
+        "protected applySearch",
+        "protected applySorting"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\CityController.php",
+      "size": 1684,
+      "size_human": "1.64 KB",
+      "modified": "2026-01-18T12:06:05.055463",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\CityController.php",
+      "classes": [
+        "CityController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\City\\StoreCityRequest",
+        "App\\Http\\Requests\\Api\\V1\\City\\UpdateCityRequest",
+        "App\\Http\\Resources\\Api\\V1\\CityResource",
+        "App\\Http\\Resources\\Api\\V1\\CityCollection",
+        "App\\Models\\City",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\CompanyController.php",
+      "size": 2096,
+      "size_human": "2.05 KB",
+      "modified": "2026-01-12T22:54:31.988854",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\CompanyController.php",
+      "classes": [
+        "CompanyController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest",
+        "App\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest",
+        "Illuminate\\Database\\Eloquent\\Model",
+        "App\\Models\\Company",
+        "App\\Http\\Resources\\Api\\V1\\CompanyResource"
+      ],
+      "methods": [
+        "public __construct",
+        "public store",
+        "public update"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\CountryController.php",
+      "size": 1750,
+      "size_human": "1.71 KB",
+      "modified": "2026-01-18T12:06:05.064189",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\CountryController.php",
+      "classes": [
+        "CountryController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\Country\\StoreCountryRequest",
+        "App\\Http\\Requests\\Api\\V1\\Country\\UpdateCountryRequest",
+        "App\\Http\\Resources\\Api\\V1\\CountryResource",
+        "App\\Http\\Resources\\Api\\V1\\CountryCollection",
+        "App\\Models\\Country",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
+      "size": 2527,
+      "size_human": "2.47 KB",
+      "modified": "2026-01-13T19:43:18.660246",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
+      "classes": [
+        "FinancialTransactionController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest",
+        "App\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest",
+        "App\\Http\\Resources\\Api\\V1\\FinancialTransactionResource",
+        "App\\Models\\FinancialTransaction",
+        "Illuminate\\Database\\Eloquent\\Model"
+      ],
+      "methods": [
+        "public __construct",
+        "public store",
+        "public store",
+        "public update"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\PaymentMethodController.php",
+      "size": 1882,
+      "size_human": "1.84 KB",
+      "modified": "2026-01-18T12:06:05.075820",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\PaymentMethodController.php",
+      "classes": [
+        "PaymentMethodController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\PaymentMethod\\StorePaymentMethodRequest",
+        "App\\Http\\Requests\\Api\\V1\\PaymentMethod\\UpdatePaymentMethodRequest",
+        "App\\Http\\Resources\\Api\\V1\\PaymentMethodResource",
+        "App\\Http\\Resources\\Api\\V1\\PaymentMethodCollection",
+        "App\\Models\\PaymentMethod",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\PersonController.php",
+      "size": 1728,
+      "size_human": "1.69 KB",
+      "modified": "2026-01-18T12:06:05.090059",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\PersonController.php",
+      "classes": [
+        "PersonController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\Person\\StorePersonRequest",
+        "App\\Http\\Requests\\Api\\V1\\Person\\UpdatePersonRequest",
+        "App\\Http\\Resources\\Api\\V1\\PersonResource",
+        "App\\Http\\Resources\\Api\\V1\\PersonCollection",
+        "App\\Models\\Person",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\StateController.php",
+      "size": 1706,
+      "size_human": "1.67 KB",
+      "modified": "2026-01-18T12:06:05.132559",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\StateController.php",
+      "classes": [
+        "StateController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\State\\StoreStateRequest",
+        "App\\Http\\Requests\\Api\\V1\\State\\UpdateStateRequest",
+        "App\\Http\\Resources\\Api\\V1\\StateResource",
+        "App\\Http\\Resources\\Api\\V1\\StateCollection",
+        "App\\Models\\State",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\StatusController.php",
+      "size": 1728,
+      "size_human": "1.69 KB",
+      "modified": "2026-01-18T12:06:05.153472",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\StatusController.php",
+      "classes": [
+        "StatusController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\Status\\StoreStatusRequest",
+        "App\\Http\\Requests\\Api\\V1\\Status\\UpdateStatusRequest",
+        "App\\Http\\Resources\\Api\\V1\\StatusResource",
+        "App\\Http\\Resources\\Api\\V1\\StatusCollection",
+        "App\\Models\\Status",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Controllers\\Api\\V1\\TypeController.php",
+      "size": 1684,
+      "size_human": "1.64 KB",
+      "modified": "2026-01-18T12:06:05.168529",
+      "type": "php-controller",
+      "category": "Controller",
+      "file": "app\\Http\\Controllers\\Api\\V1\\TypeController.php",
+      "classes": [
+        "TypeController"
+      ],
+      "namespace": "App\\Http\\Controllers\\Api\\V1",
+      "extends": "BaseController",
+      "implements": [],
+      "traits": [
+        "App\\Http\\Requests\\Api\\V1\\Type\\StoreTypeRequest",
+        "App\\Http\\Requests\\Api\\V1\\Type\\UpdateTypeRequest",
+        "App\\Http\\Resources\\Api\\V1\\TypeResource",
+        "App\\Http\\Resources\\Api\\V1\\TypeCollection",
+        "App\\Models\\Type",
+        "Illuminate\\Http\\Request"
+      ],
+      "methods": [
+        "public __construct",
+        "public index",
+        "public store",
+        "public show",
+        "public update",
+        "public destroy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\Category\\CategoryRequest.php",
+      "size": 2312,
+      "size_human": "2.26 KB",
+      "modified": "2026-01-10T21:23:23.621747",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\Category\\CategoryRequest.php",
+      "classes": [
+        "CategoryRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public messages"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
+      "size": 14067,
+      "size_human": "13.74 KB",
+      "modified": "2026-01-12T23:06:10.790828",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
+      "classes": [
+        "StoreCompanyRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth",
+        "App\\Services\\PermissionService"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "private normalizeCnpj",
+        "private normalizeZipCode",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
+      "size": 17242,
+      "size_human": "16.84 KB",
+      "modified": "2026-01-18T15:42:47.721484",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
+      "classes": [
+        "StoreCompanyRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth",
+        "App\\Services\\PermissionService"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "private normalizeCnpj",
+        "private normalizeZipCode",
+        "private normalizePhone",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
+      "size": 15067,
+      "size_human": "14.71 KB",
+      "modified": "2026-01-11T19:44:47.727665",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
+      "classes": [
+        "UpdateCompanyRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth",
+        "App\\Services\\PermissionService"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "private normalizeCnpj",
+        "private normalizeZipCode",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest.php",
+      "size": 18181,
+      "size_human": "17.75 KB",
+      "modified": "2026-01-18T15:47:19.027453",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest.php",
+      "classes": [
+        "UpdateCompanyRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth",
+        "App\\Services\\PermissionService"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "private normalizeCnpj",
+        "private normalizeZipCode",
+        "private normalizePhone",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\create.bash",
+      "size": 1448,
+      "size_human": "1.41 KB",
+      "modified": "2026-01-13T16:40:25.506918",
+      "type": "bash",
+      "category": "Other"
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+      "size": 14498,
+      "size_human": "14.16 KB",
+      "modified": "2026-01-13T21:16:00.977073",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+      "classes": [
+        "StoreFinancialTransactionRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth"
+      ],
+      "methods": [
+        "public authorize",
+        "protected passedValidation",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
+      "size": 13961,
+      "size_human": "13.63 KB",
+      "modified": "2026-01-13T16:58:24.931767",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
+      "classes": [
+        "StoreFinancialTransactionRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+      "size": 14234,
+      "size_human": "13.90 KB",
+      "modified": "2026-01-13T16:40:25.505699",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+      "classes": [
+        "UpdateFinancialTransactionRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth",
+        "App\\Services\\PermissionService"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Resources\\Api\\V1\\CompanyCollection.php",
+      "size": 1765,
+      "size_human": "1.72 KB",
+      "modified": "2026-01-12T21:26:40.723689",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "app\\Http\\Resources\\Api\\V1\\CompanyResource.php",
+      "size": 3308,
+      "size_human": "3.23 KB",
+      "modified": "2026-01-18T15:10:59.124619",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "app\\Http\\Resources\\Api\\V1\\FinancialTransactionCollection .php",
+      "size": 2038,
+      "size_human": "1.99 KB",
+      "modified": "2026-01-13T16:40:25.509391",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "app\\Http\\Resources\\Api\\V1\\FinancialTransactionResource.php",
+      "size": 7864,
+      "size_human": "7.68 KB",
+      "modified": "2026-01-13T16:40:25.512392",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "app\\Http\\Resources\\Api\\V1\\PersonCollection.php",
+      "size": 1246,
+      "size_human": "1.22 KB",
+      "modified": "2026-01-13T16:40:25.515428",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "app\\Http\\Resources\\Api\\V1\\PersonResource.php",
+      "size": 459,
+      "size_human": "459.00 B",
+      "modified": "2026-01-13T16:40:25.515428",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "app\\Models\\FinancialTransaction.php",
+      "size": 5543,
+      "size_human": "5.41 KB",
+      "modified": "2026-01-14T08:22:58.873428",
+      "type": "php-model",
+      "category": "Model",
+      "file": "app\\Models\\FinancialTransaction.php",
+      "classes": [
+        "FinancialTransaction"
+      ],
+      "namespace": "App\\Models",
+      "extends": "Model",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Database\\Eloquent\\Model",
+        "Illuminate\\Database\\Eloquent\\SoftDeletes",
+        "SoftDeletes"
+      ],
+      "methods": [
+        "public client",
+        "public type",
+        "public category",
+        "public subcategory",
+        "public individual",
+        "public company",
+        "public status",
+        "public paymentMethod",
+        "public bank",
+        "public createdBy"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\View\\Components\\AppLayout.php",
+      "size": 457,
+      "size_human": "457.00 B",
+      "modified": "2026-01-11T13:46:47.247403",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "config\\app.php",
+      "size": 4319,
+      "size_human": "4.22 KB",
+      "modified": "2026-01-15T21:53:30.595808",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\migrations\\0001_01_01_000000_create_users_table.php",
+      "size": 3574,
+      "size_human": "3.49 KB",
+      "modified": "2026-01-10T19:39:30.981409",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\migrations\\2026_01_03_162100_create_states_table.php",
+      "size": 1182,
+      "size_human": "1.15 KB",
+      "modified": "2026-01-12T21:26:40.727871",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\migrations\\2026_01_03_162115_create_cities_table.php",
+      "size": 1269,
+      "size_human": "1.24 KB",
+      "modified": "2026-01-12T21:26:40.731269",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\migrations\\2026_01_03_162829_create_companies_table.php",
+      "size": 3550,
+      "size_human": "3.47 KB",
+      "modified": "2026-01-10T21:48:05.145574",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\seeders\\CategorySeeder.php",
+      "size": 5573,
+      "size_human": "5.44 KB",
+      "modified": "2026-01-12T21:26:40.732400",
+      "type": "php-seeder",
+      "category": "Seeder",
+      "file": "database\\seeders\\CategorySeeder.php",
+      "classes": [
+        "CategorySeeder"
+      ],
+      "namespace": "Database\\Seeders",
+      "extends": "Seeder",
+      "implements": [],
+      "traits": [
+        "App\\Models\\Category",
+        "Illuminate\\Database\\Seeder"
+      ],
+      "methods": [
+        "public run",
+        "private createSubcategories"
+      ],
+      "properties": []
+    },
+    {
+      "path": "database\\seeders\\CompanySeeder.php",
+      "size": 3256,
+      "size_human": "3.18 KB",
+      "modified": "2026-01-12T21:26:40.734814",
+      "type": "php-seeder",
+      "category": "Seeder",
+      "file": "database\\seeders\\CompanySeeder.php",
+      "classes": [
+        "CompanySeeder"
+      ],
+      "namespace": "Database\\Seeders",
+      "extends": "Seeder",
+      "implements": [],
+      "traits": [
+        "App\\Models\\Company",
+        "App\\Models\\User",
+        "App\\Models\\State",
+        "App\\Models\\City",
+        "App\\Models\\Category",
+        "Illuminate\\Database\\Seeder"
+      ],
+      "methods": [
+        "public run"
+      ],
+      "properties": []
+    },
+    {
+      "path": "database\\seeders\\DatabaseSeeder.php",
+      "size": 674,
+      "size_human": "674.00 B",
+      "modified": "2026-01-13T21:48:41.708846",
+      "type": "php-seeder",
+      "category": "Seeder",
+      "file": "database\\seeders\\DatabaseSeeder.php",
+      "classes": [
+        "DatabaseSeeder"
+      ],
+      "namespace": "Database\\Seeders",
+      "extends": "Seeder",
+      "implements": [],
+      "traits": [
+        "App\\Models\\Status",
+        "App\\Models\\User",
+        "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+        "Illuminate\\Database\\Seeder",
+        "WithoutModelEvents"
+      ],
+      "methods": [
+        "public run"
+      ],
+      "properties": []
+    },
+    {
+      "path": "database\\seeders\\StatusesSeeder.php",
+      "size": 8483,
+      "size_human": "8.28 KB",
+      "modified": "2026-01-13T21:48:10.343369",
+      "type": "php-seeder",
+      "category": "Seeder",
+      "file": "database\\seeders\\StatusesSeeder.php",
+      "classes": [
+        "StatusesSeeder"
+      ],
+      "namespace": "Database\\Seeders",
+      "extends": "Seeder",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Database\\Seeder",
+        "Illuminate\\Support\\Facades\\DB"
+      ],
+      "methods": [
+        "public run"
+      ],
+      "properties": []
+    },
+    {
+      "path": "project_analysis\\ash_analysis_full.json",
+      "size": 85877,
+      "size_human": "83.86 KB",
+      "modified": "2026-01-18T10:42:03.137631",
+      "type": "json",
+      "category": "JSON"
+    },
+    {
+      "path": "project_analysis\\ash_analysis_report.txt",
+      "size": 5490,
+      "size_human": "5.36 KB",
+      "modified": "2026-01-18T10:42:03.141823",
+      "type": "txt",
+      "category": "Other"
+    },
+    {
+      "path": "project_analysis\\ash_analysis_simple.json",
+      "size": 2914,
+      "size_human": "2.85 KB",
+      "modified": "2026-01-18T10:42:03.139700",
+      "type": "json",
+      "category": "JSON"
+    },
+    {
+      "path": "project_analysis\\ash_files_list.txt",
+      "size": 2361,
+      "size_human": "2.31 KB",
+      "modified": "2026-01-18T10:42:03.144974",
+      "type": "txt",
+      "category": "Other"
+    },
+    {
+      "path": "project_analysis\\ASH_PROJECT_CONTEXT.md",
+      "size": 6689,
+      "size_human": "6.53 KB",
+      "modified": "2026-01-18T10:42:03.143833",
+      "type": "md",
+      "category": "Other"
+    },
+    {
+      "path": "public\\assets\\css\\style.css",
+      "size": 23565,
+      "size_human": "23.01 KB",
+      "modified": "2026-01-15T21:56:39.501308",
+      "type": "css",
+      "category": "CSS"
+    },
+    {
+      "path": "public\\assets\\js\\collections.js",
+      "size": 43258,
+      "size_human": "42.24 KB",
+      "modified": "2026-01-15T21:55:25.168664",
+      "type": "javascript",
+      "category": "JavaScript"
+    },
+    {
+      "path": "public\\assets\\js\\history.js",
+      "size": 8431,
+      "size_human": "8.23 KB",
+      "modified": "2026-01-15T21:54:56.688918",
+      "type": "javascript",
+      "category": "JavaScript"
+    },
+    {
+      "path": "public\\assets\\js\\script.js",
+      "size": 0,
+      "size_human": "0.00 B",
+      "modified": "2026-01-15T21:56:06.581586",
+      "type": "javascript",
+      "category": "JavaScript"
+    },
+    {
+      "path": "public\\hot",
+      "size": 17,
+      "size_human": "17.00 B",
+      "modified": "2026-01-11T20:37:24.309826",
+      "type": "unknown",
+      "category": "Other"
+    },
+    {
+      "path": "resources\\views\\api-client.blade.php",
+      "size": 201406,
+      "size_human": "196.69 KB",
+      "modified": "2026-01-17T22:13:37.618225",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "resources\\views\\index-20260117202152.blade.php",
+      "size": 91388,
+      "size_human": "89.25 KB",
+      "modified": "2026-01-17T22:00:38.680810",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "resources\\views\\index_bug-20260116112557.blade.php",
+      "size": 178837,
+      "size_human": "174.65 KB",
+      "modified": "2026-01-16T15:18:10.951789",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "resources\\views\\index_old.blade.php",
+      "size": 38934,
+      "size_human": "38.02 KB",
+      "modified": "2026-01-15T22:05:08.192670",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "resources\\views\\login.blade.php",
+      "size": 40778,
+      "size_human": "39.82 KB",
+      "modified": "2026-01-18T16:10:37.526766",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "resources\\views\\welcome.blade.php",
+      "size": 34886,
+      "size_human": "34.07 KB",
+      "modified": "2026-01-18T16:27:38.347768",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "routes\\api.php",
+      "size": 6708,
+      "size_human": "6.55 KB",
+      "modified": "2026-01-18T15:55:11.178472",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "routes\\web.php",
+      "size": 383,
+      "size_human": "383.00 B",
+      "modified": "2026-01-18T16:04:17.358554",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "scan_project.py",
+      "size": 30940,
+      "size_human": "30.21 KB",
+      "modified": "2026-01-18T10:40:43.808932",
+      "type": "py",
+      "category": "Other"
+    },
+    {
+      "path": "storage\\framework\\views\\2fc53ccdc94043ee356c9af03acfc62d.php",
+      "size": 189692,
+      "size_human": "185.25 KB",
+      "modified": "2026-01-17T22:13:18.814813",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "storage\\framework\\views\\54399da8b75bfbc002a79acd0d0341c4.php",
+      "size": 40871,
+      "size_human": "39.91 KB",
+      "modified": "2026-01-18T16:10:39.534379",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "storage\\framework\\views\\8159ab3f9c71e1a5156423c100f8c65d.php",
+      "size": 34993,
+      "size_human": "34.17 KB",
+      "modified": "2026-01-18T08:13:13.535914",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "storage\\framework\\views\\b0d062584744880284640f51f26aa3fc.php",
+      "size": 201581,
+      "size_human": "196.86 KB",
+      "modified": "2026-01-17T22:15:24.626332",
+      "type": "php",
+      "category": "PHP"
+    }
+  ]
+}

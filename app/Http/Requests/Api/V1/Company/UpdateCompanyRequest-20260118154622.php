@@ -193,38 +193,21 @@ class UpdateCompanyRequest extends FormRequest
                 'in:1,2,3,4,5',
             ],
             
-            // Contatos - NOVO FORMATO
+            // Contatos
             'contacts' => [
                 'sometimes',
                 'nullable',
                 'array',
             ],
-            'contacts.*.name' => [
-                'required_with:contacts',
-                'string',
-                'max:100',
-            ],
             'contacts.*.type' => [
                 'required_with:contacts',
                 'string',
-                'in:comercial,financial,technical,administrative,support,marketing,other',
+                'in:email,phone,whatsapp,website',
             ],
-            'contacts.*.phone' => [
+            'contacts.*.value' => [
                 'required_with:contacts',
                 'string',
-                'max:20',
-                'regex:/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/',
-            ],
-            'contacts.*.email' => [
-                'required_with:contacts',
-                'string',
-                'email',
                 'max:255',
-            ],
-            'contacts.*.note' => [
-                'nullable',
-                'string',
-                'max:500',
             ],
             'contacts.*.is_main' => [
                 'boolean',
@@ -351,12 +334,6 @@ class UpdateCompanyRequest extends FormRequest
             'subcategory_id' => 'subcategoria',
             'tax_regime' => 'regime tributário',
             'contacts' => 'contatos',
-            'contacts.*.name' => 'nome do contato',
-            'contacts.*.type' => 'tipo do contato',
-            'contacts.*.phone' => 'telefone do contato',
-            'contacts.*.email' => 'e-mail do contato',
-            'contacts.*.note' => 'observação do contato',
-            'contacts.*.is_main' => 'contato principal',
             'credit_limit' => 'limite de crédito',
             'used_credit' => 'crédito utilizado',
             'activated' => 'ativado',
@@ -388,13 +365,6 @@ class UpdateCompanyRequest extends FormRequest
             'used_credit.max' => 'O crédito utilizado não pode ser superior a 999.999.999.999,99.',
             'tax_regime.in' => 'O regime tributário selecionado é inválido.',
             'situation.in' => 'A situação selecionada é inválida.',
-            'contacts.*.name.required_with' => 'O nome do contato é obrigatório.',
-            'contacts.*.type.required_with' => 'O tipo do contato é obrigatório.',
-            'contacts.*.type.in' => 'O tipo do contato deve ser: comercial, financeiro, técnico, administrativo, suporte, marketing ou outro.',
-            'contacts.*.phone.required_with' => 'O telefone do contato é obrigatório.',
-            'contacts.*.phone.regex' => 'O telefone deve estar em um formato válido.',
-            'contacts.*.email.required_with' => 'O e-mail do contato é obrigatório.',
-            'contacts.*.email.email' => 'O e-mail do contato deve ser um endereço de e-mail válido.',
         ];
     }
 
@@ -415,18 +385,6 @@ class UpdateCompanyRequest extends FormRequest
             $this->merge([
                 'zip_code' => $this->normalizeZipCode($this->zip_code),
             ]);
-        }
-
-        // Normalizar telefones nos contatos
-        if ($this->has('contacts') && is_array($this->contacts)) {
-            $contacts = [];
-            foreach ($this->contacts as $contact) {
-                if (isset($contact['phone'])) {
-                    $contact['phone'] = $this->normalizePhone($contact['phone']);
-                }
-                $contacts[] = $contact;
-            }
-            $this->merge(['contacts' => $contacts]);
         }
 
         // Capitalizar nomes
@@ -479,28 +437,6 @@ class UpdateCompanyRequest extends FormRequest
     }
 
     /**
-     * Normaliza telefone.
-     */
-    private function normalizePhone(string $phone): string
-    {
-        $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
-        
-        if (strlen($cleanPhone) === 11) {
-            // Formato: (11) 99999-9999
-            return '(' . substr($cleanPhone, 0, 2) . ') ' . 
-                   substr($cleanPhone, 2, 5) . '-' . 
-                   substr($cleanPhone, 7, 4);
-        } elseif (strlen($cleanPhone) === 10) {
-            // Formato: (11) 9999-9999
-            return '(' . substr($cleanPhone, 0, 2) . ') ' . 
-                   substr($cleanPhone, 2, 4) . '-' . 
-                   substr($cleanPhone, 6, 4);
-        }
-        
-        return $phone;
-    }
-
-    /**
      * Handle a passed validation attempt.
      */
     protected function passedValidation(): void
@@ -537,16 +473,11 @@ class UpdateCompanyRequest extends FormRequest
             ]);
         }
         
-        // Garantir que is_main em contatos seja boolean e converter para JSON
+        // Garantir que contacts seja JSON válido
         if ($this->has('contacts') && is_array($this->contacts)) {
-            $contacts = [];
-            foreach ($this->contacts as $contact) {
-                if (isset($contact['is_main'])) {
-                    $contact['is_main'] = filter_var($contact['is_main'], FILTER_VALIDATE_BOOLEAN);
-                }
-                $contacts[] = $contact;
-            }
-            $this->merge(['contacts' => json_encode($contacts)]);
+            $this->merge([
+                'contacts' => json_encode($this->contacts),
+            ]);
         }
     }
 }

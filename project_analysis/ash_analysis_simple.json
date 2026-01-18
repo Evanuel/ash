@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "scan_date": "2026-01-18T16:28:14.684331",
+    "project_name": "ash",
+    "project_path": "C:\\Users\\Evanuel\\repositories\\ash",
+    "scanner_version": "2.0.0"
+  },
+  "statistics": {
+    "total_files": 195,
+    "total_size_bytes": 2936402,
+    "total_size_human": "2.80 MB",
+    "file_types": {
+      ".php": 169,
+      ".bash": 1,
+      ".json": 4,
+      ".xml": 1,
+      ".txt": 3,
+      ".md": 2,
+      ".css": 2,
+      ".js": 6,
+      ".ico": 1,
+      ".py": 1
+    },
+    "directory_count": 59,
+    "php_files": 66,
+    "blade_files": 0,
+    "js_files": 6,
+    "css_files": 2,
+    "config_files": 1
+  },
+  "models": [
+    {
+      "class": "FixModelStructure",
+      "path": "app\\Console\\Commands\\FixModelStructure.php"
+    },
+    {
+      "class": "GenerateAllModels",
+      "path": "app\\Console\\Commands\\GenerateAllModels.php"
+    },
+    {
+      "class": "GenerateModelStructure",
+      "path": "app\\Console\\Commands\\GenerateModelStructure.php"
+    },
+    {
+      "class": "Bank",
+      "path": "app\\Models\\Bank.php"
+    },
+    {
+      "class": "Category",
+      "path": "app\\Models\\Category.php"
+    },
+    {
+      "class": "City",
+      "path": "app\\Models\\City.php"
+    },
+    {
+      "class": "Company",
+      "path": "app\\Models\\Company.php"
+    },
+    {
+      "class": "Country",
+      "path": "app\\Models\\Country.php"
+    },
+    {
+      "class": "FinancialTransaction",
+      "path": "app\\Models\\FinancialTransaction.php"
+    },
+    {
+      "class": "PaymentMethod",
+      "path": "app\\Models\\PaymentMethod.php"
+    },
+    {
+      "class": "Person",
+      "path": "app\\Models\\Person.php"
+    },
+    {
+      "class": "Role",
+      "path": "app\\Models\\Role.php"
+    },
+    {
+      "class": "State",
+      "path": "app\\Models\\State.php"
+    },
+    {
+      "class": "Status",
+      "path": "app\\Models\\Status.php"
+    },
+    {
+      "class": "Type",
+      "path": "app\\Models\\Type.php"
+    },
+    {
+      "class": "User",
+      "path": "app\\Models\\User.php"
+    }
+  ],
+  "controllers": [
+    {
+      "class": "AuthController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\AuthController.php"
+    },
+    {
+      "class": "BankController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\BankController.php"
+    },
+    {
+      "class": "BaseController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\BaseController.php"
+    },
+    {
+      "class": "CategoryController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\CategoryController.php"
+    },
+    {
+      "class": "CityController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\CityController.php"
+    },
+    {
+      "class": "CompanyController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\CompanyController.php"
+    },
+    {
+      "class": "CountryController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\CountryController.php"
+    },
+    {
+      "class": "FinancialTransactionController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php"
+    },
+    {
+      "class": "PaymentMethodController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\PaymentMethodController.php"
+    },
+    {
+      "class": "PeopleController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\PeopleController.php"
+    },
+    {
+      "class": "PersonController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\PersonController.php"
+    },
+    {
+      "class": "RoleController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\RoleController.php"
+    },
+    {
+      "class": "StateController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\StateController.php"
+    },
+    {
+      "class": "StatusController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\StatusController.php"
+    },
+    {
+      "class": "TypeController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\TypeController.php"
+    },
+    {
+      "class": "UserController",
+      "path": "app\\Http\\Controllers\\Api\\V1\\UserController.php"
+    },
+    {
+      "class": "Controller",
+      "path": "app\\Http\\Controllers\\Controller.php"
+    }
+  ]
+}

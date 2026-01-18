@@ -47,7 +47,8 @@ class CompanyResource extends JsonResource
             'category' => $this->whenLoaded('category'),
             'subcategory' => $this->whenLoaded('subcategory'),
             'tax_regime' => $this->tax_regime,
-            'contacts' => $this->contacts ? json_decode($this->contacts, true) : [],
+            //'contacts' => $this->contacts ? json_decode($this->contacts, true) : [],
+            'contacts' => $this->contacts ?: [],
             'financial' => [
                 'credit_limit' => (float) $this->credit_limit,
                 'used_credit' => (float) $this->used_credit,
