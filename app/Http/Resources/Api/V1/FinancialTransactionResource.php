@@ -74,8 +74,10 @@ class FinancialTransactionResource extends JsonResource
                 return [
                     'id' => $this->status_id,
                     'name' => optional($this->status)->name,
+                    'description' => optional($this->status)->description,
                     'color' => optional($this->status)->color,
                     'css_class' => optional($this->status)->color_class . ' ' . optional($this->status)->text_class . ' ' . optional($this->status)->bg_class,
+                    'icon' => optional($this->status)->icon,
                 ];
             }, null),
             'status_id' => $this->status_id,
