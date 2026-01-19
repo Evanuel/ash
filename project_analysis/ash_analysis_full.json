@@ -1,17 +1,17 @@
 {
   "metadata": {
-    "scan_date": "2026-01-18T16:28:14.684331",
+    "scan_date": "2026-01-18T18:37:00.379312",
     "project_name": "ash",
     "project_path": "C:\\Users\\Evanuel\\repositories\\ash",
     "scanner_version": "2.0.0"
   },
   "statistics": {
-    "total_files": 195,
-    "total_size_bytes": 2936402,
-    "total_size_human": "2.80 MB",
+    "total_files": 192,
+    "total_size_bytes": 2919325,
+    "total_size_human": "2.78 MB",
     "file_types": {
-      ".php": 169,
-      ".bash": 1,
+      ".php": 166,
+      ".note": 1,
       ".json": 4,
       ".xml": 1,
       ".txt": 3,
@@ -22,7 +22,7 @@
       ".py": 1
     },
     "directory_count": 59,
-    "php_files": 66,
+    "php_files": 63,
     "blade_files": 0,
     "js_files": 6,
     "css_files": 2,
@@ -1076,38 +1076,6 @@
         "properties": []
       },
       {
-        "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
-        "size": 14067,
-        "size_human": "13.74 KB",
-        "modified": "2026-01-12T23:06:10.790828",
-        "type": "php-request",
-        "category": "Request",
-        "file": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
-        "classes": [
-          "StoreCompanyRequest"
-        ],
-        "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
-        "extends": "FormRequest",
-        "implements": [],
-        "traits": [
-          "Illuminate\\Foundation\\Http\\FormRequest",
-          "Illuminate\\Validation\\Rule",
-          "Illuminate\\Support\\Facades\\Auth",
-          "App\\Services\\PermissionService"
-        ],
-        "methods": [
-          "public authorize",
-          "public rules",
-          "public attributes",
-          "public messages",
-          "protected prepareForValidation",
-          "private normalizeCnpj",
-          "private normalizeZipCode",
-          "protected passedValidation"
-        ],
-        "properties": []
-      },
-      {
         "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
         "size": 17242,
         "size_human": "16.84 KB",
@@ -1136,38 +1104,6 @@
           "private normalizeCnpj",
           "private normalizeZipCode",
           "private normalizePhone",
-          "protected passedValidation"
-        ],
-        "properties": []
-      },
-      {
-        "path": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
-        "size": 15067,
-        "size_human": "14.71 KB",
-        "modified": "2026-01-11T19:44:47.727665",
-        "type": "php-request",
-        "category": "Request",
-        "file": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
-        "classes": [
-          "UpdateCompanyRequest"
-        ],
-        "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
-        "extends": "FormRequest",
-        "implements": [],
-        "traits": [
-          "Illuminate\\Foundation\\Http\\FormRequest",
-          "Illuminate\\Validation\\Rule",
-          "Illuminate\\Support\\Facades\\Auth",
-          "App\\Services\\PermissionService"
-        ],
-        "methods": [
-          "public authorize",
-          "public rules",
-          "public attributes",
-          "public messages",
-          "protected prepareForValidation",
-          "private normalizeCnpj",
-          "private normalizeZipCode",
           "protected passedValidation"
         ],
         "properties": []
@@ -1231,35 +1167,6 @@
           "public attributes",
           "public messages",
           "protected prepareForValidation"
-        ],
-        "properties": []
-      },
-      {
-        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
-        "size": 13961,
-        "size_human": "13.63 KB",
-        "modified": "2026-01-13T16:58:24.931767",
-        "type": "php-request",
-        "category": "Request",
-        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
-        "classes": [
-          "StoreFinancialTransactionRequest"
-        ],
-        "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
-        "extends": "FormRequest",
-        "implements": [],
-        "traits": [
-          "Illuminate\\Foundation\\Http\\FormRequest",
-          "Illuminate\\Validation\\Rule",
-          "Illuminate\\Support\\Facades\\Auth"
-        ],
-        "methods": [
-          "public authorize",
-          "public rules",
-          "public attributes",
-          "public messages",
-          "protected prepareForValidation",
-          "protected passedValidation"
         ],
         "properties": []
       },
@@ -1481,9 +1388,9 @@
       },
       {
         "path": "bootstrap\\cache\\services.php",
-        "size": 22001,
-        "size_human": "21.49 KB",
-        "modified": "2026-01-08T18:38:55.069881",
+        "size": 25326,
+        "size_human": "24.73 KB",
+        "modified": "2026-01-18T17:27:38.269602",
         "type": "php-service",
         "category": "Service",
         "file": "bootstrap\\cache\\services.php",
@@ -1857,14 +1764,17 @@
       "laravel/tinker": "^2.10.1"
     },
     "dev_dependencies": {
+      "brainmaestro/composer-git-hooks": "^3.0",
       "fakerphp/faker": "^1.23",
       "laravel/pail": "^1.2.2",
-      "laravel/pint": "^1.24",
+      "laravel/pint": "^1.27",
       "laravel/sail": "^1.41",
       "mockery/mockery": "^1.6",
       "nunomaduro/collision": "^8.6",
+      "orchestra/testbench": "^10.9",
       "pestphp/pest": "^3.8",
-      "pestphp/pest-plugin-laravel": "^3.2"
+      "pestphp/pest-plugin-laravel": "^3.2",
+      "phpstan/phpstan": "^2.1"
     }
   },
   "routes_analysis": {
@@ -2658,38 +2568,6 @@
       "properties": []
     },
     {
-      "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
-      "size": 14067,
-      "size_human": "13.74 KB",
-      "modified": "2026-01-12T23:06:10.790828",
-      "type": "php-request",
-      "category": "Request",
-      "file": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest-20260118154218.php",
-      "classes": [
-        "StoreCompanyRequest"
-      ],
-      "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
-      "extends": "FormRequest",
-      "implements": [],
-      "traits": [
-        "Illuminate\\Foundation\\Http\\FormRequest",
-        "Illuminate\\Validation\\Rule",
-        "Illuminate\\Support\\Facades\\Auth",
-        "App\\Services\\PermissionService"
-      ],
-      "methods": [
-        "public authorize",
-        "public rules",
-        "public attributes",
-        "public messages",
-        "protected prepareForValidation",
-        "private normalizeCnpj",
-        "private normalizeZipCode",
-        "protected passedValidation"
-      ],
-      "properties": []
-    },
-    {
       "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
       "size": 17242,
       "size_human": "16.84 KB",
@@ -2718,38 +2596,6 @@
         "private normalizeCnpj",
         "private normalizeZipCode",
         "private normalizePhone",
-        "protected passedValidation"
-      ],
-      "properties": []
-    },
-    {
-      "path": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
-      "size": 15067,
-      "size_human": "14.71 KB",
-      "modified": "2026-01-11T19:44:47.727665",
-      "type": "php-request",
-      "category": "Request",
-      "file": "app\\Http\\Requests\\Api\\V1\\Company\\UpdateCompanyRequest-20260118154622.php",
-      "classes": [
-        "UpdateCompanyRequest"
-      ],
-      "namespace": "App\\Http\\Requests\\Api\\V1\\Company",
-      "extends": "FormRequest",
-      "implements": [],
-      "traits": [
-        "Illuminate\\Foundation\\Http\\FormRequest",
-        "Illuminate\\Validation\\Rule",
-        "Illuminate\\Support\\Facades\\Auth",
-        "App\\Services\\PermissionService"
-      ],
-      "methods": [
-        "public authorize",
-        "public rules",
-        "public attributes",
-        "public messages",
-        "protected prepareForValidation",
-        "private normalizeCnpj",
-        "private normalizeZipCode",
         "protected passedValidation"
       ],
       "properties": []
@@ -2788,11 +2634,11 @@
       "properties": []
     },
     {
-      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\create.bash",
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\create.financial.transaction.note",
       "size": 1448,
       "size_human": "1.41 KB",
       "modified": "2026-01-13T16:40:25.506918",
-      "type": "bash",
+      "type": "note",
       "category": "Other"
     },
     {
@@ -2821,35 +2667,6 @@
         "public attributes",
         "public messages",
         "protected prepareForValidation"
-      ],
-      "properties": []
-    },
-    {
-      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
-      "size": 13961,
-      "size_human": "13.63 KB",
-      "modified": "2026-01-13T16:58:24.931767",
-      "type": "php-request",
-      "category": "Request",
-      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest2.php",
-      "classes": [
-        "StoreFinancialTransactionRequest"
-      ],
-      "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
-      "extends": "FormRequest",
-      "implements": [],
-      "traits": [
-        "Illuminate\\Foundation\\Http\\FormRequest",
-        "Illuminate\\Validation\\Rule",
-        "Illuminate\\Support\\Facades\\Auth"
-      ],
-      "methods": [
-        "public authorize",
-        "public rules",
-        "public attributes",
-        "public messages",
-        "protected prepareForValidation",
-        "protected passedValidation"
       ],
       "properties": []
     },
@@ -2971,6 +2788,38 @@
       "modified": "2026-01-11T13:46:47.247403",
       "type": "php",
       "category": "PHP"
+    },
+    {
+      "path": "bootstrap\\cache\\packages.php",
+      "size": 1380,
+      "size_human": "1.35 KB",
+      "modified": "2026-01-18T17:27:38.691450",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "bootstrap\\cache\\services.php",
+      "size": 25326,
+      "size_human": "24.73 KB",
+      "modified": "2026-01-18T17:27:38.269602",
+      "type": "php-service",
+      "category": "Service",
+      "file": "bootstrap\\cache\\services.php",
+      "classes": [],
+      "namespace": "",
+      "extends": "",
+      "implements": [],
+      "traits": [],
+      "methods": [],
+      "properties": []
+    },
+    {
+      "path": "composer.json",
+      "size": 3002,
+      "size_human": "2.93 KB",
+      "modified": "2026-01-18T17:27:46.898421",
+      "type": "json",
+      "category": "JSON"
     },
     {
       "path": "config\\app.php",
@@ -3113,42 +2962,50 @@
       "properties": []
     },
     {
+      "path": "phpunit.xml",
+      "size": 1317,
+      "size_human": "1.29 KB",
+      "modified": "2026-01-18T17:38:54.560741",
+      "type": "xml",
+      "category": "Other"
+    },
+    {
       "path": "project_analysis\\ash_analysis_full.json",
-      "size": 85877,
-      "size_human": "83.86 KB",
-      "modified": "2026-01-18T10:42:03.137631",
+      "size": 101571,
+      "size_human": "99.19 KB",
+      "modified": "2026-01-18T16:28:14.847359",
       "type": "json",
       "category": "JSON"
     },
     {
       "path": "project_analysis\\ash_analysis_report.txt",
-      "size": 5490,
-      "size_human": "5.36 KB",
-      "modified": "2026-01-18T10:42:03.141823",
+      "size": 6434,
+      "size_human": "6.28 KB",
+      "modified": "2026-01-18T16:28:14.847359",
       "type": "txt",
       "category": "Other"
     },
     {
       "path": "project_analysis\\ash_analysis_simple.json",
-      "size": 2914,
-      "size_human": "2.85 KB",
-      "modified": "2026-01-18T10:42:03.139700",
+      "size": 4229,
+      "size_human": "4.13 KB",
+      "modified": "2026-01-18T16:28:14.847359",
       "type": "json",
       "category": "JSON"
     },
     {
       "path": "project_analysis\\ash_files_list.txt",
-      "size": 2361,
-      "size_human": "2.31 KB",
-      "modified": "2026-01-18T10:42:03.144974",
+      "size": 3072,
+      "size_human": "3.00 KB",
+      "modified": "2026-01-18T16:28:14.861277",
       "type": "txt",
       "category": "Other"
     },
     {
       "path": "project_analysis\\ASH_PROJECT_CONTEXT.md",
-      "size": 6689,
-      "size_human": "6.53 KB",
-      "modified": "2026-01-18T10:42:03.143833",
+      "size": 7778,
+      "size_human": "7.60 KB",
+      "modified": "2026-01-18T16:28:14.847359",
       "type": "md",
       "category": "Other"
     },
@@ -3293,6 +3150,14 @@
       "size": 201581,
       "size_human": "196.86 KB",
       "modified": "2026-01-17T22:15:24.626332",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "tests\\TestCase.php",
+      "size": 2642,
+      "size_human": "2.58 KB",
+      "modified": "2026-01-18T18:35:40.627763",
       "type": "php",
       "category": "PHP"
     }

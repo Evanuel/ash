@@ -1,17 +1,17 @@
 {
   "metadata": {
-    "scan_date": "2026-01-18T16:28:14.684331",
+    "scan_date": "2026-01-18T18:37:00.379312",
     "project_name": "ash",
     "project_path": "C:\\Users\\Evanuel\\repositories\\ash",
     "scanner_version": "2.0.0"
   },
   "statistics": {
-    "total_files": 195,
-    "total_size_bytes": 2936402,
-    "total_size_human": "2.80 MB",
+    "total_files": 192,
+    "total_size_bytes": 2919325,
+    "total_size_human": "2.78 MB",
     "file_types": {
-      ".php": 169,
-      ".bash": 1,
+      ".php": 166,
+      ".note": 1,
       ".json": 4,
       ".xml": 1,
       ".txt": 3,
@@ -22,7 +22,7 @@
       ".py": 1
     },
     "directory_count": 59,
-    "php_files": 66,
+    "php_files": 63,
     "blade_files": 0,
     "js_files": 6,
     "css_files": 2,

@@ -2,15 +2,15 @@
 
 ## 📋 METADADOS DO PROJETO
 - **Nome do Projeto**: ash
-- **Data da Análise**: 2026-01-18T16:28:14.684331
+- **Data da Análise**: 2026-01-18T18:37:00.379312
 - **Localização**: `C:\Users\Evanuel\repositories\ash`
 - **Scanner**: v2.0.0
 
 ## 📊 ESTATÍSTICAS
-- **Total de Arquivos**: 195
+- **Total de Arquivos**: 192
 - **Total de Diretórios**: 59
-- **Tamanho Total**: 2.80 MB
-- **Arquivos PHP**: 66
+- **Tamanho Total**: 2.78 MB
+- **Arquivos PHP**: 63
 - **Views Blade**: 0
 - **Arquivos JavaScript**: 6
 
@@ -99,14 +99,12 @@
 - `app\Http\Requests\Api\V1\Auth\LoginRequest.php`
 - `app\Http\Requests\Api\V1\Auth\RegisterRequest.php`
 - `app\Http\Requests\Api\V1\Category\CategoryRequest.php`
-- `app\Http\Requests\Api\V1\Company\StoreCompanyRequest-20260118154218.php`
 - `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php`
-- `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest-20260118154622.php`
 - `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php`
 - `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php`
-- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest2.php`
 - `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php`
-  *... e mais 2 itens*
+- `app\Http\Requests\Api\V1\User\StoreUserRequest.php`
+- `app\Http\Requests\Api\V1\User\UpdateUserRequest.php`
 
 ### 🚀 Jobs
 - `database\migrations\0001_01_01_000002_create_jobs_table.php`
@@ -155,11 +153,11 @@ Arquivos modificados nos últimos 7 dias:
 - `app\Http\Controllers\Api\V1\StatusController.php` (0 dias atrás)
 - `app\Http\Controllers\Api\V1\TypeController.php` (0 dias atrás)
 - `app\Http\Requests\Api\V1\Category\CategoryRequest.php` (7 dias atrás)
-- `app\Http\Requests\Api\V1\Company\StoreCompanyRequest-20260118154218.php` (5 dias atrás)
 - `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php` (0 dias atrás)
-- `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest-20260118154622.php` (6 dias atrás)
 - `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php` (0 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\create.bash` (4 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.note` (5 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php` (4 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php` (5 dias atrás)
 
 ## 🎯 USO COM ASSISTENTES DE IA
 
@@ -168,7 +166,7 @@ Arquivos modificados nos últimos 7 dias:
 
             Projeto: ash
 
-            Total de arquivos: 195
+            Total de arquivos: 192
 
             Principais modelos: FixModelStructure, GenerateAllModels, GenerateModelStructure
 
@@ -180,5 +178,5 @@ Arquivos modificados nos últimos 7 dias:
             ARQUIVOS ENVOLVIDOS: [Mencione arquivos específicos se aplicável]
             ---
 
-            *Documento gerado automaticamente em 2026-01-18T16:28:14.859548*
+            *Documento gerado automaticamente em 2026-01-18T18:37:00.527185*
             

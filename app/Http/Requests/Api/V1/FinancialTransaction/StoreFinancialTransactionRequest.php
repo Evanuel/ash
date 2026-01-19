@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Api\V1\FinancialTransaction;
 
+use App\Services\PermissionService;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,28 +13,34 @@ class StoreFinancialTransactionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        \Log::info('Authorize method called', [
-            'user' => Auth::id(),
-            'authenticated' => Auth::check()
+        $user = Auth::user();
+
+        if (!$user) {
+            \Log::warning('No user authenticated in financial transaction request');
+            return false; // Isso retornará 403 Forbidden na API
+        }
+
+        $permissionService = app(PermissionService::class);
+        if (!$permissionService->has($user, 'financial-transaction.create')) {
+            \Log::warning('User does not have permission to create financial transaction', [
+                'user_id' => $user->id,
+                'permission' => 'financial-transaction.create'
+            ]);
+            return false; // Isso retornará 403 Forbidden na API
+        }
+        \Log::info('User authorized to create financial transaction', [
+            'user_id' => $user->id
         ]);
-        
-        if (!Auth::check()) {
-            \Log::error('No user authenticated in financial transaction request');
-            return false;
-        }
-        
-        if (empty(Auth::user()->client_id)) {
-            \Log::error('User has no client_id', ['user_id' => Auth::id()]);
-            // Pode lançar uma exceção ou retornar false
-            // return response()->json(['error' => 'User has no client_id'], 403);
-            return false;
-        }
-        
         return true;
     }
 
     protected function passedValidation(): void
     {
+        \Log::info('PassedValidation method called', [
+            'data' => $this->all(),
+            'user' => Auth::id()
+        ]);
+
         // Adicionar client_id se não foi fornecido
         if (!$this->has('client_id') && Auth::check()) {
             $this->merge([
@@ -61,6 +70,29 @@ class StoreFinancialTransactionRequest extends FormRequest
         }
     }
 
+    // Adicione este método na classe
+    protected function failedValidation(Validator $validator)
+    {
+        \Log::error('Validation failed in StoreFinancialTransactionRequest', [
+            'errors' => $validator->errors()->all(),
+            'data' => $this->all(),
+            'user' => Auth::id(),
+        ]);
+
+        // Para API, sempre retorne JSON
+        if ($this->expectsJson() || $this->is('api/*')) {
+            throw new HttpResponseException(
+                response()->json([
+                    'success' => false,
+                    'message' => 'Erro de validação',
+                    'errors' => $validator->errors()
+                ], 422)
+            );
+        }
+
+        parent::failedValidation($validator);
+    }
+
     public function rules(): array
     {
         \Log::info('Rules method called', [
@@ -76,7 +108,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'min:1',
                 'max:2',
             ],
-            
+
             // Documento fiscal
             'fiscal_document' => [
                 'nullable',
@@ -93,7 +125,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:500',
             ],
-            
+
             // Categorias
             'category_id' => [
                 'nullable',
@@ -105,14 +137,14 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:categories,id',
             ],
-            
+
             // Tipo de pessoa (1 = individual, 2 = company)
             'person_type' => [
                 'required',
                 'integer',
                 'in:1,2',
             ],
-            
+
             // Referências baseadas no tipo de pessoa
             'individual_id' => [
                 Rule::requiredIf(function () {
@@ -140,12 +172,12 @@ class StoreFinancialTransactionRequest extends FormRequest
                     }
                 },
             ],
-            
+
             // Datas e valores
             'due_date' => [
                 'required',
                 'date',
-                'after_or_equal:today',
+                // 'after_or_equal:today',
             ],
             'amount' => [
                 'required',
@@ -153,14 +185,14 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'min:0.01',
                 'max:999999999999.99', // 15 dígitos, 2 decimais
             ],
-            
+
             // Status
             'status_id' => [
                 'nullable',
                 'integer',
                 'exists:statuses,id',
             ],
-            
+
             // Informações de pagamento
             'boleto_url' => [
                 'nullable',
@@ -194,7 +226,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:payment_methods,id',
             ],
-            
+
             // Parcelas
             'installment' => [
                 'nullable',
@@ -218,7 +250,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:100',
             ],
-            
+
             // Anexos
             'receipt_url' => [
                 'nullable',
@@ -226,7 +258,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'max:500',
                 'url',
             ],
-            
+
             // Campos personalizados
             'custom_field1' => [
                 'nullable',
@@ -254,7 +286,7 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'max:100',
                 'in:text-warning,text-success,text-danger,text-info,text-primary',
             ],
-            
+
             // Campos que serão preenchidos automaticamente (não devem ser enviados)
             'client_id' => [
                 'prohibited',
@@ -365,8 +397,9 @@ class StoreFinancialTransactionRequest extends FormRequest
         ];
 
         // Gerar transaction_key se não fornecida e houver parcelas
-        if ((!$this->has('transaction_key') || $this->transaction_key === '0') && 
-            ($this->total_installments ?? 1) > 1) {
+        if ((!$this->has('transaction_key') || $this->transaction_key === '0') &&
+            ($this->total_installments ?? 1) > 1
+        ) {
             $defaults['transaction_key'] = uniqid('TRX_', true);
         }
 

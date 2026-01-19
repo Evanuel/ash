@@ -40,12 +40,9 @@ REQUESTS:
   app\Http\Requests\Api\V1\Auth\LoginRequest.php
   app\Http\Requests\Api\V1\Auth\RegisterRequest.php
   app\Http\Requests\Api\V1\Category\CategoryRequest.php
-  app\Http\Requests\Api\V1\Company\StoreCompanyRequest-20260118154218.php
   app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php
-  app\Http\Requests\Api\V1\Company\UpdateCompanyRequest-20260118154622.php
   app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php
   app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php
-  app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest2.php
   app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php
   app\Http\Requests\Api\V1\User\StoreUserRequest.php
   app\Http\Requests\Api\V1\User\UpdateUserRequest.php

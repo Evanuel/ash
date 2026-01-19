@@ -27,6 +27,8 @@ return new class extends Migration
             $table->unsignedInteger('archived_by')->nullable();
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
+
+            $table->softDeletes();
             
             $table->index(['client_id', 'type']);
             $table->unique(['client_id', 'type', 'name'], 'unique_status');

@@ -21,7 +21,6 @@ class UpdateFinancialTransactionRequest extends FormRequest
             return false;
         }
         return app(PermissionService::class)->has($user, 'financial-transaction.edit');
-        
     }
 
     /**

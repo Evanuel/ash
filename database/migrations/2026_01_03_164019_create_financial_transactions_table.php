@@ -36,7 +36,7 @@ return new class extends Migration
             $table->decimal('amount', 15, 2)->nullable(false);
 
             // Status
-            $table->foreignId('status_id')->nullable()->constrained('statuses');
+            $table->foreignId('status_id')->nullable()->constrained('statuses')->default(1);
 
             // Payment information
             $table->string('boleto_url')->nullable();

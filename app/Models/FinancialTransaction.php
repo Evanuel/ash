@@ -138,9 +138,9 @@ class FinancialTransaction extends Model
     {
         return $query->where(function ($q) use ($search) {
             $q->where('description', 'like', '%' . $search . '%')
-              ->orWhere('fiscal_document', 'like', '%' . $search . '%')
-              ->orWhere('transaction_key', 'like', '%' . $search . '%')
-              ->orWhere('cost_center', 'like', '%' . $search . '%');
+                ->orWhere('fiscal_document', 'like', '%' . $search . '%')
+                ->orWhere('transaction_key', 'like', '%' . $search . '%')
+                ->orWhere('cost_center', 'like', '%' . $search . '%');
         });
     }
 
@@ -183,7 +183,14 @@ class FinancialTransaction extends Model
     // Accessors
     public function getIsOverdueAttribute()
     {
-        return $this->due_date < now() && !$this->paid_at && $this->status->name != 'Pago';
+        // Verifica se há status e se não é nulo
+        if (!$this->status) {
+            return $this->due_date < now() && !$this->paid_at;
+        }
+
+        return $this->due_date < now()
+            && !$this->paid_at
+            && $this->status->name != 'Pago';
     }
 
 
