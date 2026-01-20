@@ -1,30 +1,29 @@
 {
   "metadata": {
-    "scan_date": "2026-01-18T18:37:00.379312",
+    "scan_date": "2026-01-19T22:27:39.368120",
     "project_name": "ash",
     "project_path": "C:\\Users\\Evanuel\\repositories\\ash",
     "scanner_version": "2.0.0"
   },
   "statistics": {
-    "total_files": 192,
-    "total_size_bytes": 2919325,
-    "total_size_human": "2.78 MB",
+    "total_files": 196,
+    "total_size_bytes": 2998761,
+    "total_size_human": "2.86 MB",
     "file_types": {
-      ".php": 166,
-      ".note": 1,
-      ".json": 4,
+      ".php": 169,
+      ".txt": 4,
+      ".json": 5,
       ".xml": 1,
-      ".txt": 3,
       ".md": 2,
       ".css": 2,
-      ".js": 6,
+      ".js": 7,
       ".ico": 1,
       ".py": 1
     },
     "directory_count": 59,
-    "php_files": 63,
+    "php_files": 65,
     "blade_files": 0,
-    "js_files": 6,
+    "js_files": 7,
     "css_files": 2,
     "config_files": 1
   },
@@ -276,9 +275,9 @@
       },
       {
         "path": "app\\Models\\FinancialTransaction.php",
-        "size": 5543,
-        "size_human": "5.41 KB",
-        "modified": "2026-01-14T08:22:58.873428",
+        "size": 5730,
+        "size_human": "5.60 KB",
+        "modified": "2026-01-18T22:20:57.693088",
         "type": "php-model",
         "category": "Model",
         "file": "app\\Models\\FinancialTransaction.php",
@@ -309,9 +308,9 @@
       },
       {
         "path": "app\\Models\\PaymentMethod.php",
-        "size": 627,
-        "size_human": "627.00 B",
-        "modified": "2026-01-08T15:12:21.050574",
+        "size": 1413,
+        "size_human": "1.38 KB",
+        "modified": "2026-01-18T20:43:50.543935",
         "type": "php-model",
         "category": "Model",
         "file": "app\\Models\\PaymentMethod.php",
@@ -327,7 +326,11 @@
           "SoftDeletes"
         ],
         "methods": [
-          "public financialTransactions"
+          "public financialTransactions",
+          "public scopeActive",
+          "public scopeRequiresBank",
+          "public scopeByCode",
+          "public getStatusAttribute"
         ],
         "properties": []
       },
@@ -731,9 +734,9 @@
       },
       {
         "path": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
-        "size": 2527,
-        "size_human": "2.47 KB",
-        "modified": "2026-01-13T19:43:18.660246",
+        "size": 11318,
+        "size_human": "11.05 KB",
+        "modified": "2026-01-18T22:40:20.128903",
         "type": "php-controller",
         "category": "Controller",
         "file": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
@@ -748,13 +751,20 @@
           "App\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest",
           "App\\Http\\Resources\\Api\\V1\\FinancialTransactionResource",
           "App\\Models\\FinancialTransaction",
-          "Illuminate\\Database\\Eloquent\\Model"
+          "Illuminate\\Database\\Eloquent\\Model",
+          "Illuminate\\Http\\Request"
         ],
         "methods": [
           "public __construct",
           "public store",
+          "public storeOld",
           "public store",
-          "public update"
+          "public update",
+          "public markAsPaid",
+          "public restore",
+          "public downloadReceipt",
+          "public summary",
+          "public index"
         ],
         "properties": []
       },
@@ -1142,13 +1152,13 @@
         "properties": []
       },
       {
-        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest-20260118185252.php",
         "size": 14498,
         "size_human": "14.16 KB",
-        "modified": "2026-01-13T21:16:00.977073",
+        "modified": "2026-01-18T18:52:37.304421",
         "type": "php-request",
         "category": "Request",
-        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest-20260118185252.php",
         "classes": [
           "StoreFinancialTransactionRequest"
         ],
@@ -1171,10 +1181,73 @@
         "properties": []
       },
       {
-        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+        "size": 15583,
+        "size_human": "15.22 KB",
+        "modified": "2026-01-18T21:47:40.828702",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+        "classes": [
+          "StoreFinancialTransactionRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "App\\Services\\PermissionService",
+          "Illuminate\\Contracts\\Validation\\Validator",
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Http\\Exceptions\\HttpResponseException",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth"
+        ],
+        "methods": [
+          "public authorize",
+          "protected passedValidation",
+          "protected failedValidation",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest-20260118185311.php",
         "size": 14234,
         "size_human": "13.90 KB",
         "modified": "2026-01-13T16:40:25.505699",
+        "type": "php-request",
+        "category": "Request",
+        "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest-20260118185311.php",
+        "classes": [
+          "UpdateFinancialTransactionRequest"
+        ],
+        "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+        "extends": "FormRequest",
+        "implements": [],
+        "traits": [
+          "Illuminate\\Foundation\\Http\\FormRequest",
+          "Illuminate\\Validation\\Rule",
+          "Illuminate\\Support\\Facades\\Auth",
+          "App\\Services\\PermissionService"
+        ],
+        "methods": [
+          "public authorize",
+          "public rules",
+          "public attributes",
+          "public messages",
+          "protected prepareForValidation",
+          "protected passedValidation"
+        ],
+        "properties": []
+      },
+      {
+        "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+        "size": 14243,
+        "size_human": "13.91 KB",
+        "modified": "2026-01-18T21:25:31.051545",
         "type": "php-request",
         "category": "Request",
         "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
@@ -1595,9 +1668,9 @@
       },
       {
         "path": "database\\seeders\\PaymentMethodSeeder.php",
-        "size": 274,
-        "size_human": "274.00 B",
-        "modified": "2026-01-08T15:12:21.115761",
+        "size": 3532,
+        "size_human": "3.45 KB",
+        "modified": "2026-01-18T20:37:40.072297",
         "type": "php-seeder",
         "category": "Seeder",
         "file": "database\\seeders\\PaymentMethodSeeder.php",
@@ -1608,8 +1681,10 @@
         "extends": "Seeder",
         "implements": [],
         "traits": [
+          "App\\Models\\PaymentMethod",
+          "Illuminate\\Database\\Seeder",
           "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
-          "Illuminate\\Database\\Seeder"
+          "WithoutModelEvents"
         ],
         "methods": [
           "public run"
@@ -2356,9 +2431,9 @@
     },
     {
       "path": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
-      "size": 2527,
-      "size_human": "2.47 KB",
-      "modified": "2026-01-13T19:43:18.660246",
+      "size": 11318,
+      "size_human": "11.05 KB",
+      "modified": "2026-01-18T22:40:20.128903",
       "type": "php-controller",
       "category": "Controller",
       "file": "app\\Http\\Controllers\\Api\\V1\\FinancialTransactionController.php",
@@ -2373,13 +2448,20 @@
         "App\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest",
         "App\\Http\\Resources\\Api\\V1\\FinancialTransactionResource",
         "App\\Models\\FinancialTransaction",
-        "Illuminate\\Database\\Eloquent\\Model"
+        "Illuminate\\Database\\Eloquent\\Model",
+        "Illuminate\\Http\\Request"
       ],
       "methods": [
         "public __construct",
         "public store",
+        "public storeOld",
         "public store",
-        "public update"
+        "public update",
+        "public markAsPaid",
+        "public restore",
+        "public downloadReceipt",
+        "public summary",
+        "public index"
       ],
       "properties": []
     },
@@ -2544,30 +2626,6 @@
       "properties": []
     },
     {
-      "path": "app\\Http\\Requests\\Api\\V1\\Category\\CategoryRequest.php",
-      "size": 2312,
-      "size_human": "2.26 KB",
-      "modified": "2026-01-10T21:23:23.621747",
-      "type": "php-request",
-      "category": "Request",
-      "file": "app\\Http\\Requests\\Api\\V1\\Category\\CategoryRequest.php",
-      "classes": [
-        "CategoryRequest"
-      ],
-      "namespace": "App\\Http\\Requests\\Api\\V1",
-      "extends": "FormRequest",
-      "implements": [],
-      "traits": [
-        "Illuminate\\Foundation\\Http\\FormRequest"
-      ],
-      "methods": [
-        "public authorize",
-        "public rules",
-        "public messages"
-      ],
-      "properties": []
-    },
-    {
       "path": "app\\Http\\Requests\\Api\\V1\\Company\\StoreCompanyRequest.php",
       "size": 17242,
       "size_human": "16.84 KB",
@@ -2634,21 +2692,21 @@
       "properties": []
     },
     {
-      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\create.financial.transaction.note",
-      "size": 1448,
-      "size_human": "1.41 KB",
-      "modified": "2026-01-13T16:40:25.506918",
-      "type": "note",
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\create.financial.transaction.txt",
+      "size": 2207,
+      "size_human": "2.16 KB",
+      "modified": "2026-01-18T20:11:09.147220",
+      "type": "txt",
       "category": "Other"
     },
     {
-      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest-20260118185252.php",
       "size": 14498,
       "size_human": "14.16 KB",
-      "modified": "2026-01-13T21:16:00.977073",
+      "modified": "2026-01-18T18:52:37.304421",
       "type": "php-request",
       "category": "Request",
-      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest-20260118185252.php",
       "classes": [
         "StoreFinancialTransactionRequest"
       ],
@@ -2671,10 +2729,73 @@
       "properties": []
     },
     {
-      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+      "size": 15583,
+      "size_human": "15.22 KB",
+      "modified": "2026-01-18T21:47:40.828702",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\StoreFinancialTransactionRequest.php",
+      "classes": [
+        "StoreFinancialTransactionRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "App\\Services\\PermissionService",
+        "Illuminate\\Contracts\\Validation\\Validator",
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Http\\Exceptions\\HttpResponseException",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth"
+      ],
+      "methods": [
+        "public authorize",
+        "protected passedValidation",
+        "protected failedValidation",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest-20260118185311.php",
       "size": 14234,
       "size_human": "13.90 KB",
       "modified": "2026-01-13T16:40:25.505699",
+      "type": "php-request",
+      "category": "Request",
+      "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest-20260118185311.php",
+      "classes": [
+        "UpdateFinancialTransactionRequest"
+      ],
+      "namespace": "App\\Http\\Requests\\Api\\V1\\FinancialTransaction",
+      "extends": "FormRequest",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Foundation\\Http\\FormRequest",
+        "Illuminate\\Validation\\Rule",
+        "Illuminate\\Support\\Facades\\Auth",
+        "App\\Services\\PermissionService"
+      ],
+      "methods": [
+        "public authorize",
+        "public rules",
+        "public attributes",
+        "public messages",
+        "protected prepareForValidation",
+        "protected passedValidation"
+      ],
+      "properties": []
+    },
+    {
+      "path": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
+      "size": 14243,
+      "size_human": "13.91 KB",
+      "modified": "2026-01-18T21:25:31.051545",
       "type": "php-request",
       "category": "Request",
       "file": "app\\Http\\Requests\\Api\\V1\\FinancialTransaction\\UpdateFinancialTransactionRequest.php",
@@ -2726,9 +2847,9 @@
     },
     {
       "path": "app\\Http\\Resources\\Api\\V1\\FinancialTransactionResource.php",
-      "size": 7864,
-      "size_human": "7.68 KB",
-      "modified": "2026-01-13T16:40:25.512392",
+      "size": 7827,
+      "size_human": "7.64 KB",
+      "modified": "2026-01-18T22:47:07.242959",
       "type": "php",
       "category": "PHP"
     },
@@ -2750,9 +2871,9 @@
     },
     {
       "path": "app\\Models\\FinancialTransaction.php",
-      "size": 5543,
-      "size_human": "5.41 KB",
-      "modified": "2026-01-14T08:22:58.873428",
+      "size": 5730,
+      "size_human": "5.60 KB",
+      "modified": "2026-01-18T22:20:57.693088",
       "type": "php-model",
       "category": "Model",
       "file": "app\\Models\\FinancialTransaction.php",
@@ -2782,12 +2903,32 @@
       "properties": []
     },
     {
-      "path": "app\\View\\Components\\AppLayout.php",
-      "size": 457,
-      "size_human": "457.00 B",
-      "modified": "2026-01-11T13:46:47.247403",
-      "type": "php",
-      "category": "PHP"
+      "path": "app\\Models\\PaymentMethod.php",
+      "size": 1413,
+      "size_human": "1.38 KB",
+      "modified": "2026-01-18T20:43:50.543935",
+      "type": "php-model",
+      "category": "Model",
+      "file": "app\\Models\\PaymentMethod.php",
+      "classes": [
+        "PaymentMethod"
+      ],
+      "namespace": "App\\Models",
+      "extends": "Model",
+      "implements": [],
+      "traits": [
+        "Illuminate\\Database\\Eloquent\\Model",
+        "Illuminate\\Database\\Eloquent\\SoftDeletes",
+        "SoftDeletes"
+      ],
+      "methods": [
+        "public financialTransactions",
+        "public scopeActive",
+        "public scopeRequiresBank",
+        "public scopeByCode",
+        "public getStatusAttribute"
+      ],
+      "properties": []
     },
     {
       "path": "bootstrap\\cache\\packages.php",
@@ -2830,14 +2971,6 @@
       "category": "PHP"
     },
     {
-      "path": "database\\migrations\\0001_01_01_000000_create_users_table.php",
-      "size": 3574,
-      "size_human": "3.49 KB",
-      "modified": "2026-01-10T19:39:30.981409",
-      "type": "php",
-      "category": "PHP"
-    },
-    {
       "path": "database\\migrations\\2026_01_03_162100_create_states_table.php",
       "size": 1182,
       "size_human": "1.15 KB",
@@ -2854,10 +2987,26 @@
       "category": "PHP"
     },
     {
-      "path": "database\\migrations\\2026_01_03_162829_create_companies_table.php",
-      "size": 3550,
-      "size_human": "3.47 KB",
-      "modified": "2026-01-10T21:48:05.145574",
+      "path": "database\\migrations\\2026_01_03_162647_create_payment_methods_table.php",
+      "size": 1300,
+      "size_human": "1.27 KB",
+      "modified": "2026-01-18T20:40:18.794585",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\migrations\\2026_01_03_162947_create_statuses_table.php",
+      "size": 1558,
+      "size_human": "1.52 KB",
+      "modified": "2026-01-18T22:26:21.251653",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
+      "path": "database\\migrations\\2026_01_03_164019_create_financial_transactions_table.php",
+      "size": 3523,
+      "size_human": "3.44 KB",
+      "modified": "2026-01-18T22:05:13.351936",
       "type": "php",
       "category": "PHP"
     },
@@ -2939,6 +3088,31 @@
       "properties": []
     },
     {
+      "path": "database\\seeders\\PaymentMethodSeeder.php",
+      "size": 3532,
+      "size_human": "3.45 KB",
+      "modified": "2026-01-18T20:37:40.072297",
+      "type": "php-seeder",
+      "category": "Seeder",
+      "file": "database\\seeders\\PaymentMethodSeeder.php",
+      "classes": [
+        "PaymentMethodSeeder"
+      ],
+      "namespace": "Database\\Seeders",
+      "extends": "Seeder",
+      "implements": [],
+      "traits": [
+        "App\\Models\\PaymentMethod",
+        "Illuminate\\Database\\Seeder",
+        "Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents",
+        "WithoutModelEvents"
+      ],
+      "methods": [
+        "public run"
+      ],
+      "properties": []
+    },
+    {
       "path": "database\\seeders\\StatusesSeeder.php",
       "size": 8483,
       "size_human": "8.28 KB",
@@ -2971,17 +3145,17 @@
     },
     {
       "path": "project_analysis\\ash_analysis_full.json",
-      "size": 101571,
-      "size_human": "99.19 KB",
-      "modified": "2026-01-18T16:28:14.847359",
+      "size": 96399,
+      "size_human": "94.14 KB",
+      "modified": "2026-01-18T18:37:00.523088",
       "type": "json",
       "category": "JSON"
     },
     {
       "path": "project_analysis\\ash_analysis_report.txt",
-      "size": 6434,
-      "size_human": "6.28 KB",
-      "modified": "2026-01-18T16:28:14.847359",
+      "size": 6416,
+      "size_human": "6.27 KB",
+      "modified": "2026-01-18T18:37:00.525094",
       "type": "txt",
       "category": "Other"
     },
@@ -2989,25 +3163,33 @@
       "path": "project_analysis\\ash_analysis_simple.json",
       "size": 4229,
       "size_human": "4.13 KB",
-      "modified": "2026-01-18T16:28:14.847359",
+      "modified": "2026-01-18T18:37:00.525094",
       "type": "json",
       "category": "JSON"
     },
     {
       "path": "project_analysis\\ash_files_list.txt",
-      "size": 3072,
-      "size_human": "3.00 KB",
-      "modified": "2026-01-18T16:28:14.861277",
+      "size": 2834,
+      "size_human": "2.77 KB",
+      "modified": "2026-01-18T18:37:00.529105",
       "type": "txt",
       "category": "Other"
     },
     {
       "path": "project_analysis\\ASH_PROJECT_CONTEXT.md",
-      "size": 7778,
-      "size_human": "7.60 KB",
-      "modified": "2026-01-18T16:28:14.847359",
+      "size": 7667,
+      "size_human": "7.49 KB",
+      "modified": "2026-01-18T18:37:00.527100",
       "type": "md",
       "category": "Other"
+    },
+    {
+      "path": "public\\assets\\backup_requisições.json",
+      "size": 3006,
+      "size_human": "2.94 KB",
+      "modified": "2026-01-18T22:54:37.710157",
+      "type": "json",
+      "category": "JSON"
     },
     {
       "path": "public\\assets\\css\\style.css",
@@ -3040,14 +3222,6 @@
       "modified": "2026-01-15T21:56:06.581586",
       "type": "javascript",
       "category": "JavaScript"
-    },
-    {
-      "path": "public\\hot",
-      "size": 17,
-      "size_human": "17.00 B",
-      "modified": "2026-01-11T20:37:24.309826",
-      "type": "unknown",
-      "category": "Other"
     },
     {
       "path": "resources\\views\\api-client.blade.php",
@@ -3122,6 +3296,14 @@
       "category": "Other"
     },
     {
+      "path": "storage\\framework\\views\\174e5dbd2e03ab6ecca4625de6e0cdfe.php",
+      "size": 458,
+      "size_human": "458.00 B",
+      "modified": "2026-01-18T20:51:00.420036",
+      "type": "php",
+      "category": "PHP"
+    },
+    {
       "path": "storage\\framework\\views\\2fc53ccdc94043ee356c9af03acfc62d.php",
       "size": 189692,
       "size_human": "185.25 KB",
@@ -3152,6 +3334,14 @@
       "modified": "2026-01-17T22:15:24.626332",
       "type": "php",
       "category": "PHP"
+    },
+    {
+      "path": "storage\\logs\\app.js",
+      "size": 37630,
+      "size_human": "36.75 KB",
+      "modified": "2026-01-19T15:46:31.233266",
+      "type": "javascript",
+      "category": "JavaScript"
     },
     {
       "path": "tests\\TestCase.php",

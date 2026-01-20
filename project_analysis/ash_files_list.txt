@@ -42,7 +42,9 @@ REQUESTS:
   app\Http\Requests\Api\V1\Category\CategoryRequest.php
   app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php
   app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php
+  app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php
   app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php
+  app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest-20260118185311.php
   app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php
   app\Http\Requests\Api\V1\User\StoreUserRequest.php
   app\Http\Requests\Api\V1\User\UpdateUserRequest.php

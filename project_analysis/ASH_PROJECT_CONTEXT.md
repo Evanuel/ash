@@ -2,17 +2,17 @@
 
 ## 📋 METADADOS DO PROJETO
 - **Nome do Projeto**: ash
-- **Data da Análise**: 2026-01-18T18:37:00.379312
+- **Data da Análise**: 2026-01-19T22:27:39.368120
 - **Localização**: `C:\Users\Evanuel\repositories\ash`
 - **Scanner**: v2.0.0
 
 ## 📊 ESTATÍSTICAS
-- **Total de Arquivos**: 192
+- **Total de Arquivos**: 196
 - **Total de Diretórios**: 59
-- **Tamanho Total**: 2.78 MB
-- **Arquivos PHP**: 63
+- **Tamanho Total**: 2.86 MB
+- **Arquivos PHP**: 65
 - **Views Blade**: 0
-- **Arquivos JavaScript**: 6
+- **Arquivos JavaScript**: 7
 
 ## 🗃️ ESTRUTURA DO PROJETO
 
@@ -101,10 +101,12 @@
 - `app\Http\Requests\Api\V1\Category\CategoryRequest.php`
 - `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php`
 - `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php`
+- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php`
 - `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php`
+- `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest-20260118185311.php`
 - `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php`
 - `app\Http\Requests\Api\V1\User\StoreUserRequest.php`
-- `app\Http\Requests\Api\V1\User\UpdateUserRequest.php`
+  *... e mais 1 itens*
 
 ### 🚀 Jobs
 - `database\migrations\0001_01_01_000002_create_jobs_table.php`
@@ -138,26 +140,26 @@
 
 ## 🕐 TRABALHO RECENTE
 Arquivos modificados nos últimos 7 dias:
-- `app\Console\Commands\FixModelStructure.php` (0 dias atrás)
-- `app\Console\Commands\GenerateAllModels.php` (0 dias atrás)
-- `app\Console\Commands\GenerateModelStructure.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\BankController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\BaseController.php` (5 dias atrás)
-- `app\Http\Controllers\Api\V1\CityController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\CompanyController.php` (5 dias atrás)
-- `app\Http\Controllers\Api\V1\CountryController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\FinancialTransactionController.php` (4 dias atrás)
-- `app\Http\Controllers\Api\V1\PaymentMethodController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\PersonController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\StateController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\StatusController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\TypeController.php` (0 dias atrás)
-- `app\Http\Requests\Api\V1\Category\CategoryRequest.php` (7 dias atrás)
-- `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php` (0 dias atrás)
-- `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php` (0 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.note` (5 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php` (4 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php` (5 dias atrás)
+- `app\Console\Commands\FixModelStructure.php` (1 dias atrás)
+- `app\Console\Commands\GenerateAllModels.php` (1 dias atrás)
+- `app\Console\Commands\GenerateModelStructure.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\BankController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\BaseController.php` (7 dias atrás)
+- `app\Http\Controllers\Api\V1\CityController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\CompanyController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\CountryController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\FinancialTransactionController.php` (0 dias atrás)
+- `app\Http\Controllers\Api\V1\PaymentMethodController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\PersonController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\StateController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\StatusController.php` (1 dias atrás)
+- `app\Http\Controllers\Api\V1\TypeController.php` (1 dias atrás)
+- `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php` (1 dias atrás)
+- `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php` (1 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.txt` (1 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php` (1 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php` (1 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest-20260118185311.php` (6 dias atrás)
 
 ## 🎯 USO COM ASSISTENTES DE IA
 
@@ -166,7 +168,7 @@ Arquivos modificados nos últimos 7 dias:
 
             Projeto: ash
 
-            Total de arquivos: 192
+            Total de arquivos: 196
 
             Principais modelos: FixModelStructure, GenerateAllModels, GenerateModelStructure
 
@@ -178,5 +180,5 @@ Arquivos modificados nos últimos 7 dias:
             ARQUIVOS ENVOLVIDOS: [Mencione arquivos específicos se aplicável]
             ---
 
-            *Documento gerado automaticamente em 2026-01-18T18:37:00.527185*
+            *Documento gerado automaticamente em 2026-01-19T22:27:39.470731*
             

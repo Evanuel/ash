@@ -13,19 +13,20 @@ use App\Http\Controllers\Api\V1\{
     RoleController,
     CompanyController,
     PeopleController,
-    FinancialTransactionController
+    FinancialTransactionController,
+    PersonController
 };
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
     // Health check da API
-        Route::post('/', function () {
-            return response()->json([
-                'status' => 'healthy Authenticated',
-                'timestamp' => now()->toISOString(),
-                'service' => config('app.name'),
-                'version' => config('app.version'),
-            ]);
-        })->name('health-auth');
+    Route::post('/', function () {
+        return response()->json([
+            'status' => 'healthy Authenticated',
+            'timestamp' => now()->toISOString(),
+            'service' => config('app.name'),
+            'version' => config('app.version'),
+        ]);
+    })->name('health-auth');
 
     // Rotas públicas (sem autenticação)
     Route::prefix('auth')->name('auth.')->group(function () {
@@ -79,14 +80,34 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Pessoas
+        // Person Routes
         Route::prefix('people')->name('people.')->group(function () {
-            Route::get('/', [PeopleController::class, 'index'])->name('index');
-            Route::post('/', [PeopleController::class, 'store'])->name('store');
-            Route::get('/{id}', [PeopleController::class, 'show'])->name('show');
-            Route::put('/{id}', [PeopleController::class, 'update'])->name('update');
-            Route::patch('/{id}', [PeopleController::class, 'update'])->name('update');
-            Route::delete('/{id}', [PeopleController::class, 'destroy'])->name('destroy');
-            Route::post('/{id}/restore', [PeopleController::class, 'restore'])->name('restore');
+            Route::get('/', [PersonController::class, 'index'])->name('index');
+            Route::post('/', [PersonController::class, 'store'])->name('store');
+            Route::get('/archived', [PersonController::class, 'archived'])->name('archived');
+            Route::get('/stats', [PersonController::class, 'stats'])->name('stats');
+
+            Route::prefix('{person}')->group(function () {
+                Route::get('/', [PersonController::class, 'show'])->name('show');
+                Route::put('/', [PersonController::class, 'update'])->name('update');
+                Route::patch('/', [PersonController::class, 'update'])->name('update.patch');
+                Route::delete('/', [PersonController::class, 'destroy'])->name('destroy');
+
+                // Rotas específicas
+                Route::post('/archive', [PersonController::class, 'archive'])->name('archive');
+                Route::post('/unarchive', [PersonController::class, 'unarchive'])->name('unarchive');
+                Route::post('/restore', [PersonController::class, 'restore'])->name('restore');
+                Route::post('/credit', [PersonController::class, 'updateCredit'])->name('credit.update');
+
+                // Sub-recursos
+                Route::get('/financial-transactions', function ($personId) {
+                    // Implementar se necessário
+                })->name('financial-transactions');
+
+                Route::get('/users', function ($personId) {
+                    // Implementar se necessário
+                })->name('users');
+            });
         });
 
         // Transações Financeiras
@@ -114,8 +135,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::post('/{id}/restore', [CategoryController::class, 'restore'])->name('restore');
             Route::get('/tree/hierarchical', [CategoryController::class, 'tree'])->name('tree');
         });
-
-        
     });
 
     // Health check da API

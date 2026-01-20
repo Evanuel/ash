@@ -1,34 +1,33 @@
 ================================================================================
 📊 PROJETO ASH - RELATÓRIO COMPLETO DE ANÁLISE
 ================================================================================
-📅 Data da análise: 2026-01-18T18:37:00.379312
+📅 Data da análise: 2026-01-19T22:27:39.368120
 📁 Projeto: ash
 📂 Diretório: C:\Users\Evanuel\repositories\ash
 
 📈 ESTATÍSTICAS GERAIS
 ----------------------------------------
-• Total de arquivos: 192
+• Total de arquivos: 196
 • Total de diretórios: 59
-• Tamanho total: 2.78 MB
+• Tamanho total: 2.86 MB
 
 📁 DISTRIBUIÇÃO POR TIPO DE ARQUIVO
 ----------------------------------------
-  .php       →    166 arquivos ( 86.5%)
-  .js        →      6 arquivos (  3.1%)
-  .json      →      4 arquivos (  2.1%)
-  .txt       →      3 arquivos (  1.6%)
+  .php       →    169 arquivos ( 86.2%)
+  .js        →      7 arquivos (  3.6%)
+  .json      →      5 arquivos (  2.6%)
+  .txt       →      4 arquivos (  2.0%)
   .md        →      2 arquivos (  1.0%)
   .css       →      2 arquivos (  1.0%)
-  .note      →      1 arquivos (  0.5%)
   .xml       →      1 arquivos (  0.5%)
   .ico       →      1 arquivos (  0.5%)
   .py        →      1 arquivos (  0.5%)
 
 🐘 ARQUIVOS PHP (DETALHADO)
 ----------------------------------------
-• PHP Files total: 63
+• PHP Files total: 65
 • Blade Views: 0
-• JavaScript Files: 6
+• JavaScript Files: 7
 • CSS Files: 2
 • Config Files: 1
 
@@ -91,21 +90,21 @@
 
 🕐 ARQUIVOS MODIFICADOS RECENTEMENTE (últimos 7 dias)
 ----------------------------------------
-  • tests\TestCase.php                                 → 0 dias atrás
-  • phpunit.xml                                        → 0 dias atrás
-  • composer.json                                      → 0 dias atrás
-  • bootstrap\cache\packages.php                       → 0 dias atrás
-  • bootstrap\cache\services.php                       → 0 dias atrás
-  • project_analysis\ash_files_list.txt                → 0 dias atrás
-  • project_analysis\ash_analysis_full.json            → 0 dias atrás
-  • project_analysis\ash_analysis_report.txt           → 0 dias atrás
-  • project_analysis\ash_analysis_simple.json          → 0 dias atrás
-  • project_analysis\ASH_PROJECT_CONTEXT.md            → 0 dias atrás
-  • resources\views\welcome.blade.php                  → 0 dias atrás
-  • storage\framework\views\54399da8b75bfbc002a79acd0d0341c4.php → 0 dias atrás
-  • resources\views\login.blade.php                    → 0 dias atrás
-  • routes\web.php                                     → 0 dias atrás
-  • routes\api.php                                     → 0 dias atrás
+  • storage\logs\app.js                                → 0 dias atrás
+  • public\assets\backup_requisições.json              → 0 dias atrás
+  • app\Http\Resources\Api\V1\FinancialTransactionResource.php → 0 dias atrás
+  • app\Http\Controllers\Api\V1\FinancialTransactionController.php → 0 dias atrás
+  • database\migrations\2026_01_03_162947_create_statuses_table.php → 1 dias atrás
+  • app\Models\FinancialTransaction.php                → 1 dias atrás
+  • database\migrations\2026_01_03_164019_create_financial_transactions_table.php → 1 dias atrás
+  • app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php → 1 dias atrás
+  • app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php → 1 dias atrás
+  • storage\framework\views\174e5dbd2e03ab6ecca4625de6e0cdfe.php → 1 dias atrás
+  • app\Models\PaymentMethod.php                       → 1 dias atrás
+  • database\migrations\2026_01_03_162647_create_payment_methods_table.php → 1 dias atrás
+  • database\seeders\PaymentMethodSeeder.php           → 1 dias atrás
+  • app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.txt → 1 dias atrás
+  • app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php → 1 dias atrás
 
 ================================================================================
 ✅ ANÁLISE COMPLETADA
