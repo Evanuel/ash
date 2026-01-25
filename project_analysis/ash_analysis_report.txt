@@ -1,23 +1,23 @@
 ================================================================================
 📊 PROJETO ASH - RELATÓRIO COMPLETO DE ANÁLISE
 ================================================================================
-📅 Data da análise: 2026-01-19T22:27:39.368120
+📅 Data da análise: 2026-01-25T11:37:32.600611
 📁 Projeto: ash
 📂 Diretório: C:\Users\Evanuel\repositories\ash
 
 📈 ESTATÍSTICAS GERAIS
 ----------------------------------------
-• Total de arquivos: 196
-• Total de diretórios: 59
-• Tamanho total: 2.86 MB
+• Total de arquivos: 197
+• Total de diretórios: 62
+• Tamanho total: 2.61 MB
 
 📁 DISTRIBUIÇÃO POR TIPO DE ARQUIVO
 ----------------------------------------
-  .php       →    169 arquivos ( 86.2%)
+  .php       →    169 arquivos ( 85.8%)
   .js        →      7 arquivos (  3.6%)
-  .json      →      5 arquivos (  2.6%)
+  .json      →      5 arquivos (  2.5%)
   .txt       →      4 arquivos (  2.0%)
-  .md        →      2 arquivos (  1.0%)
+  .md        →      3 arquivos (  1.5%)
   .css       →      2 arquivos (  1.0%)
   .xml       →      1 arquivos (  0.5%)
   .ico       →      1 arquivos (  0.5%)
@@ -25,7 +25,7 @@
 
 🐘 ARQUIVOS PHP (DETALHADO)
 ----------------------------------------
-• PHP Files total: 65
+• PHP Files total: 68
 • Blade Views: 0
 • JavaScript Files: 7
 • CSS Files: 2
@@ -90,21 +90,21 @@
 
 🕐 ARQUIVOS MODIFICADOS RECENTEMENTE (últimos 7 dias)
 ----------------------------------------
-  • storage\logs\app.js                                → 0 dias atrás
-  • public\assets\backup_requisições.json              → 0 dias atrás
-  • app\Http\Resources\Api\V1\FinancialTransactionResource.php → 0 dias atrás
-  • app\Http\Controllers\Api\V1\FinancialTransactionController.php → 0 dias atrás
-  • database\migrations\2026_01_03_162947_create_statuses_table.php → 1 dias atrás
-  • app\Models\FinancialTransaction.php                → 1 dias atrás
-  • database\migrations\2026_01_03_164019_create_financial_transactions_table.php → 1 dias atrás
-  • app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php → 1 dias atrás
-  • app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php → 1 dias atrás
-  • storage\framework\views\174e5dbd2e03ab6ecca4625de6e0cdfe.php → 1 dias atrás
-  • app\Models\PaymentMethod.php                       → 1 dias atrás
-  • database\migrations\2026_01_03_162647_create_payment_methods_table.php → 1 dias atrás
-  • database\seeders\PaymentMethodSeeder.php           → 1 dias atrás
-  • app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.txt → 1 dias atrás
-  • app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php → 1 dias atrás
+  • .agent\rules\context.md                            → 0 dias atrás
+  • database\seeders\DatabaseSeeder.php                → 5 dias atrás
+  • database\seeders\PersonSeeder.php                  → 5 dias atrás
+  • routes\api.php                                     → 5 dias atrás
+  • app\Models\Person.php                              → 5 dias atrás
+  • app\Http\Resources\Api\V1\PersonCollection.php     → 5 dias atrás
+  • app\Http\Controllers\Api\V1\PersonController.php   → 5 dias atrás
+  • app\Http\Requests\Api\V1\Person\UpdatePersonRequest.php → 5 dias atrás
+  • app\Http\Requests\Api\V1\Person\StorePersonRequest.php → 5 dias atrás
+  • app\Http\Resources\Api\V1\PersonResource.php       → 5 dias atrás
+  • project_analysis\ash_analysis_full.json            → 5 dias atrás
+  • project_analysis\ash_analysis_report.txt           → 5 dias atrás
+  • project_analysis\ash_analysis_simple.json          → 5 dias atrás
+  • project_analysis\ash_files_list.txt                → 5 dias atrás
+  • project_analysis\ASH_PROJECT_CONTEXT.md            → 5 dias atrás
 
 ================================================================================
 ✅ ANÁLISE COMPLETADA

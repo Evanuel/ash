@@ -46,6 +46,8 @@ REQUESTS:
   app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php
   app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest-20260118185311.php
   app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php
+  app\Http\Requests\Api\V1\Person\StorePersonRequest.php
+  app\Http\Requests\Api\V1\Person\UpdatePersonRequest.php
   app\Http\Requests\Api\V1\User\StoreUserRequest.php
   app\Http\Requests\Api\V1\User\UpdateUserRequest.php
 
@@ -72,6 +74,7 @@ SEEDERS:
   database\seeders\CompanySeeder.php
   database\seeders\DatabaseSeeder.php
   database\seeders\PaymentMethodSeeder.php
+  database\seeders\PersonSeeder.php
   database\seeders\RoleSeeder.php
   database\seeders\StateSeeder.php
   database\seeders\StatusesSeeder.php

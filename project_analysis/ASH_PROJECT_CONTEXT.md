@@ -2,15 +2,15 @@
 
 ## 📋 METADADOS DO PROJETO
 - **Nome do Projeto**: ash
-- **Data da Análise**: 2026-01-19T22:27:39.368120
+- **Data da Análise**: 2026-01-25T11:37:32.600611
 - **Localização**: `C:\Users\Evanuel\repositories\ash`
 - **Scanner**: v2.0.0
 
 ## 📊 ESTATÍSTICAS
-- **Total de Arquivos**: 196
-- **Total de Diretórios**: 59
-- **Tamanho Total**: 2.86 MB
-- **Arquivos PHP**: 65
+- **Total de Arquivos**: 197
+- **Total de Diretórios**: 62
+- **Tamanho Total**: 2.61 MB
+- **Arquivos PHP**: 68
 - **Views Blade**: 0
 - **Arquivos JavaScript**: 7
 
@@ -105,8 +105,8 @@
 - `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php`
 - `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest-20260118185311.php`
 - `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php`
-- `app\Http\Requests\Api\V1\User\StoreUserRequest.php`
-  *... e mais 1 itens*
+- `app\Http\Requests\Api\V1\Person\StorePersonRequest.php`
+  *... e mais 3 itens*
 
 ### 🚀 Jobs
 - `database\migrations\0001_01_01_000002_create_jobs_table.php`
@@ -121,10 +121,11 @@
 - `database\seeders\CompanySeeder.php`
 - `database\seeders\DatabaseSeeder.php`
 - `database\seeders\PaymentMethodSeeder.php`
+- `database\seeders\PersonSeeder.php`
 - `database\seeders\RoleSeeder.php`
 - `database\seeders\StateSeeder.php`
 - `database\seeders\StatusesSeeder.php`
-- `database\seeders\UserSeeder.php`
+  *... e mais 1 itens*
 
 ### 🏭 Factories
 - `database\factories\UserFactory.php`
@@ -140,26 +141,26 @@
 
 ## 🕐 TRABALHO RECENTE
 Arquivos modificados nos últimos 7 dias:
-- `app\Console\Commands\FixModelStructure.php` (1 dias atrás)
-- `app\Console\Commands\GenerateAllModels.php` (1 dias atrás)
-- `app\Console\Commands\GenerateModelStructure.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\BankController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\BaseController.php` (7 dias atrás)
-- `app\Http\Controllers\Api\V1\CityController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\CompanyController.php` (6 dias atrás)
-- `app\Http\Controllers\Api\V1\CountryController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\FinancialTransactionController.php` (0 dias atrás)
-- `app\Http\Controllers\Api\V1\PaymentMethodController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\PersonController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\StateController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\StatusController.php` (1 dias atrás)
-- `app\Http\Controllers\Api\V1\TypeController.php` (1 dias atrás)
-- `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php` (1 dias atrás)
-- `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php` (1 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.txt` (1 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php` (1 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php` (1 dias atrás)
-- `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest-20260118185311.php` (6 dias atrás)
+- `.agent\rules\context.md` (0 dias atrás)
+- `app\Console\Commands\FixModelStructure.php` (6 dias atrás)
+- `app\Console\Commands\GenerateAllModels.php` (6 dias atrás)
+- `app\Console\Commands\GenerateModelStructure.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\BankController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\CityController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\CountryController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\FinancialTransactionController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\PaymentMethodController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\PersonController.php` (5 dias atrás)
+- `app\Http\Controllers\Api\V1\StateController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\StatusController.php` (6 dias atrás)
+- `app\Http\Controllers\Api\V1\TypeController.php` (6 dias atrás)
+- `app\Http\Requests\Api\V1\Company\StoreCompanyRequest.php` (6 dias atrás)
+- `app\Http\Requests\Api\V1\Company\UpdateCompanyRequest.php` (6 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\create.financial.transaction.txt` (6 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest-20260118185252.php` (6 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\StoreFinancialTransactionRequest.php` (6 dias atrás)
+- `app\Http\Requests\Api\V1\FinancialTransaction\UpdateFinancialTransactionRequest.php` (6 dias atrás)
+- `app\Http\Requests\Api\V1\Person\StorePersonRequest.php` (5 dias atrás)
 
 ## 🎯 USO COM ASSISTENTES DE IA
 
@@ -168,7 +169,7 @@ Arquivos modificados nos últimos 7 dias:
 
             Projeto: ash
 
-            Total de arquivos: 196
+            Total de arquivos: 197
 
             Principais modelos: FixModelStructure, GenerateAllModels, GenerateModelStructure
 
@@ -180,5 +181,5 @@ Arquivos modificados nos últimos 7 dias:
             ARQUIVOS ENVOLVIDOS: [Mencione arquivos específicos se aplicável]
             ---
 
-            *Documento gerado automaticamente em 2026-01-19T22:27:39.470731*
+            *Documento gerado automaticamente em 2026-01-25T11:37:32.781173*
             
