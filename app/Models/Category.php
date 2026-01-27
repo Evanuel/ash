@@ -12,7 +12,7 @@ class Category extends Model
     use SoftDeletes;
 
     protected $table = 'categories';
-    
+
     protected $fillable = [
         'parent_id',
         'name',
@@ -96,5 +96,32 @@ class Category extends Model
     public function subcategoryTransactions()
     {
         return $this->hasMany(FinancialTransaction::class, 'subcategory_id');
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function ($category) {
+            if (auth()->check()) {
+                if (!$category->client_id) {
+                    $category->client_id = auth()->user()->client_id;
+                }
+                if (!$category->created_by) {
+                    $category->created_by = auth()->id();
+                }
+            }
+
+            if (!$category->slug && $category->name) {
+                $category->slug = \Illuminate\Support\Str::slug($category->name);
+            }
+        });
+
+        static::updating(function ($category) {
+            if (auth()->check() && !$category->isDirty('updated_by')) {
+                $category->updated_by = auth()->id();
+            }
+        });
     }
 }

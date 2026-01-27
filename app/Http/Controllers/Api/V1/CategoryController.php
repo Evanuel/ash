@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Requests\Api\V1\Category\StoreCategoryRequest;
+use App\Http\Requests\Api\V1\Category\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Http\Resources\Api\V1\CategoryResource;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +25,7 @@ class CategoryController extends BaseController
     /**
      * Permissões
      */
-    protected string $permissionView   = 'category.view';
+    protected string $permissionView = 'category.view';
     protected string $permissionCreate = 'category.create';
     protected string $permissionUpdate = 'category.update';
     protected string $permissionDelete = 'category.delete';
@@ -57,6 +59,61 @@ class CategoryController extends BaseController
     public function __construct()
     {
         $this->model = new Category;
+    }
+
+    /**
+     * Store a newly created category.
+     */
+    public function store(StoreCategoryRequest $request)
+    {
+        $this->authorizeOrFail($this->permissionCreate);
+
+        $validated = $request->validated();
+        $category = Category::create($validated);
+
+        $category->load(['parent', 'children']);
+
+        return new CategoryResource($category);
+    }
+
+    /**
+     * Update the specified category.
+     */
+    public function update(UpdateCategoryRequest $request, $id)
+    {
+        $this->authorizeOrFail($this->permissionUpdate);
+
+        $category = Category::findOrFail($id);
+        $validated = $request->validated();
+        $category->update($validated);
+
+        $category->load(['parent', 'children']);
+
+        return new CategoryResource($category);
+    }
+
+    /**
+     * Restore a deleted category.
+     */
+    public function restore($id)
+    {
+        $this->authorizeOrFail($this->permissionUpdate);
+
+        $category = Category::withTrashed()->findOrFail($id);
+
+        if (!$category->trashed()) {
+            return response()->json([
+                'message' => 'Esta categoria não está excluída.'
+            ], 400);
+        }
+
+        $category->restore();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Categoria restaurada com sucesso.',
+            'data' => new CategoryResource($category)
+        ]);
     }
 
     /**
