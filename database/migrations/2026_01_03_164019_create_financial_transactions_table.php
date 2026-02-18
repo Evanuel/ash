@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('fiscal_document_id')->nullable()->comment('Vínculo com o documento fiscal');
             $table->string('cost_center')->nullable()->comment('Centro de custo');
             $table->unsignedBigInteger('cost_center_id')->nullable()->comment('Vínculo com o centro de custo');
-            $table->string('description')->nullable()->comment('Descrição');
+            $table->string('description')->nullable(false)->comment('Descrição');
             $table->date('competency_date')->nullable()->comment('Data de competência (regime de competência)');
 
             // Categories
@@ -42,10 +42,6 @@ return new class extends Migration {
 
             // Payment information
             $table->string('boleto_url')->nullable()->comment('URL do boleto');
-            //$table->date('paid_at')->nullable()->comment('Data de pagamento');
-            //$table->decimal('paid_amount', 15, 2)->nullable()->comment('Valor pago');
-            //$table->foreignId('bank_id')->nullable()->constrained('banks')->comment('Banco');
-            //$table->foreignId('payment_method_id')->nullable()->constrained('payment_methods')->comment('Método de pagamento');
 
             // Installments
             $table->tinyInteger('installment')->default(1)->comment('Parcela');
@@ -72,7 +68,6 @@ return new class extends Migration {
                 'in_review',
                 'corrected',
             ])->default('draft');
-
 
             // Review
             $table->unsignedBigInteger('reviewed_by')->nullable();

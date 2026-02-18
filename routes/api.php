@@ -14,25 +14,27 @@ use App\Http\Controllers\Api\V1\{
     CompanyController,
     PeopleController,
     FinancialTransactionController,
-    PersonController
+    PersonController,
+    FinancialPaymentController
 };
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
+    // Rotas públicas (sem autenticação)
+    Route::prefix('auth')->name('auth.')->group(function () {
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register', [AuthController::class, 'register'])->name('register');
+    });
+
     // Health check da API
     Route::post('/', function () {
         return response()->json([
+            'logged_in' => auth()->check(),
             'status' => 'healthy Authenticated',
             'timestamp' => now()->toISOString(),
             'service' => config('app.name'),
             'version' => config('app.version'),
         ]);
     })->name('health-auth');
-
-    // Rotas públicas (sem autenticação)
-    Route::prefix('auth')->name('auth.')->group(function () {
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register', [AuthController::class, 'register'])->name('register');
-    });
 
     // Rotas protegidas com Sanctum
     Route::middleware('auth:sanctum')->group(function () {
@@ -119,6 +121,16 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('/{id}/receipt', [FinancialTransactionController::class, 'downloadReceipt'])->name('receipt');
             Route::post('/{id}/restore', [FinancialTransactionController::class, 'restore'])->name('restore');
             Route::get('/summary', [FinancialTransactionController::class, 'summary'])->name('summary');
+        });
+
+        // Pagamentos Financeiros
+        Route::prefix('financial-payments')->name('financial-payments.')->group(function () {
+            Route::get('/', [FinancialPaymentController::class, 'index'])->name('index');
+            Route::post('/', [FinancialPaymentController::class, 'store'])->name('store');
+            Route::get('/{id}', [FinancialPaymentController::class, 'show'])->name('show');
+            Route::put('/{id}', [FinancialPaymentController::class, 'update'])->name('update');
+            Route::patch('/{id}', [FinancialPaymentController::class, 'update'])->name('update');
+            Route::delete('/{id}', [FinancialPaymentController::class, 'destroy'])->name('destroy');
         });
 
         // Categorias

@@ -29,10 +29,6 @@ class FinancialTransaction extends Model
         'amount',
         'status_id',
         'boleto_url',
-        'paid_at',
-        'paid_amount',
-        'bank_id',
-        'payment_method_id',
         'installment',
         'total_installments',
         'transaction_key',
@@ -42,31 +38,82 @@ class FinancialTransaction extends Model
         'custom_field3',
         'notes',
         'css_class',
+
+        // Approval
+        'approval_status',
+        'reviewed_by',
+        'reviewed_at',
+        'approved_by',
+        'approved_at',
+
+        // Financial adjustments
+        'interest_amount',
+        'fine_amount',
+        'discount_amount',
+
+        // Reconciliation
+        'is_fully_reconciled',
+        'reconciled_total',
+
+        // Payment control
+        'paid_total',
+        'is_fully_paid',
+
+        // Origin
+        'origin',
+
+        // Audit
         'created_by',
         'updated_by',
         'archived',
         'archived_by',
         'archived_at',
+
+        'metadata',
+        'history',
     ];
 
     protected $casts = [
         'type_id' => 'integer',
         'person_type' => 'integer',
         'due_date' => 'date',
+        'competency_date' => 'date',
         'amount' => 'decimal:2',
-        'paid_at' => 'date',
-        'paid_amount' => 'decimal:2',
+        'interest_amount' => 'decimal:2',
+        'fine_amount' => 'decimal:2',
+        'discount_amount' => 'decimal:2',
+        'reconciled_total' => 'decimal:2',
+        'paid_total' => 'decimal:2',
         'installment' => 'integer',
         'total_installments' => 'integer',
+        'is_fully_reconciled' => 'boolean',
+        'is_fully_paid' => 'boolean',
+        'reviewed_at' => 'datetime',
+        'approved_at' => 'datetime',
         'archived' => 'boolean',
         'archived_at' => 'datetime',
+        'metadata' => 'array',
+        'history' => 'array',
     ];
 
-    // Constants for person_type (mantemos essas)
+    /*
+    |--------------------------------------------------------------------------
+    | CONSTANTS
+    |--------------------------------------------------------------------------
+    */
+
     const PERSON_INDIVIDUAL = 1;
     const PERSON_COMPANY = 2;
 
-    // Relações
+    const TYPE_RECEIVABLE = 1;
+    const TYPE_PAYABLE = 2;
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONSHIPS
+    |--------------------------------------------------------------------------
+    */
+
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
@@ -75,6 +122,11 @@ class FinancialTransaction extends Model
     public function type()
     {
         return $this->belongsTo(Type::class, 'type_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 
     public function category()
@@ -97,21 +149,6 @@ class FinancialTransaction extends Model
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'status_id');
-    }
-
-    public function paymentMethod()
-    {
-        return $this->belongsTo(PaymentMethod::class);
-    }
-
-    public function bank()
-    {
-        return $this->belongsTo(Bank::class);
-    }
-
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -127,109 +164,117 @@ class FinancialTransaction extends Model
         return $this->belongsTo(User::class, 'archived_by');
     }
 
-    public function person()
+    public function reviewedBy()
     {
-        if ($this->person_type == self::PERSON_INDIVIDUAL) {
-            return $this->individual();
-        } else {
-            return $this->company();
-        }
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
-    // Scopes
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function person()
+    {
+        return $this->person_type === self::PERSON_INDIVIDUAL
+            ? $this->individual()
+            : $this->company();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
     public function scopeSearch($query, $search)
     {
         return $query->where(function ($q) use ($search) {
-            $q->where('description', 'like', '%' . $search . '%')
-                ->orWhere('fiscal_document', 'like', '%' . $search . '%')
-                ->orWhere('transaction_key', 'like', '%' . $search . '%')
-                ->orWhere('cost_center', 'like', '%' . $search . '%');
+            $q->where('description', 'like', "%{$search}%")
+                ->orWhere('fiscal_document', 'like', "%{$search}%")
+                ->orWhere('transaction_key', 'like', "%{$search}%")
+                ->orWhere('cost_center', 'like', "%{$search}%");
         });
     }
 
-    // Scopes para type (baseado no type_id)
     public function scopeReceivable($query)
     {
-        return $query->whereHas('type', function ($q) {
-            $q->where('name', 'like', '%receivable%')->orWhere('code', 'R');
-        });
+        return $query->where('type_id', self::TYPE_RECEIVABLE);
     }
 
     public function scopePayable($query)
     {
-        return $query->whereHas('type', function ($q) {
-            $q->where('name', 'like', '%payable%')->orWhere('code', 'P');
-        });
+        return $query->where('type_id', self::TYPE_PAYABLE);
     }
 
     public function scopePending($query)
     {
-        return $query->whereHas('status', function ($q) {
-            $q->where('name', 'like', '%pendente%')->orWhere('is_default', true);
-        });
+        return $query->where('is_fully_paid', false);
     }
 
     public function scopePaid($query)
     {
-        return $query->whereNotNull('paid_at');
+        return $query->where('is_fully_paid', true);
     }
 
     public function scopeOverdue($query)
     {
         return $query->where('due_date', '<', now())
-            ->whereNull('paid_at')
-            ->whereHas('status', function ($q) {
-                $q->where('name', 'not like', '%pago%');
-            });
+            ->where('is_fully_paid', false);
     }
 
-    // Accessors
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
     public function getIsOverdueAttribute()
     {
-        // Verifica se há status e se não é nulo
-        if (!$this->status) {
-            return $this->due_date < now() && !$this->paid_at;
-        }
-
-        return $this->due_date < now()
-            && !$this->paid_at
-            && $this->status->name != 'Pago';
+        return $this->due_date < now() && !$this->is_fully_paid;
     }
-
 
     public function getRemainingAmountAttribute()
     {
-        return $this->amount - ($this->paid_amount ?? 0);
+        return (
+            $this->amount
+            + $this->interest_amount
+            + $this->fine_amount
+            - $this->discount_amount
+            - $this->paid_total
+        );
     }
 
-    public function getTypeNameAttribute()
-    {
-        return $this->type ? $this->type->name : null;
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | BUSINESS METHODS
+    |--------------------------------------------------------------------------
+    */
 
-    public function getTypeCodeAttribute()
+    public function registerPayment(float $amount)
     {
-        return $this->type ? $this->type->code : null;
-    }
+        $this->paid_total += $amount;
 
-    // Métodos
-    public function markAsPaid($amount = null, $date = null, $paymentMethodId = null)
-    {
-        $this->paid_at = $date ?? now();
-        $this->paid_amount = $amount ?? $this->amount;
+        $totalDue = (
+            $this->amount
+            + $this->interest_amount
+            + $this->fine_amount
+            - $this->discount_amount
+        );
 
-        if ($paymentMethodId) {
-            $this->payment_method_id = $paymentMethodId;
+        if ($this->paid_total >= $totalDue) {
+            $this->is_fully_paid = true;
         }
 
-        // Find and set paid status
-        $paidStatus = Status::where('type', 'account')
-            ->where('name', 'like', '%pago%')
-            ->orWhere('name', 'like', '%paid%')
-            ->first();
+        $this->save();
+    }
 
-        if ($paidStatus) {
-            $this->status_id = $paidStatus->id;
+    public function reconcile(float $amount)
+    {
+        $this->reconciled_total += $amount;
+
+        if ($this->reconciled_total >= $this->paid_total) {
+            $this->is_fully_reconciled = true;
         }
 
         $this->save();

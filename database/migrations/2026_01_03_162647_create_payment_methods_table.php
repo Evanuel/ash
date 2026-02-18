@@ -25,6 +25,8 @@ return new class extends Migration {
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
 
+            $table->softDeletes();
+
             $table->unique('name');
             $table->index('active');
         });

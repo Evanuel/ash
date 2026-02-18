@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            BankSeeder::class,
             PaymentMethodSeeder::class,
             StateSeeder::class,
             CitySeeder::class,
@@ -28,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
                 // PersonSeeder::class, -- Verificar o Seeder, pois estar com erro.
             StatusesSeeder::class,
+            BanksTableSeeder::class,
         ]);
     }
 }

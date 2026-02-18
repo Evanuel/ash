@@ -16,7 +16,7 @@ class FinancialTransactionController extends BaseController
 
     protected string $resource = FinancialTransactionResource::class;
 
-    protected string $permissionView   = 'financial-transaction.view';
+    protected string $permissionView = 'financial-transaction.view';
     protected string $permissionCreate = 'financial-transaction.create';
     protected string $permissionUpdate = 'financial-transaction.update';
     protected string $permissionDelete = 'financial-transaction.delete';
@@ -81,8 +81,8 @@ class FinancialTransactionController extends BaseController
 
             $item = $this->model->create($data);
             // Carregar os relacionamentos necessários
-            $item->load(['status', 'type', 'category', 'subcategory', 'company', 'individual', 'paymentMethod', 'bank']);
-            
+            $item->load(['status', 'type', 'category', 'subcategory', 'company', 'individual']);
+
             \Log::info('Transaction created successfully', ['id' => $item->id]);
 
             return new $this->resource($item);
