@@ -115,15 +115,29 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:100',
             ],
+            'fiscal_document_id' => [
+                'nullable',
+                'integer',
+                // 'exists:fiscal_documents,id',
+            ],
             'cost_center' => [
                 'nullable',
                 'string',
                 'max:100',
             ],
+            'cost_center_id' => [
+                'nullable',
+                'integer',
+                // 'exists:cost_centers,id',
+            ],
             'description' => [
                 'required',
                 'string',
                 'max:500',
+            ],
+            'competency_date' => [
+                'nullable',
+                'date',
             ],
 
             // Categorias
@@ -397,7 +411,8 @@ class StoreFinancialTransactionRequest extends FormRequest
         ];
 
         // Gerar transaction_key se não fornecida e houver parcelas
-        if ((!$this->has('transaction_key') || $this->transaction_key === '0') &&
+        if (
+            (!$this->has('transaction_key') || $this->transaction_key === '0') &&
             ($this->total_installments ?? 1) > 1
         ) {
             $defaults['transaction_key'] = uniqid('TRX_', true);

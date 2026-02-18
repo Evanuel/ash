@@ -26,10 +26,18 @@ class FinancialTransactionResource extends JsonResource
             }, $this->type_id),
 
             // Informações do documento
-            'fiscal_document' => $this->fiscal_document,
-            'cost_center' => $this->cost_center,
-            'description' => $this->description,
+            'fiscal_document_id' => $this->whenLoaded('fiscalDocument', function () {
+                return $this->fiscalDocument ? new FiscalDocumentResource($this->fiscalDocument) : null;
+            }),
 
+            'fiscal_document' => $this->fiscal_document,
+            'cost_center_id' => $this->cost_center_id,
+            'cost_center' => $this->whenLoaded('costCenter', function () {
+                return $this->costCenter ? new CostCenterResource($this->costCenter) : null;
+            }),
+            'description' => $this->description,
+            'competency_date' => $this->competency_date,
+            'competency_date_formatted' => \Carbon\Carbon::parse($this->competency_date)->format('d/m/Y'),
             // Categorias
             'category_id' => $this->category_id,
             'category' => $this->whenLoaded('category', function () {
@@ -127,7 +135,10 @@ class FinancialTransactionResource extends JsonResource
             // Calculados/accessors
             'is_overdue' => $this->is_overdue,
             'remaining_amount' => (float) $this->remaining_amount,
-            'remaining_amount_formatted' => number_format($this->remaining_amount, 2, ',', '.'),
+            'remaining_amount_formatted' => $this->remaining_amount !== null
+                ? number_format((float) $this->remaining_amount, 2, ',', '.')
+                : "0,00",
+
             'is_paid' => !is_null($this->paid_at),
             'payment_status' => $this->getPaymentStatus(),
 

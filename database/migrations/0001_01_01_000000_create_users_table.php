@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,49 +13,49 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->nullable(false)->unique();
-            $table->unsignedBigInteger('client_id')->default(0);
+            $table->unsignedBigInteger('client_id')->default(0)->comment('Client/ Tenant ID');
             $table->string('name')->nullable(false);
             $table->string('email')->nullable(false)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable(false);
-            
+
             // Roles and permissions
             $table->foreignId('role_id')->nullable()->constrained('roles');
             $table->json('permissions')->nullable()->comment('Additional user-specific permissions');
-            
+
             // Hierarchy
             $table->unsignedBigInteger('branch_id')->default(0);
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->unsignedBigInteger('user_id')->default(0)->comment('Original user ID from legacy system');
-            
+
             // References
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('people_id')->nullable();
-            
+
             // Status
             $table->boolean('archived')->default(false);
             $table->unsignedBigInteger('archived_by')->nullable();
             $table->timestamp('archived_at')->nullable();
-            
+
             // Custom fields
             $table->string('custom_field1')->nullable();
             $table->string('custom_field2')->nullable();
             $table->string('custom_field3')->nullable();
             $table->text('notes')->nullable();
-            
+
             // Profile
             $table->string('profile_image')->nullable();
             $table->boolean('active')->default(true);
-            
+
             // Audit
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->nullable();
-            
+
             // Laravel defaults
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            
+
             // Indexes
             $table->index('client_id');
             $table->index('branch_id');

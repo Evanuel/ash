@@ -21,7 +21,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
             return false;
         }
         return app(PermissionService::class)->has($user, 'financial-transaction.edit');
-        
+
     }
 
     /**
@@ -39,7 +39,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'min:1',
                 'max:2',
             ],
-            
+
             // Documento fiscal
             'fiscal_document' => [
                 'sometimes',
@@ -47,18 +47,32 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:100',
             ],
+            'fiscal_document_id' => [
+                'nullable',
+                'integer',
+                // 'exists:fiscal_documents,id',
+            ],
             'cost_center' => [
                 'sometimes',
                 'nullable',
                 'string',
                 'max:100',
             ],
+            'cost_center_id' => [
+                'nullable',
+                'integer',
+                // 'exists:cost_centers,id',
+            ],
             'description' => [
                 'sometimes',
                 'string',
                 'max:500',
             ],
-            
+            'competency_date' => [
+                'sometimes',
+                'date',
+            ],
+
             // Categorias
             'category_id' => [
                 'sometimes',
@@ -72,14 +86,14 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:categories,id',
             ],
-            
+
             // Tipo de pessoa
             'person_type' => [
                 'sometimes',
                 'integer',
                 'in:1,2',
             ],
-            
+
             // Referências baseadas no tipo de pessoa
             'individual_id' => [
                 'sometimes',
@@ -103,7 +117,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                     }
                 },
             ],
-            
+
             // Datas e valores
             'due_date' => [
                 'sometimes',
@@ -115,7 +129,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'min:0.01',
                 'max:999999999999.99',
             ],
-            
+
             // Status
             'status_id' => [
                 'sometimes',
@@ -123,7 +137,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:statuses,id',
             ],
-            
+
             // Informações de pagamento
             'boleto_url' => [
                 'sometimes',
@@ -149,7 +163,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                     if ($value && $value > $amount) {
                         $fail('O valor pago não pode ser maior que o valor total.');
                     }
-                    
+
                     // Se estiver marcando como pago, validar campos obrigatórios
                     if ($value && $value > 0 && !$this->has('paid_at')) {
                         $fail('A data de pagamento é obrigatória quando há valor pago.');
@@ -168,7 +182,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'integer',
                 'exists:payment_methods,id',
             ],
-            
+
             // Parcelas
             'installment' => [
                 'sometimes',
@@ -195,7 +209,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'string',
                 'max:100',
             ],
-            
+
             // Anexos
             'receipt_url' => [
                 'sometimes',
@@ -204,7 +218,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'max:500',
                 'url',
             ],
-            
+
             // Campos personalizados
             'custom_field1' => [
                 'sometimes',
@@ -237,7 +251,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                 'max:100',
                 'in:text-warning,text-success,text-danger,text-info,text-primary',
             ],
-            
+
             // Arquivamento
             'archived' => [
                 'sometimes',
@@ -248,7 +262,7 @@ class UpdateFinancialTransactionRequest extends FormRequest
                     }
                 },
             ],
-            
+
             // Campos bloqueados
             'client_id' => [
                 'prohibited',

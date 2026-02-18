@@ -5,21 +5,21 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('types', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('client_id')->default(0)->comment('Client/ Tenant ID');
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
-            $table->string('category')->default('general'); // financial, product, service, etc
+            $table->string('category')->default('general')->comment('general, financial, product'); // financial, product, service, document etc
             $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
             $table->json('metadata')->nullable();
             $table->timestamps();
-            
+
             // Indexes
             $table->index('category');
             $table->index('active');

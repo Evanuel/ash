@@ -18,24 +18,25 @@ class PersonSeeder extends Seeder
     {
         // Obter um cliente/admin para associar
         $client = User::where('email', 'admin@ash.com')->first();
-        
+
         if (!$client) {
             $client = User::first();
         }
-        
+
         if (!$client) {
             $this->command->info('Nenhum usuário encontrado para associar pessoas.');
             return;
         }
-        
+
         // Obter estados e cidades
         $state = State::first();
-        $city = City::where('state_id', $state->id)->first();
-        
+        $state_code = $state->code;
+        $city = City::where('state_code', $state->code)->first();
+
         // Obter categorias
         $category = Category::whereNull('parent_id')->first();
         $subcategory = Category::whereNotNull('parent_id')->first();
-        
+
         $people = [
             [
                 'client_id' => $client->id,
@@ -176,11 +177,11 @@ class PersonSeeder extends Seeder
                 'updated_by' => $client->id,
             ],
         ];
-        
+
         foreach ($people as $personData) {
             Person::create($personData);
         }
-        
+
         $this->command->info(count($people) . ' pessoas criadas com sucesso.');
     }
 }

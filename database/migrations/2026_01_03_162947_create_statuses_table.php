@@ -4,13 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('client_id')->default(0)->nullable()->comment('Client/ Tenant ID');
             $table->string('name')->nullable(false);
             $table->string('description')->nullable();
             $table->string('color')->nullable();
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->string('color_class')->nullable();
             $table->string('text_class')->nullable();
             $table->string('bg_class')->nullable();
-            $table->string('type')->default('account')->comment('account, client, order, etc');
+            $table->string('type')->default('account')->comment('account, client, order, approval_status etc');
             $table->integer('order')->default(0);
             $table->boolean('is_default')->default(false);
             $table->unsignedInteger('created_by')->default(0);
@@ -29,7 +28,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->softDeletes();
-            
+
             $table->index(['client_id', 'type']);
             $table->unique(['client_id', 'type', 'name'], 'unique_status');
         });

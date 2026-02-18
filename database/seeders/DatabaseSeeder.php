@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             CategorySeeder::class,
             CompanySeeder::class,
-            PersonSeeder::class,
+                // PersonSeeder::class, -- Verificar o Seeder, pois estar com erro.
             StatusesSeeder::class,
         ]);
     }

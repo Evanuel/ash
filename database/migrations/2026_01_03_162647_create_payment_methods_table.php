@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('client_id')->default(0)->comment('Client/ Tenant ID');
             $table->string('name')->nullable(false);
             $table->string('code')->nullable(false)->unique();
             $table->boolean('active')->default(true);
@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
-            
+
             $table->unique('name');
             $table->index('active');
         });
@@ -35,6 +35,6 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('payment_methods');
         Schema::enableForeignKeyConstraints();
-        
+
     }
 };
