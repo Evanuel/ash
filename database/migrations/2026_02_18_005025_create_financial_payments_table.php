@@ -17,16 +17,11 @@ return new class extends Migration {
             $table->foreignId('financial_transaction_id')
                 ->constrained('financial_transactions')
                 ->cascadeOnDelete();
-
             $table->date('payment_date');
             $table->decimal('amount', 15, 2);
-
             $table->foreignId('payment_method_id')->constrained('payment_methods');
-
             $table->foreignId('bank_id')->nullable()->constrained('banks');
-
             $table->boolean('is_manual')->default(true)->comment('Se não veio de extrato');
-
             $table->text('notes')->nullable();
 
             $table->unsignedBigInteger('created_by');
