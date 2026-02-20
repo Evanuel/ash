@@ -56,6 +56,8 @@ return new class extends Migration {
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
 
+            $table->softDeletes();
+
             // Indexes
             $table->unique(['client_id', 'cpf']);
             $table->index(['first_name', 'last_name']);

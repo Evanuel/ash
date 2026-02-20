@@ -25,6 +25,7 @@ class FinancialTransaction extends Model
         'person_type',
         'individual_id',
         'company_id',
+        'beneficiary',
         'due_date',
         'amount',
         'status_id',
@@ -104,6 +105,7 @@ class FinancialTransaction extends Model
 
     const PERSON_INDIVIDUAL = 1;
     const PERSON_COMPANY = 2;
+    const PERSON_UNKNOWN = 3;
 
     const TYPE_RECEIVABLE = 1;
     const TYPE_PAYABLE = 2;
@@ -176,9 +178,13 @@ class FinancialTransaction extends Model
 
     public function person()
     {
-        return $this->person_type === self::PERSON_INDIVIDUAL
-            ? $this->individual()
-            : $this->company();
+        if ($this->person_type === self::PERSON_INDIVIDUAL) {
+            return $this->individual();
+        } elseif ($this->person_type === self::PERSON_COMPANY) {
+            return $this->company();
+        }
+
+        return null;
     }
 
     /*

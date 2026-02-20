@@ -51,7 +51,12 @@ class FinancialTransactionResource extends JsonResource
 
             // Pessoa/empresa
             'person_type' => $this->person_type,
-            'person_type_name' => $this->person_type == 1 ? 'individual' : 'company',
+            'person_type_name' => match ((int) $this->person_type) {
+                1 => 'individual',
+                2 => 'company',
+                3 => 'unknown',
+                default => 'other'
+            },
 
             'individual' => $this->whenLoaded('individual', function () {
                 return $this->individual ? new PersonResource($this->individual) : null;
@@ -59,6 +64,7 @@ class FinancialTransactionResource extends JsonResource
             'company' => $this->whenLoaded('company', function () {
                 return $this->company ? new CompanyResource($this->company) : null;
             }),
+            'beneficiary' => $this->beneficiary,
             'individual_id' => $this->individual_id,
             'company_id' => $this->company_id,
 
@@ -68,6 +74,11 @@ class FinancialTransactionResource extends JsonResource
             }, function () {
                 return $this->when($this->person_type == 2 && $this->company, function () {
                     return new CompanyResource($this->company);
+                }, function () {
+                    return $this->when($this->person_type == 3, [
+                        'name' => $this->beneficiary,
+                        'type' => 'unknown'
+                    ]);
                 });
             }),
 

@@ -26,12 +26,13 @@ return new class extends Migration {
             $table->foreignId('category_id')->nullable()->constrained('categories'); //->comment('Categoria')
             $table->foreignId('subcategory_id')->nullable()->constrained('categories'); //->comment('Subcategoria')
 
-            // Person type: 1 = individual, 2 = company
-            $table->tinyInteger('person_type')->default(1)->comment('1 = individual, 2 = company');
+            // Person type: 1 = individual, 2 = company, 3 = unknown
+            $table->tinyInteger('person_type')->default(3)->comment('1 = individual, 2 = company, 3 = unknown');
 
             // References
             $table->foreignId('individual_id')->nullable()->constrained('people')->comment('Pessoa individual');
             $table->foreignId('company_id')->nullable()->constrained('companies')->comment('Empresa');
+            $table->string('beneficiary')->nullable()->comment('Beneficiário');
 
             // Dates and amounts
             $table->date('due_date')->nullable(false)->comment('Data de vencimento');

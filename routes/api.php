@@ -15,7 +15,8 @@ use App\Http\Controllers\Api\V1\{
     PeopleController,
     FinancialTransactionController,
     PersonController,
-    FinancialPaymentController
+    FinancialPaymentController,
+    FinancialTransactionImportController
 };
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
@@ -121,6 +122,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('/{id}/receipt', [FinancialTransactionController::class, 'downloadReceipt'])->name('receipt');
             Route::post('/{id}/restore', [FinancialTransactionController::class, 'restore'])->name('restore');
             Route::get('/summary', [FinancialTransactionController::class, 'summary'])->name('summary');
+            Route::post('/import', [FinancialTransactionImportController::class, 'import'])->name('import');
         });
 
         // Pagamentos Financeiros

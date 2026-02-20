@@ -152,39 +152,34 @@ class StoreFinancialTransactionRequest extends FormRequest
                 'exists:categories,id',
             ],
 
-            // Tipo de pessoa (1 = individual, 2 = company)
+            // Tipo de pessoa (1 = individual, 2 = company, 3 = unknown)
             'person_type' => [
                 'required',
                 'integer',
-                'in:1,2',
+                'in:1,2,3',
             ],
 
             // Referências baseadas no tipo de pessoa
             'individual_id' => [
+                'nullable',
                 Rule::requiredIf(function () {
                     return $this->person_type == 1;
                 }),
-                'nullable',
                 'integer',
                 'exists:people,id',
-                function ($attribute, $value, $fail) {
-                    if ($this->person_type == 1 && !$value) {
-                        $fail('O campo pessoa física é obrigatório quando o tipo de pessoa é individual.');
-                    }
-                },
             ],
             'company_id' => [
+                'nullable',
                 Rule::requiredIf(function () {
                     return $this->person_type == 2;
                 }),
-                'nullable',
                 'integer',
                 'exists:companies,id',
-                function ($attribute, $value, $fail) {
-                    if ($this->person_type == 2 && !$value) {
-                        $fail('O campo empresa é obrigatório quando o tipo de pessoa é empresa.');
-                    }
-                },
+            ],
+            'beneficiary' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
 
             // Datas e valores
@@ -338,6 +333,7 @@ class StoreFinancialTransactionRequest extends FormRequest
             'person_type' => 'tipo de pessoa',
             'individual_id' => 'pessoa física',
             'company_id' => 'empresa',
+            'beneficiary' => 'beneficiário',
             'due_date' => 'data de vencimento',
             'amount' => 'valor',
             'status_id' => 'status',
@@ -366,7 +362,7 @@ class StoreFinancialTransactionRequest extends FormRequest
             'description.required' => 'A descrição é obrigatória.',
             'description.max' => 'A descrição não pode ter mais de 500 caracteres.',
             'person_type.required' => 'O tipo de pessoa é obrigatório.',
-            'person_type.in' => 'O tipo de pessoa deve ser 1 (individual) ou 2 (empresa).',
+            'person_type.in' => 'O tipo de pessoa deve ser 1 (individual), 2 (empresa) ou 3 (unknown).',
             'individual_id.required' => 'A pessoa física é obrigatória quando o tipo de pessoa é individual.',
             'individual_id.exists' => 'A pessoa física selecionada não existe.',
             'company_id.required' => 'A empresa é obrigatória quando o tipo de pessoa é empresa.',
