@@ -50,7 +50,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         // Usuários
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::post('/', [UserController::class, 'store'])->name('store');
+            // Route::post('/', [UserController::class, 'store'])->name('store');
             Route::get('/{id}', [UserController::class, 'show'])->name('show');
             Route::put('/{id}', [UserController::class, 'update'])->name('update');
             Route::patch('/{id}', [UserController::class, 'update'])->name('update');
